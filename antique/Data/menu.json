@@ -1,5 +1,5 @@
 [
-	{
+    {
 		"name": "Drinks",
 		"items": [
 			{
@@ -148,7 +148,7 @@
             },
             {
                 "name" : "Fresh Passion with Milk",
-                "price" : 1.5,
+                "price" : 1.75,
                 "iceLevelIndex": 2,
                 "hasSugarLevels": true,
                 "hasIceLevels": true,
@@ -248,7 +248,7 @@
                 },
                 {
                     "name" : "Caramel Frappe",
-                    "price" : 2.55,
+                    "price" : 2.25,
                     "iceLevelIndex": 2,
                     "hasSugarLevels": true,
                     "hasIceLevels": false,
@@ -379,7 +379,16 @@
             },
             {
                 "name" : "Energy Drink",
-                "price" : 1.25,
+                "price" : 1.00,
+                "iceLevelIndex" : 0,
+                "hasSugarLevels" : false,
+                "hasIceLevels": false,
+                "canUpsize" : false,
+                "upsizePrice" : 0.0,
+            },
+            {
+                "name" : "Beer",
+                "price" : 1.75,
                 "iceLevelIndex" : 0,
                 "hasSugarLevels" : false,
                 "hasIceLevels": false,
@@ -412,6 +421,15 @@
             {
                 "name" : "Hot Dog",
                 "price" : 3.5,
+                "iceLevelIndex" : 0,
+                "hasSugarLevels" : false,
+                "hasIceLevels": false,
+                "canUpsize" : false,
+                "upsizePrice" : 0.0,
+            },
+            {
+                "name" : "Cookie",
+                "price" : 1.5,
                 "iceLevelIndex" : 0,
                 "hasSugarLevels" : false,
                 "hasIceLevels": false,

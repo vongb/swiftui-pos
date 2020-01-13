@@ -66,7 +66,7 @@ class Order : ObservableObject {
         }
     }
     
-    func settleOrder(orderNo: Int, settled: Bool) {
+    func settleOrder(orderNo: Int, settled: Bool = true) {
         if(items.count > 0) {
             let codedItem = CodableOrder(orderNo: orderNo, itemsOrdered: self.items, discPercentage: self.discountPercentage, total: self.total, subtotal: self.subtotal, date: Date(), settled: settled)
             Bundle.main.saveOrder(orderToEncode: codedItem)

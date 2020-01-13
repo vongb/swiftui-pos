@@ -12,20 +12,17 @@ import Combine
 struct OrderConfirmView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var orders : Orders
+    @EnvironmentObject var styles : Styles
     @Environment(\.presentationMode) var presentationMode
-    
-    static let colors = [Color(red:0.89, green:0.98, blue:0.96),
-                        Color(red:0.19, green:0.89, blue:0.79),
-                        Color(red:0.07, green:0.60, blue:0.62),
-                        Color(red:0.25, green:0.32, blue:0.31),
-                        Color(red:0.95, green:0.51, blue:0.51),
-                        Color(red:0.58, green:0.88, blue:0.83)]
     
     let exchangeRate : Double = 4000
     
     @State var usdReceived : String = "0"
     @State var khrReceived : String = "0"
     @State var usdChangeOffset : Int = 0
+    var canSettle : Bool {
+        totalReceivedInUSD >= self.order.total
+    }
     
     var totalReceivedInUSD : Double {
         var usd : Double
@@ -62,7 +59,7 @@ struct OrderConfirmView: View {
                     .foregroundColor(.green)
             }
             
-            Spacer().frame(height: 30)
+            Divider().frame(width: 300)
             
             Group {
                 Text("USD Received")
@@ -74,7 +71,9 @@ struct OrderConfirmView: View {
                                 self.usdReceived = "0"
                             }
                         }
-                    })
+                }) {
+                    UIApplication.shared.endEditing()
+                }
                     .onReceive(Just(usdReceived)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
@@ -95,7 +94,9 @@ struct OrderConfirmView: View {
                                 self.khrReceived = "0"
                             }
                         }
-                    })
+                    }) {
+                        UIApplication.shared.endEditing()
+                    }
                     .onReceive(Just(usdReceived)) { newValue in
                         let filtered = newValue.filter { "0123456789".contains($0) }
                         if filtered != newValue {
@@ -106,9 +107,6 @@ struct OrderConfirmView: View {
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .multilineTextAlignment(.center)
                     .frame(minWidth: 100, maxWidth: 300)
-                
-                Spacer().frame(height: 30)
-                
             }
             
             // Change
@@ -124,7 +122,7 @@ struct OrderConfirmView: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(.white)
                     }
-                    .background(Self.colors[4])
+                    .background(styles.colors[4])
                     .cornerRadius(5)
                     
                     Text("USD \(String(self.usdChange))")
@@ -137,7 +135,7 @@ struct OrderConfirmView: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(.white)
                     }
-                    .background(Self.colors[1])
+                    .background(styles.colors[1])
                     .cornerRadius(5)
                 }
                 
@@ -145,14 +143,7 @@ struct OrderConfirmView: View {
                     .font(.system(size: 20))
             }
             
-            Spacer().frame(width: 300, height: 0).overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.blue, lineWidth: 4)
-            )
-            
-            Rectangle()
-                .fill(Color.black)
-                .frame(width: 300, height: 1)
+            Divider().frame(width: 300)
             
             Group {
                 HStack {
@@ -163,28 +154,34 @@ struct OrderConfirmView: View {
                             .foregroundColor(.white)
                     }
                     .frame(width: 120)
-                    .background(Self.colors[4])
+                    .background(styles.colors[4])
                     .cornerRadius(20)
                     
                     Spacer().frame(width: 50)
                     
                     // Confirm Order Button
                     Button(action: self.settleOrder) {
-                        Text("Settle Order")
+                        if canSettle {
+                            Text("Settle Order")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        } else {
+                            Text("Settle Order")
                             .padding(10)
-                            .foregroundColor(.white)
+                            .foregroundColor(.gray)
+                        }
                     }
                     .frame(width: 120)
-                    .disabled(totalReceivedInUSD < self.order.total)
+                    .disabled(!canSettle)
                     .background(Color.green)
                     .cornerRadius(20)
                     
                 }
             }
-            ReceiptPrinter(order: getCodable())
+            ReceiptPrinter(codableOrder: getCodable(), justPrint: false)
         }
         .padding(20)
-        .background(Self.colors[0])
+        .background(styles.colors[0])
         .cornerRadius(20)
     }
     
@@ -205,13 +202,13 @@ struct OrderConfirmView: View {
     }
     
     func settleOrder() {
-        self.order.settleOrder(orderNo: orders.nextOrderNo, settled: true)
+        self.order.settleOrder(orderNo: orders.nextOrderNo)
         orders.refreshSavedOrders()
         self.presentationMode.wrappedValue.dismiss()
     }
     
     func getCodable() -> CodableOrder {
-        return CodableOrder(itemsOrdered: order.items, discPercentage: order.discountPercentage, total: order.total, subtotal: order.subtotal, date: order.date)
+        return CodableOrder(orderNo: orders.nextOrderNo,itemsOrdered: order.items, discPercentage: order.discountPercentage, total: order.total, subtotal: order.subtotal, date: order.date)
     }
 }
 

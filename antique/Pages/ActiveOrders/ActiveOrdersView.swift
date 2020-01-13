@@ -10,12 +10,11 @@ import SwiftUI
 
 struct ActiveOrdersView: View {
     @EnvironmentObject var orders : Orders
-    @State var onlyShowActive : Bool = false
+    @State var onlyShowActive : Bool = true
     
     var body: some View {
         NavigationView {
             Form {
-                
                 if orders.savedOrders.count == 0 {
                     Button(action: updateOrders) {
                         Text("Refresh Orders")

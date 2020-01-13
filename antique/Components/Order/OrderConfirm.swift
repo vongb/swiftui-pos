@@ -13,10 +13,17 @@ struct OrderConfirm: View {
     var body: some View {
         NavigationLink(destination : OrderConfirmView()) {
             HStack {
-                Text("Confirm Order")
-                    .font(.system(size: 20))
-                    .bold()
-                    .foregroundColor(.white)
+                if order.items.count == 0 {
+                    Text("Confirm Order")
+                        .font(.system(size: 20))
+                        .bold()
+                        .foregroundColor(.gray)
+                } else {
+                    Text("Confirm Order")
+                        .font(.system(size: 20))
+                        .bold()
+                        .foregroundColor(.white)
+                }
                 Spacer()
             }
             .padding(10)

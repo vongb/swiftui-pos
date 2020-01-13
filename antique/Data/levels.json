@@ -1,0 +1,6 @@
+[
+    "sugarLevels" : ["None", "Less", "Regular", "Extra"],
+    "iceLevels" : [ ["Hot"],
+                    ["Hot", "Less", "Regular"],
+                    ["None", "Less", "Regular"]],
+]

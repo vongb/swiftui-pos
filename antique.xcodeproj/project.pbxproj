@@ -34,13 +34,24 @@
 		E39731EA23C6395F00A1D9EF /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E39731E923C6395F00A1D9EF /* 1024.png */; };
 		E39731EC23C6F1EF00A1D9EF /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39731EB23C6F1EF00A1D9EF /* Receipt.swift */; };
 		E3A9768123CB78D000C66344 /* _.gitignore_ in Resources */ = {isa = PBXBuildFile; fileRef = E3A9768023CB78D000C66344 /* _.gitignore_ */; };
+		E3A9768323CB921500C66344 /* ItemOrdered.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768223CB921500C66344 /* ItemOrdered.swift */; };
+		E3A9768523CB9A5100C66344 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768423CB9A5100C66344 /* Styles.swift */; };
+		E3A9768723CB9B9000C66344 /* CustomText.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768623CB9B9000C66344 /* CustomText.swift */; };
+		E3A9768B23CC2CBC00C66344 /* ReportDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768A23CC2CBC00C66344 /* ReportDay.swift */; };
+		E3A9768D23CC346700C66344 /* AddItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768C23CC346700C66344 /* AddItem.swift */; };
+		E3A9769323CC34A500C66344 /* EditItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769223CC34A500C66344 /* EditItem.swift */; };
+		E3A9769523CC34AF00C66344 /* ReportMonth.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769423CC34AF00C66344 /* ReportMonth.swift */; };
+		E3A9769823CC356A00C66344 /* EditMisc.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769723CC356A00C66344 /* EditMisc.swift */; };
+		E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769923CC3AD000C66344 /* EditItemRow.swift */; };
+		E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769B23CC5ECC00C66344 /* ViewItems.swift */; };
+		E3A9769E23CC672400C66344 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A9769D23CC672400C66344 /* levels.json */; };
 		E3D970D223B1FD4600DA535A /* OrderHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970D123B1FD4600DA535A /* OrderHeader.swift */; };
 		E3D970D423B1FF9800DA535A /* OrderSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970D323B1FF9800DA535A /* OrderSummary.swift */; };
 		E3D970D723B3050900DA535A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970D623B3050900DA535A /* MenuView.swift */; };
 		E3D970DF23B333AB00DA535A /* OrderConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970DE23B333AB00DA535A /* OrderConfirm.swift */; };
 		E3D970E123B333BC00DA535A /* OrderConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970E023B333BC00DA535A /* OrderConfirmView.swift */; };
 		E3D970E323B9CC1700DA535A /* AppView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970E223B9CC1700DA535A /* AppView.swift */; };
-		E3D970E523B9CC7C00DA535A /* ReportsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970E423B9CC7C00DA535A /* ReportsView.swift */; };
+		E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970E423B9CC7C00DA535A /* AdminView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,13 +84,24 @@
 		E39731E923C6395F00A1D9EF /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
 		E39731EB23C6F1EF00A1D9EF /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
 		E3A9768023CB78D000C66344 /* _.gitignore_ */ = {isa = PBXFileReference; lastKnownFileType = text; path = _.gitignore_; sourceTree = "<group>"; };
+		E3A9768223CB921500C66344 /* ItemOrdered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrdered.swift; sourceTree = "<group>"; };
+		E3A9768423CB9A5100C66344 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
+		E3A9768623CB9B9000C66344 /* CustomText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomText.swift; sourceTree = "<group>"; };
+		E3A9768A23CC2CBC00C66344 /* ReportDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDay.swift; sourceTree = "<group>"; };
+		E3A9768C23CC346700C66344 /* AddItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItem.swift; sourceTree = "<group>"; };
+		E3A9769223CC34A500C66344 /* EditItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItem.swift; sourceTree = "<group>"; };
+		E3A9769423CC34AF00C66344 /* ReportMonth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportMonth.swift; sourceTree = "<group>"; };
+		E3A9769723CC356A00C66344 /* EditMisc.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditMisc.swift; sourceTree = "<group>"; };
+		E3A9769923CC3AD000C66344 /* EditItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemRow.swift; sourceTree = "<group>"; };
+		E3A9769B23CC5ECC00C66344 /* ViewItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItems.swift; sourceTree = "<group>"; };
+		E3A9769D23CC672400C66344 /* levels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
 		E3D970D123B1FD4600DA535A /* OrderHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderHeader.swift; sourceTree = "<group>"; };
 		E3D970D323B1FF9800DA535A /* OrderSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummary.swift; sourceTree = "<group>"; };
 		E3D970D623B3050900DA535A /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		E3D970DE23B333AB00DA535A /* OrderConfirm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirm.swift; sourceTree = "<group>"; };
 		E3D970E023B333BC00DA535A /* OrderConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirmView.swift; sourceTree = "<group>"; };
 		E3D970E223B9CC1700DA535A /* AppView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppView.swift; sourceTree = "<group>"; };
-		E3D970E423B9CC7C00DA535A /* ReportsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportsView.swift; sourceTree = "<group>"; };
+		E3D970E423B9CC7C00DA535A /* AdminView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +170,8 @@
 				E30BABC023CB085E0086E3D6 /* Orders.swift */,
 				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
 				E39731EB23C6F1EF00A1D9EF /* Receipt.swift */,
+				E3A9768223CB921500C66344 /* ItemOrdered.swift */,
+				E3A9768423CB9A5100C66344 /* Styles.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -158,6 +182,7 @@
 				E3D970DA23B330C700DA535A /* Menu */,
 				E3D970DB23B330D300DA535A /* Order */,
 				E30BABBE23CAE0E40086E3D6 /* ReceiptPrinter.swift */,
+				E3A9768623CB9B9000C66344 /* CustomText.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -167,7 +192,7 @@
 			children = (
 				E3D970E223B9CC1700DA535A /* AppView.swift */,
 				E3D970E623B9CD1D00DA535A /* POS */,
-				E3D970E723B9CD2B00DA535A /* Reports */,
+				E3D970E723B9CD2B00DA535A /* Admin */,
 				E39731E623C4388E00A1D9EF /* ActiveOrders */,
 			);
 			path = Pages;
@@ -178,6 +203,7 @@
 			children = (
 				E39731E923C6395F00A1D9EF /* 1024.png */,
 				E3024A3523A8CFB2009E3654 /* menu.json */,
+				E3A9769D23CC672400C66344 /* levels.json */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -191,10 +217,38 @@
 			path = ActiveOrders;
 			sourceTree = "<group>";
 		};
+		E3A9768E23CC346B00C66344 /* ItemManagement */ = {
+			isa = PBXGroup;
+			children = (
+				E3A9768C23CC346700C66344 /* AddItem.swift */,
+				E3A9769223CC34A500C66344 /* EditItem.swift */,
+				E3A9769B23CC5ECC00C66344 /* ViewItems.swift */,
+			);
+			path = ItemManagement;
+			sourceTree = "<group>";
+		};
+		E3A9768F23CC347B00C66344 /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				E3A9768A23CC2CBC00C66344 /* ReportDay.swift */,
+				E3A9769423CC34AF00C66344 /* ReportMonth.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		E3A9769623CC34C000C66344 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				E3A9769723CC356A00C66344 /* EditMisc.swift */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
 		E3D970DA23B330C700DA535A /* Menu */ = {
 			isa = PBXGroup;
 			children = (
 				E3024A3B23B0BCB7009E3654 /* ItemRow.swift */,
+				E3A9769923CC3AD000C66344 /* EditItemRow.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -223,12 +277,15 @@
 			path = POS;
 			sourceTree = "<group>";
 		};
-		E3D970E723B9CD2B00DA535A /* Reports */ = {
+		E3D970E723B9CD2B00DA535A /* Admin */ = {
 			isa = PBXGroup;
 			children = (
-				E3D970E423B9CC7C00DA535A /* ReportsView.swift */,
+				E3D970E423B9CC7C00DA535A /* AdminView.swift */,
+				E3A9768E23CC346B00C66344 /* ItemManagement */,
+				E3A9768F23CC347B00C66344 /* Reports */,
+				E3A9769623CC34C000C66344 /* Misc */,
 			);
-			path = Reports;
+			path = Admin;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,6 +352,7 @@
 				E3024A3623A8CFB2009E3654 /* menu.json in Resources */,
 				E39731E323BE79F100A1D9EF /* AppIcon.appiconset in Resources */,
 				E3A9768123CB78D000C66344 /* _.gitignore_ in Resources */,
+				E3A9769E23CC672400C66344 /* levels.json in Resources */,
 				E3024A2623A8CC53009E3654 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -306,27 +364,37 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3A9769523CC34AF00C66344 /* ReportMonth.swift in Sources */,
+				E3A9768D23CC346700C66344 /* AddItem.swift in Sources */,
+				E3A9768323CB921500C66344 /* ItemOrdered.swift in Sources */,
 				E3024A3823A8D0E6009E3654 /* Menu.swift in Sources */,
+				E3A9768B23CC2CBC00C66344 /* ReportDay.swift in Sources */,
 				E3D970D423B1FF9800DA535A /* OrderSummary.swift in Sources */,
 				E39731E823C4395C00A1D9EF /* BLEConnection.swift in Sources */,
 				E3D970E323B9CC1700DA535A /* AppView.swift in Sources */,
 				E3D970E123B333BC00DA535A /* OrderConfirmView.swift in Sources */,
+				E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */,
 				E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */,
 				E30BABC123CB085E0086E3D6 /* Orders.swift in Sources */,
+				E3A9769323CC34A500C66344 /* EditItem.swift in Sources */,
 				E3024A3E23B0BFC7009E3654 /* DetailedView.swift in Sources */,
+				E3A9769823CC356A00C66344 /* EditMisc.swift in Sources */,
 				E3024A2223A8CC4D009E3654 /* antique.xcdatamodeld in Sources */,
 				E3024A1D23A8CC4D009E3654 /* AppDelegate.swift in Sources */,
 				E3024A3423A8CFAD009E3654 /* Helper.swift in Sources */,
 				E3024A4623B13774009E3654 /* OrderItem.swift in Sources */,
 				E39731E123BE488A00A1D9EF /* MenuItem.swift in Sources */,
+				E3A9768523CB9A5100C66344 /* Styles.swift in Sources */,
 				E39731EC23C6F1EF00A1D9EF /* Receipt.swift in Sources */,
 				E30BABBF23CAE0E40086E3D6 /* ReceiptPrinter.swift in Sources */,
 				E3024A2423A8CC4D009E3654 /* POSView.swift in Sources */,
 				E39731E523C4388800A1D9EF /* ActiveOrdersView.swift in Sources */,
+				E3A9768723CB9B9000C66344 /* CustomText.swift in Sources */,
 				E31EBE3D23CAC6BC00E03500 /* DetailedOrderView.swift in Sources */,
 				E3024A1F23A8CC4D009E3654 /* SceneDelegate.swift in Sources */,
 				E3024A3A23A8D0F2009E3654 /* Order.swift in Sources */,
-				E3D970E523B9CC7C00DA535A /* ReportsView.swift in Sources */,
+				E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */,
+				E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */,
 				E3D970DF23B333AB00DA535A /* OrderConfirm.swift in Sources */,
 				E3D970D723B3050900DA535A /* MenuView.swift in Sources */,
 				E3D970D223B1FD4600DA535A /* OrderHeader.swift in Sources */,

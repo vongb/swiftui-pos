@@ -44,10 +44,14 @@ struct OrderRow: View {
             Text("x\(orderItem.qty)")
                 .font(.system(size: 15))
                 .bold()
+                .frame(width: 30)
             
             Text(String(format: "$%.02f", orderItem.total))
                 .font(.system(size: 15))
                 .bold()
+                .lineLimit(1)
+                .truncationMode(.tail)
+                .frame(width: 50)
         }
         .padding(10)
     }

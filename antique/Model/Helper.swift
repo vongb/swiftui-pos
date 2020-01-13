@@ -49,7 +49,7 @@ extension Bundle {
                 let order = try JSONDecoder().decode(CodableOrder.self, from: data)
                 orders.append(order)
             }
-            return orders
+            return orders.sorted(by: {$0.orderNo < $1.orderNo})
         } catch {
             print(error)
             return [CodableOrder]()
@@ -125,6 +125,12 @@ extension Bundle {
         } catch {
             return URL(fileURLWithPath: "")
         }
+    }
+}
+
+extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
 

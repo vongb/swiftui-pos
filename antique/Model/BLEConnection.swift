@@ -29,33 +29,12 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     // Handles BT Turning On/Off
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch (central.state) {
-            case .unsupported:
-                print("BLE is Unsupported")
-                self.connected = false
-                break
-            case .unauthorized:
-                print("BLE is Unauthorized")
-                self.connected = false
-                break
-            case .unknown:
-                print("BLE is Unknown")
-                self.connected = false
-                break
-            case .resetting:
-                print("BLE is Resetting")
-                self.connected = false
-                break
-            case .poweredOff:
-                print("BLE is Powered Off")
-                self.connected = false
-                break
             case .poweredOn:
                 print("Central scanning");
                 self.centralManager.scanForPeripherals(withServices: nil)
                 break
             default:
-                print("State unknown")
-                self.connected = false
+                disconnect()
         }
     }
 
@@ -79,10 +58,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        self.peripheral = nil
-        self.printingService = nil
-        self.printingCharacteristic = nil
-        self.connected = false
+        disconnect()
     }
 
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
@@ -115,9 +91,20 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         let chunks = splitData(data: data)
         chunks.forEach{chunk in
             if peripheral != nil {
-                peripheral.writeValue(chunk, for: self.printingCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                if printingCharacteristic != nil {
+                    peripheral.writeValue(chunk, for: self.printingCharacteristic, type: CBCharacteristicWriteType.withResponse)
+                } else {
+                    disconnect()
+                }
             }
         }
+    }
+    
+    private func disconnect() {
+        self.connected = false
+        self.peripheral = nil
+        self.printingService = nil
+        self.printingCharacteristic = nil
     }
     
     private func splitData(data: Data) -> [Data] {

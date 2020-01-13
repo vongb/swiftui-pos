@@ -11,12 +11,7 @@ import SwiftUI
 struct DetailedView: View {
     @EnvironmentObject var order : Order
     @Environment(\.presentationMode) var presentationMode
-    static let colors = [Color(red:0.89, green:0.98, blue:0.96),
-                         Color(red:0.19, green:0.89, blue:0.79),
-                         Color(red:0.07, green:0.60, blue:0.62),
-                         Color(red:0.25, green:0.32, blue:0.31),
-                         Color(red:0.95, green:0.51, blue:0.51),
-                         Color(red:0.58, green:0.88, blue:0.83)]
+    @EnvironmentObject var styles : Styles
     
     static let sugarLevels = ["None", "Less", "Regular", "Extra"]
     
@@ -45,14 +40,14 @@ struct DetailedView: View {
                     Text(item.name)
                         .font(.system(size: 40))
                         .fontWeight(.bold)
-                        .foregroundColor(Self.colors[3])
+                        .foregroundColor(styles.colors[3])
                     
                     Spacer()
                     
                     Text(String(format: "$%.02f", total))
                         .font(.system(size: 30))
                         .fontWeight(.bold)
-                        .foregroundColor(Self.colors[3])
+                        .foregroundColor(styles.colors[3])
                 }
                 
                 HStack() {
@@ -61,7 +56,7 @@ struct DetailedView: View {
                             Text("Upsize")
                             .font(.system(size: 20))
                             .fontWeight(.bold)
-                            .foregroundColor(Self.colors[2])
+                            .foregroundColor(styles.colors[2])
                         }.padding(0)
                     } else {
                         Spacer()
@@ -73,7 +68,7 @@ struct DetailedView: View {
                         Text("Quantity")
                             .font(.system(size: 25))
                             .fontWeight(.bold)
-                            .foregroundColor(Self.colors[2])
+                            .foregroundColor(styles.colors[2])
                         HStack (spacing: 20){
                             // Decrement QTY
                             Button(action: {
@@ -85,7 +80,7 @@ struct DetailedView: View {
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(.white)
                             }
-                            .background(Self.colors[4])
+                            .background(styles.colors[4])
                             .cornerRadius(5)
 
                                 
@@ -105,7 +100,7 @@ struct DetailedView: View {
                                     .frame(width: 40, height: 40)
                                     .foregroundColor(.white)
                             }
-                            .background(Self.colors[1])
+                            .background(styles.colors[1])
                             .cornerRadius(5)
                         }
                     }
@@ -117,7 +112,7 @@ struct DetailedView: View {
                     Section(header:
                         Text("Sugar Level")
                             .padding(5)
-                            .foregroundColor(Self.colors[2])
+                            .foregroundColor(styles.colors[2])
                     ) {
                         Picker("Levels:", selection: $sugarLevel) {
                             ForEach(0 ..< Self.sugarLevels.count){
@@ -132,7 +127,7 @@ struct DetailedView: View {
                     // Ice Levels
                     Section(header:
                         Text("Ice Level")
-                            .foregroundColor(Self.colors[2])
+                            .foregroundColor(styles.colors[2])
                     ) {
                         Picker("Levels:", selection: $iceLevel) {
                             ForEach(0 ..< Self.iceLevels[item.iceLevelIndex].count){
@@ -156,7 +151,7 @@ struct DetailedView: View {
                             .padding(10)
                             .foregroundColor(Color.white)
                     }.font(.headline)
-                        .background(Self.colors[1])
+                        .background(styles.colors[1])
                         .cornerRadius(20)
                     Spacer()
                 }

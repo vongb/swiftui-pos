@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct MenuView: View {
-    let menu = Bundle.main.decode([MenuSection].self, from: "menu.json" )
+    @EnvironmentObject var menu : Menu
 
     var body: some View {
         NavigationView {
             List {
-                ForEach(menu) { section in
+                ForEach(menu.items) { section in
                     Section(header: Text(section.name)) {
                         ForEach(section.items){ item in
                             ItemRow(item: item)

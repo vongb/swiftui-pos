@@ -25,11 +25,14 @@ struct OrderHeader : View {
                 .bold()
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .frame(width: 30)
             
             Text("Price")
                 .bold()
                 .lineLimit(2)
                 .multilineTextAlignment(.center)
+                .frame(width: 50)
+
 
         }
         .padding(10)

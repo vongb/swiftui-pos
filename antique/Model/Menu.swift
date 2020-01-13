@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MenuSection: Codable, Identifiable {
-    var id : UUID = UUID()
+    let id : UUID = UUID()
     var name: String
     var items: [MenuItem]
     
@@ -10,3 +10,8 @@ struct MenuSection: Codable, Identifiable {
         case items
     }
 }
+
+class Menu : ObservableObject {
+    @Published var items : [MenuSection] = Bundle.main.decode([MenuSection].self, from: "menu.json")
+}
+

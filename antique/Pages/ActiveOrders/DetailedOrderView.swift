@@ -11,42 +11,27 @@ import SwiftUI
 struct DetailedOrderView: View {
     @EnvironmentObject var printer : BLEConnection
     @EnvironmentObject var orders : Orders
-    static let colors = [Color(red:0.89, green:0.98, blue:0.96),
-                        Color(red:0.19, green:0.89, blue:0.79),
-                        Color(red:0.07, green:0.60, blue:0.62),
-                        Color(red:0.25, green:0.32, blue:0.31),
-                        Color(red:0.95, green:0.51, blue:0.51),
-                        Color(red:0.58, green:0.88, blue:0.83)]
+    @EnvironmentObject var styles : Styles
+    @Environment(\.presentationMode) var presentationMode
+
     var order : CodableOrder
     
     var body: some View {
         VStack(alignment: .leading) {
             Group {
-                Text("Order No: #\(order.orderNo)")
-                    .bold()
-                    .padding(5)
-                    .font(.system(size: 40))
-                    .foregroundColor(.white)
-                    .background(Self.colors[3])
-                    .cornerRadius(10)
+                BlackText(text: "Order No: #\(order.orderNo)", fontSize: 40)
                     
                 Spacer().frame(height: 10)
                 
                 HStack {
-                    Text("Total: \(String(format: "$%.02f", self.order.total))")
-                        .bold()
-                        .padding(5)
-                        .font(.system(size: 30))
-                        .foregroundColor(.white)
-                        .background(Self.colors[2])
-                        .cornerRadius(10)
+                    DarkBlueText(text: "Total: \(String(format: "$%.02f", self.order.total))", fontSize: 30)
                     if !order.settled {
                         Text("UNPAID")
                             .bold()
                             .padding(5)
                             .font(.system(size: 25))
                             .foregroundColor(.white)
-                            .background(Self.colors[4])
+                            .background(styles.colors[4])
                             .cornerRadius(10)
                     }
                 }
@@ -64,7 +49,6 @@ struct DetailedOrderView: View {
             
             Group {
                 OrderHeader()
-                Divider()
                 if order.itemsOrdered.count > 0 {
                     ForEach(order.itemsOrdered) { orderItem in
                         OrderRow(orderItem: orderItem)
@@ -79,21 +63,30 @@ struct DetailedOrderView: View {
                 Divider()
             }
             HStack{
-                ReceiptPrinter(order: order)
+                ReceiptPrinter(codableOrder: order)
                 Spacer()
-                if !order.settled {
-                    Button(action: updateSettlement) {
+                if order.settled {
+                    Button(action: unsettle) {
+                        Text("Unsettle Order")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .background(styles.colors[4])
+                    .cornerRadius(20)
+                } else {
+                    Button(action: settle) {
                         Text("Settle Order")
                             .padding(10)
                             .foregroundColor(.white)
                     }
                     .background(Color.green)
                     .cornerRadius(20)
+                    
                 }
             }
         }
         .padding(20)
-        .background(Self.colors[0])
+        .background(styles.colors[0])
         .cornerRadius(20)
         .frame(width: 600)
     }
@@ -112,10 +105,18 @@ struct DetailedOrderView: View {
         return formatter.string(from: self.order.date)
     }
     
-    func updateSettlement() {
+    func settle() {
         let newOrder = CodableOrder(orderNo: order.orderNo, itemsOrdered: order.itemsOrdered, discPercentage: order.discPercentage, total: order.total, subtotal: order.subtotal, date: order.date, settled: true)
         Bundle.main.updateOrderSettlement(order: newOrder)
         orders.refreshSavedOrders()
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    
+    func unsettle() {
+        let newOrder = CodableOrder(orderNo: order.orderNo, itemsOrdered: order.itemsOrdered, discPercentage: order.discPercentage, total: order.total, subtotal: order.subtotal, date: order.date, settled: false)
+        Bundle.main.updateOrderSettlement(order: newOrder)
+        orders.refreshSavedOrders()
+        self.presentationMode.wrappedValue.dismiss()
     }
 }
 

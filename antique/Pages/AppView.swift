@@ -9,8 +9,6 @@
 import SwiftUI
 
 struct AppView: View {
-    @EnvironmentObject var orders : Orders
-    
     var body: some View {
         TabView {
             POSView()
@@ -21,17 +19,16 @@ struct AppView: View {
                 .tabItem{
                     Text("Active Orders")
                 }
-            ReportsView()
+            AdminView()
                 .tabItem {
-                    Text("Reports")
+                    Text("Admin")
                 }
         }
     }
 }
 
 struct AppView_Previews: PreviewProvider {
-    static let orders = Orders()
     static var previews: some View {
-        AppView().environmentObject(orders)
+        AppView()
     }
 }

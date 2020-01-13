@@ -10,13 +10,13 @@ import SwiftUI
 
 struct ReceiptPrinter: View {
     @EnvironmentObject var printer : BLEConnection
-    static let colors = [Color(red:0.89, green:0.98, blue:0.96),
-                        Color(red:0.19, green:0.89, blue:0.79),
-                        Color(red:0.07, green:0.60, blue:0.62),
-                        Color(red:0.25, green:0.32, blue:0.31),
-                        Color(red:0.95, green:0.51, blue:0.51),
-                        Color(red:0.58, green:0.88, blue:0.83)]
-    var order: CodableOrder
+    @EnvironmentObject var orders : Orders
+    @EnvironmentObject var order : Order
+    @EnvironmentObject var styles : Styles
+    @Environment(\.presentationMode) var presentationMode
+
+    var codableOrder : CodableOrder
+    var justPrint : Bool = true
     
     var body: some View {
         VStack {
@@ -27,29 +27,66 @@ struct ReceiptPrinter: View {
             Spacer().frame(height: 10)
             
             if printer.connected {
-                Button(action: self.printReceipt) {
-                    Text("Print Receipt")
-                        .padding(10)
-                        .foregroundColor(.white)
+                if justPrint {
+                    Button(action: self.printReceipt) {
+                        Text("Print Receipt")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .disabled(!self.printer.connected)
+                    .background(styles.colors[1])
+                    .cornerRadius(20)
+                } else {
+                    HStack {
+                    Button(action: self.saveAndPrint) {
+                        Text("Save & Print")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .disabled(!self.printer.connected)
+                    .background(styles.colors[4])
+                    .cornerRadius(20)
+                    
+                        Spacer().frame(width: 50)
+                    
+                    Button(action: self.settleAndPrint) {
+                        Text("Settle & Print")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .disabled(!self.printer.connected)
+                    .background(styles.colors[1])
+                    .cornerRadius(20)
+                    }
                 }
-                .disabled(!self.printer.connected)
-                .background(Self.colors[1])
-                .cornerRadius(20)
             } else {
                 Button(action: self.printer.startCentral) {
                     Text("Connect to Printer")
                         .padding(10)
                         .foregroundColor(.white)
                 }
-                .background(Self.colors[4])
+                .background(styles.colors[4])
                 .cornerRadius(20)
             }
         }
     }
     
+    func saveAndPrint() {
+        order.settleOrder(orderNo: orders.nextOrderNo, settled: false)
+        printReceipt()
+        orders.refreshSavedOrders()
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    
+    func settleAndPrint() {
+        order.settleOrder(orderNo: orders.nextOrderNo, settled: true)
+        printReceipt()
+        orders.refreshSavedOrders()
+        self.presentationMode.wrappedValue.dismiss()
+    }
+    
     func printReceipt() {
-//        let orderToPrint = CodableOrder(orderNo: order.orderNo, itemsOrdered: order.itemsOrdered, discPercentage: order.discPercentage, total: order.total, subtotal: order.subtotal, date: order.date)
-        let receipt = Receipt(order: order)
+        let receipt = Receipt(order: codableOrder)
         self.printer.sendToPrinter(message: receipt.receipt())
     }
 }
@@ -58,6 +95,6 @@ struct ReceiptPrinter_Previews: PreviewProvider {
     static let order = CodableOrder()
     static let printer = BLEConnection()
     static var previews: some View {
-        ReceiptPrinter(order: order).environmentObject(printer)
+        ReceiptPrinter(codableOrder: order).environmentObject(printer)
     }
 }
