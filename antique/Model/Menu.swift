@@ -13,5 +13,14 @@ struct MenuSection: Codable, Identifiable {
 
 class Menu : ObservableObject {
     @Published var items : [MenuSection] = Bundle.main.decode([MenuSection].self, from: "menu.json")
+    @Published var sugarLevels = ["None", "Less", "Regular", "Extra"]
+    
+    @Published var iceLevels : [[String]] = [["Hot"],
+                                        ["Hot", "Less", "Regular"],
+                                        ["None", "Less", "Regular"]]
+    
+    func refreshItems() {
+        self.items = Bundle.main.decode([MenuSection].self, from: "menu.json")
+    }
 }
 

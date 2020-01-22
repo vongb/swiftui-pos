@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ItemRow: View {
     let item : MenuItem
+    
     var body: some View {
         NavigationLink(destination : DetailedView(item: item)) {
             HStack() {

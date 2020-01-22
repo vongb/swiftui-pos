@@ -9,6 +9,11 @@
 import SwiftUI
 
 struct AppView: View {
+    
+    init() {
+        UITableView.appearance().backgroundColor = .clear
+    }
+    
     var body: some View {
         TabView {
             POSView()

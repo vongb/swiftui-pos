@@ -44,7 +44,7 @@ struct Receipt {
         
         // Order items
         var body : String = ""
-        self.order.itemsOrdered.forEach{orderItem in
+        self.order.items.forEach{orderItem in
             body += self.itemMultiLine(name: orderItem.item.name, price: orderItem.total, qty: orderItem.qty)
             if orderItem.item.hasIceLevels {
                 body += "Ice: " + orderItem.iceLevel + "\n"

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ActiveOrdersView: View {
     @EnvironmentObject var orders : Orders
-    @State var onlyShowActive : Bool = true
+    @State private var onlyShowActive : Bool = true
     
     var body: some View {
         NavigationView {
@@ -26,8 +26,11 @@ struct ActiveOrdersView: View {
                         Toggle(isOn: $onlyShowActive){
                             Text("Active Orders Only")
                         }
+                        .onTapGesture {
+                            self.onlyShowActive.toggle()
+                        }
                         if onlyShowActive {
-                            ForEach(orders.savedOrders.filter{!$0.settled} ) { order in
+                            ForEach(orders.savedOrders.filter{!$0.settled && !$0.cancelled} ) { order in
                                 SavedOrderRow(order: order, orderNo: order.orderNo)
                             }
                         } else {
@@ -41,6 +44,7 @@ struct ActiveOrdersView: View {
                 }
             }
         }
+       
     }
     
     func updateOrders() {

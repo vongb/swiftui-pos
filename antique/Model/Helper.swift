@@ -32,22 +32,22 @@ extension Bundle {
             let format = DateFormatter()
             format.dateFormat = "yyyy/MMM/dd"
             
-            let today = format.string(from: Date())
-            print(today)
+            let day = format.string(from: orderDate)
             
             let fileManager = FileManager.default
             
             let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
             
-            let folderURL = directory.appendingPathComponent(today)
+            let folderURL = directory.appendingPathComponent(day)
 
             let orderFiles = try fileManager.contentsOfDirectory(atPath: folderURL.path)
             
             var orders = [CodableOrder]()
             for orderFile in orderFiles {
                 let data = try Data(contentsOf: folderURL.appendingPathComponent(orderFile))
-                let order = try JSONDecoder().decode(CodableOrder.self, from: data)
-                orders.append(order)
+                let orderDTO = try JSONDecoder().decode(CodableOrderDTO.self, from: data)
+                let codableOrder = CodableOrder(orderDTO)
+                orders.append(codableOrder)
             }
             return orders.sorted(by: {$0.orderNo < $1.orderNo})
         } catch {
@@ -70,7 +70,7 @@ extension Bundle {
         }
     }
     
-    func updateOrderSettlement(order: CodableOrder) {
+    func updateOrder(order: CodableOrder) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         
@@ -79,7 +79,7 @@ extension Bundle {
         let dirPath = docsDir.appendingPathComponent(date(directory: true, forDate: order.date))
         
         let fileURL = dirPath?.appendingPathComponent(date(directory: false, forDate: order.date)).appendingPathExtension("json")
-        print(fileURL!.path)
+
         if FileManager.default.fileExists(atPath: fileURL!.path) {
             do {
                 let data = try encoder.encode(order)
@@ -105,7 +105,7 @@ extension Bundle {
             }
         }
         let fileName = dirPath!.path + "/" + date(directory: false) + ".json"
-        print("FileName: \(fileName)")
+        
         return fileName
     }
     

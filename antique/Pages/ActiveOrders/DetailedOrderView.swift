@@ -10,31 +10,51 @@ import SwiftUI
 
 struct DetailedOrderView: View {
     @EnvironmentObject var printer : BLEConnection
+    @EnvironmentObject var menu : Menu
     @EnvironmentObject var orders : Orders
     @EnvironmentObject var styles : Styles
     @Environment(\.presentationMode) var presentationMode
 
-    var order : CodableOrder
+    @State var order : CodableOrder
+    @State var editingOrder : Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
             Group {
-                BlackText(text: "Order No: #\(order.orderNo)", fontSize: 40)
-                    
-                Spacer().frame(height: 10)
-                
                 HStack {
-                    DarkBlueText(text: "Total: \(String(format: "$%.02f", self.order.total))", fontSize: 30)
-                    if !order.settled {
-                        Text("UNPAID")
-                            .bold()
-                            .padding(5)
-                            .font(.system(size: 25))
-                            .foregroundColor(.white)
-                            .background(styles.colors[4])
-                            .cornerRadius(10)
+                    BlackText(text: "Order No: #\(order.orderNo)", fontSize: 40)
+                    Spacer()
+                    if !order.cancelled {
+                        Button(action: edit) {
+                            Text("Edit")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        }
+                        .background(styles.colors[2])
+                        .cornerRadius(20)
                     }
                 }
+                
+                Spacer().frame(height: 10)
+
+                HStack {
+                    Text(String(format: "Total: $%.02f", self.order.total))
+                        .bold()
+                        .padding(5)
+                        .font(.system(size: 30))
+                        .foregroundColor(.white)
+                        .background(styles.colors[2])
+                        .cornerRadius(10)
+                    
+                    OrderStatusLabel(cancelled: order.cancelled, settled: order.settled)
+                    
+                    Spacer()
+                    
+                    SettleOrUnsettleButton(order: $order)
+                }
+                
+                Spacer().frame(height: 10)
+                
                 Text("Discounts: \(self.order.discPercentage)%")
                 
                 Text("Subtotal: \(String(format: "$%.02f", self.order.subtotal))")
@@ -49,8 +69,8 @@ struct DetailedOrderView: View {
             
             Group {
                 OrderHeader()
-                if order.itemsOrdered.count > 0 {
-                    ForEach(order.itemsOrdered) { orderItem in
+                if order.items.count > 0 {
+                    ForEach(order.items) { orderItem in
                         OrderRow(orderItem: orderItem)
                     }
                 } else {
@@ -62,33 +82,31 @@ struct DetailedOrderView: View {
                 }
                 Divider()
             }
-            HStack{
+            HStack {
                 ReceiptPrinter(codableOrder: order)
                 Spacer()
-                if order.settled {
-                    Button(action: unsettle) {
-                        Text("Unsettle Order")
-                            .padding(10)
-                            .foregroundColor(.white)
-                    }
-                    .background(styles.colors[4])
-                    .cornerRadius(20)
-                } else {
-                    Button(action: settle) {
-                        Text("Settle Order")
-                            .padding(10)
-                            .foregroundColor(.white)
-                    }
-                    .background(Color.green)
-                    .cornerRadius(20)
-                    
-                }
+                CancelOrderButton(order: $order)
             }
+            
         }
         .padding(20)
         .background(styles.colors[0])
         .cornerRadius(20)
         .frame(width: 600)
+        .sheet(isPresented: $editingOrder, onDismiss: endEdit) {
+            EditOrder(order: self.$order, editingOrder: self.$editingOrder)
+                .environmentObject(self.menu)
+                .environmentObject(self.styles)
+        }
+    }
+    
+    func endEdit() {
+        if self.order.items.count == 0 {
+            self.order.discPercentage = 0
+            self.order.cancelled = true
+        }
+        Bundle.main.updateOrder(order: self.order)
+        self.orders.refreshSavedOrders()
     }
     
     func date() -> String {
@@ -105,26 +123,21 @@ struct DetailedOrderView: View {
         return formatter.string(from: self.order.date)
     }
     
-    func settle() {
-        let newOrder = CodableOrder(orderNo: order.orderNo, itemsOrdered: order.itemsOrdered, discPercentage: order.discPercentage, total: order.total, subtotal: order.subtotal, date: order.date, settled: true)
-        Bundle.main.updateOrderSettlement(order: newOrder)
-        orders.refreshSavedOrders()
-        self.presentationMode.wrappedValue.dismiss()
+    func edit() {
+        editingOrder.toggle()
     }
     
-    func unsettle() {
-        let newOrder = CodableOrder(orderNo: order.orderNo, itemsOrdered: order.itemsOrdered, discPercentage: order.discPercentage, total: order.total, subtotal: order.subtotal, date: order.date, settled: false)
-        Bundle.main.updateOrderSettlement(order: newOrder)
-        orders.refreshSavedOrders()
-        self.presentationMode.wrappedValue.dismiss()
-    }
 }
 
 struct DetailedOrderView_Previews: PreviewProvider {
-    static let order = CodableOrder()
+    static let orders = Orders()
+    static let styles = Styles()
+    static let order = CodableOrder(CodableOrderDTO())
     static let printer = BLEConnection()
     static var previews: some View {
         DetailedOrderView(order: order)
             .environmentObject(printer)
+            .environmentObject(styles)
+            .environmentObject(orders)
     }
 }

@@ -92,7 +92,7 @@ struct ReceiptPrinter: View {
 }
 
 struct ReceiptPrinter_Previews: PreviewProvider {
-    static let order = CodableOrder()
+    static let order = CodableOrder(CodableOrderDTO())
     static let printer = BLEConnection()
     static var previews: some View {
         ReceiptPrinter(codableOrder: order).environmentObject(printer)

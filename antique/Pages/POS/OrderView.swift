@@ -11,6 +11,7 @@ import SwiftUI
 struct OrderView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var orders : Orders
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading,spacing: 0) {
@@ -20,11 +21,10 @@ struct OrderView: View {
                         OrderRow(orderItem: orderItem)
                     }
                     .onDelete(perform: delete)
-
                 }
                 .padding(0)
                 OrderSummary()
-                OrderConfirm()
+                OrderConfirmButton()
             }
             .navigationBarTitle("Order #\(String(orders.nextOrderNo))")
         }

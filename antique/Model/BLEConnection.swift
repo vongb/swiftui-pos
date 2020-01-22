@@ -40,8 +40,6 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
 
     // Handles the result of the scan
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-        
-        print(peripheral)
 
         // We've found it so stop scan
         self.centralManager.stopScan()
@@ -70,7 +68,6 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         guard let services = peripheral.services else { return }
 
         for service in services {
-            print(service)
             peripheral.discoverCharacteristics(nil, for: service)
         }
     }
@@ -124,7 +121,6 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
             let range : Range<Data.Index> = chunkBase..<(chunkBase + diff)
             chunk = data.subdata(in: range)
             chunks.append(chunk)
-            print("Chunk size: " + String(chunk.count))
         }
         return chunks
     }

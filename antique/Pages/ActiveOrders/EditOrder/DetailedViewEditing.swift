@@ -1,20 +1,21 @@
 //
-//  DetailedView.swift
+//  DetailedViewOrderEditing.swift
 //  antique
 //
-//  Created by Vong Beng on 23/12/19.
-//  Copyright © 2019 Vong Beng. All rights reserved.
+//  Created by Vong Beng on 19/1/20.
+//  Copyright © 2020 Vong Beng. All rights reserved.
 //
 
 import SwiftUI
 
-struct DetailedView: View {
-    @EnvironmentObject var order : Order
+struct DetailedViewEditing: View {
+    @Binding var items : [OrderItem]
+    var item : MenuItem
+    
     @EnvironmentObject var menu : Menu
     @EnvironmentObject var styles : Styles
     @Environment(\.presentationMode) var presentationMode
     
-    var item : MenuItem
     @State private var qty : Int = 1
     @State private var upsized : Bool = false
     @State private var sugarLevel : Int = 2
@@ -28,11 +29,11 @@ struct DetailedView: View {
         }
     }
     
-    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             DetailedItemTitle(item: item, total: self.total)
-            HStack() {
+            
+            HStack {
                 if(self.item.canUpsize) {
                     UpsizeItem(upsized: $upsized)
                 } else {
@@ -78,14 +79,14 @@ struct DetailedView: View {
     func addToOrder() {
         let sugar : String
         let ice : String
-        if(self.item.hasSugarLevels) {
+        if self.item.hasSugarLevels {
             sugar = self.menu.sugarLevels[self.sugarLevel]
         } else {
             sugar = "None"
         }
         
-        if(self.item.hasIceLevels) {
-            if(self.item.iceLevelIndex == 0) {
+        if self.item.hasIceLevels {
+            if self.item.iceLevelIndex == 0 {
                 ice = "Hot"
             } else {
                 ice = self.menu.iceLevels[self.iceLevel][Int(self.iceLevel)]
@@ -93,14 +94,18 @@ struct DetailedView: View {
         } else {
             ice = "None"
         }
+        let newItem = OrderItem(item: self.item, qty: qty, upsized: upsized, sugarLevel: sugar, iceLevel: ice)
         
-        self.order.add(item: self.item, qty: self.qty, sugarLevel: sugar, iceLevel: ice, upsized: self.upsized)
+        for (index, orderItem) in items.enumerated() {
+            if(item.id == orderItem.item.id) {
+                if(orderItem.iceLevel == ice && orderItem.sugarLevel == sugar && orderItem.upsized == upsized) {
+                    items[index].qty += qty
+                    return
+                }
+            }
+        }
+        self.items.append(newItem)
+        print(self.items)
         self.presentationMode.wrappedValue.dismiss()
     }
 }
-
-//struct DetailedViewOrderEditing_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailedViewOrderEditing()
-//    }
-//}

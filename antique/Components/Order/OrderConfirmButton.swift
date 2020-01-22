@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct OrderConfirm: View {
+struct OrderConfirmButton: View {
     @EnvironmentObject var order : Order
     var body: some View {
         NavigationLink(destination : OrderConfirmView()) {
@@ -35,6 +35,6 @@ struct OrderConfirm: View {
 
 struct OrderConfirm_Previews: PreviewProvider {
     static var previews: some View {
-        OrderConfirm()
+        OrderConfirmButton()
     }
 }

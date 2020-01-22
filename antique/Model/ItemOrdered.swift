@@ -12,4 +12,5 @@ struct ItemOrdered : Identifiable {
     let id = UUID()
     var item: MenuItem
     var qty : Int = 0
+    var itemTotal : Double = 0.0
 }

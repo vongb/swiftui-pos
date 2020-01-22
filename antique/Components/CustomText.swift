@@ -38,7 +38,7 @@ struct DarkBlueText : View {
     }
 }
 
-struct RedText : View {
+struct MaroonText : View {
     @EnvironmentObject var styles : Styles
     @State var text : String
     @State var fontSize : CGFloat = 20
@@ -49,6 +49,36 @@ struct RedText : View {
             .font(.system(size: fontSize))
             .foregroundColor(.white)
             .background(styles.colors[4])
+            .cornerRadius(10)
+    }
+}
+
+struct RedText : View {
+    @EnvironmentObject var styles : Styles
+    @State var text : String
+    @State var fontSize : CGFloat = 20
+    var body : some View {
+        Text(text)
+            .bold()
+            .padding(5)
+            .font(.system(size: fontSize))
+            .foregroundColor(.white)
+            .background(Color.red)
+            .cornerRadius(10)
+    }
+}
+
+struct GreenText : View {
+    @EnvironmentObject var styles : Styles
+    @State var text : String
+    @State var fontSize : CGFloat = 20
+    var body : some View {
+        Text(text)
+            .bold()
+            .padding(5)
+            .font(.system(size: fontSize))
+            .foregroundColor(.white)
+            .background(Color.green)
             .cornerRadius(10)
     }
 }
