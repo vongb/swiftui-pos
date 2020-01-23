@@ -31,9 +31,9 @@ Paul Hudson's guides have been incredibly helpful in helping me get accustomed t
 ### [Colorhunt](https://colorhunt.co/)
 Color Hunt is really great if you cannot design for the life of you (like me). Aesthetically pleasing color schemes from more design-gifted people are posted there for your styling needs.
 
-### [Stack Overflow] (https://stackoverflow.com/)
+### [Stack Overflow](https://stackoverflow.com/)
 Of course where would I be without this site. Notable threads that REALLY helped me print to a bluetooth printer from an iOS device:
-* [Characteristic and Print Buffer](https://stackoverflow.com/questions/31353112/ios-corebluetooth-print-cbservice-and-cbcharacteristic)
+* [Characteristic and Print Buffer](https://stackoverflow.com/questions/31353112/ios-corebluetooth-print-cbservice-and-cbcharacteristic) - Kudos to Giorgio for laying out which characteristics were meant for printing and pointing out the print buffer.
 * [BLEConnection](https://stackoverflow.com/questions/58239721/render-list-after-bluetooth-scanning-starts-swiftui) - information from here provided me with a really good understanding of how bluetooth connections work in SwiftUI.
 
 ### [Raywenderlich.com](https://www.raywenderlich.com/231-core-bluetooth-tutorial-for-ios-heart-rate-monitor)
