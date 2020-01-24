@@ -13,4 +13,5 @@ struct ItemOrdered : Identifiable {
     var item: MenuItem
     var qty : Int = 0
     var itemTotal : Double = 0.0
+    var date : Date
 }

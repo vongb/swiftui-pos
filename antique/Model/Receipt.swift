@@ -8,7 +8,9 @@
 
 import Foundation
 
+// Struct for receipt layout
 struct Receipt {
+    // Page width in number of characters
     let PAGE_WIDTH : Int = 32
     
     // Difference of 2 to count for spaces between columns
@@ -20,8 +22,13 @@ struct Receipt {
     
     let WIFI_PASS : String = "77779999"
     
+    // Order to print
     let order : CodableOrder
     
+    // Title Section
+    // Name of Cafe (Centred)
+    // Date (Left)
+    // Time (Left)
     func title() -> String{
         let title = centre(msg: "ANTIQUE CAFE") + "\n"
         let orderNo = "Order #" + String(order.orderNo) + "\n"
@@ -33,6 +40,9 @@ struct Receipt {
         return title + orderNo + date + time
     }
     
+    // Body Section (Will split item names in 2 lines if too long for item column)
+    // ITEM             QTY  Price
+    // **Item List*
     func body() -> String {
         // Column Labels
         let bodyHeader =
@@ -63,11 +73,15 @@ struct Receipt {
         return bodyHeader + body
     }
     
+    // Footer Section
+    // Subtotal
+    // Discounts
+    // Total
+    // WiFi Password
+    // Gratitude
+    // Spacer for next receipt
     func footer() -> String{
         let REMAINING_SPACE = PAGE_WIDTH - ITEM_COL
-        let footer = "WiFi Password: " + WIFI_PASS
-        let thankYou = "Thank You, Please Come Again"
-        let divider = String(repeating: "-", count: PAGE_WIDTH) + "\n"
         
         let subtotal = self.pad(msg: "Subtotal:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.subtotal), totLength: REMAINING_SPACE, padRight: false) + "\n"
@@ -75,6 +89,11 @@ struct Receipt {
             self.pad(msg: "\(self.order.discPercentage)%", totLength: REMAINING_SPACE, padRight: false) + "\n"
         let grandTotal = self.pad(msg: "Grand Total:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.total), totLength: REMAINING_SPACE, padRight: false) + "\n"
+        
+        let footer = "WiFi Password: " + WIFI_PASS
+        let thankYou = "Thank You, Please Come Again"
+        let divider = String(repeating: "-", count: PAGE_WIDTH) + "\n"
+        
         
         return divider + subtotal + discount + grandTotal + divider + centre(msg: footer) + centre(msg: thankYou)
     }
@@ -111,6 +130,7 @@ struct Receipt {
         }
     }
     
+    // Centres the given text based on its length and PAGE_WIDTH
     func centre(msg: String) -> String {
         let leftMsg = String(msg.prefix(msg.count / 2))
         
@@ -123,6 +143,7 @@ struct Receipt {
         
         return self.pad(msg: leftMsg, totLength: PAGE_WIDTH / 2, padRight: false) + rightMsg + "\n"
     }
+    
     
     func receipt() -> String {
         return title() + body() + footer() + SPACER

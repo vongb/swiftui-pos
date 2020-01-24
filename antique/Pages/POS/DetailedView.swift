@@ -11,7 +11,7 @@ import SwiftUI
 struct DetailedView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var menu : Menu
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     var item : MenuItem

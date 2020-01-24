@@ -11,7 +11,7 @@ import SwiftUI
 struct SettleOrUnsettleButton: View {
     @Binding var order : CodableOrder
     @EnvironmentObject var orders : Orders
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {

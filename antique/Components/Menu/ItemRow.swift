@@ -8,6 +8,8 @@
 
 import SwiftUI
 
+// Menu Item Row Component
+// Navigates to DetailedView
 struct ItemRow: View {
     let item : MenuItem
     

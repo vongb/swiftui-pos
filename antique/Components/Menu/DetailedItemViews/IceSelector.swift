@@ -8,10 +8,14 @@
 
 import SwiftUI
 
+// Ice selectors
+// Ice levels and indexes come from Menu and items in menu.json respectively
 struct IceSelector: View {
-    @EnvironmentObject var styles : Styles
-    @EnvironmentObject var menu : Menu
     @Binding var iceLevel : Int
+    
+    @ObservedObject var styles = Styles()
+    @EnvironmentObject var menu : Menu
+    
     let item : MenuItem
     
     var body: some View {

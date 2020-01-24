@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct ViewItems: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @EnvironmentObject var menu : Menu
     var body: some View {
         NavigationView {

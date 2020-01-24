@@ -20,18 +20,31 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     private var printingCharacteristic: CBCharacteristic!
     
     @Published var connected : Bool = false
+    @Published var scanning : Bool = false
     
-    func startCentral() {
+    override init() {
+        super.init()
         self.centralManager = CBCentralManager(delegate: self, queue: nil)
-        print("Central Manager State: \(self.centralManager.state)")
+    }
+    
+    func startScan() {
+        if centralManager.state == .poweredOn {
+            self.scanning = true
+            self.centralManager.scanForPeripherals(withServices: nil)
+            print("isScanning: \(centralManager.isScanning)")
+        }
+        print("Central scanning")
+    }
+    
+    func stopScan() {
+        self.centralManager.stopScan()
+        scanning = false
     }
     
     // Handles BT Turning On/Off
     public func centralManagerDidUpdateState(_ central: CBCentralManager) {
         switch (central.state) {
             case .poweredOn:
-                print("Central scanning");
-                self.centralManager.scanForPeripherals(withServices: nil)
                 break
             default:
                 disconnect()
@@ -40,30 +53,31 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
 
     // Handles the result of the scan
     public func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
-
-        // We've found it so stop scan
-        self.centralManager.stopScan()
         
-        // Copy the peripheral instance
-        self.peripheral = peripheral
         if peripheral.name != nil {
+            // Only connect to this printer to avoid user error
             if peripheral.name == "BlueTooth Printer" {
+                stopScan()
+                self.peripheral = peripheral
                 self.peripheral.delegate = self
-                self.connected = true
                 self.centralManager.connect(self.peripheral, options: nil)
+                self.connected = true
             }
         }
     }
     
+    // On Disconnect
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         disconnect()
     }
 
+    // Handles Connection
     public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("Connected to \(self.peripheral.name ?? "No Name")")
         self.peripheral.discoverServices(nil)
     }
     
+    // Search for characteristic
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
 
@@ -76,13 +90,14 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         guard let characteristics = service.characteristics else { return }
 
         for characteristic in characteristics {
-          print(characteristic)
+            // Printing characteristic
             if characteristic.uuid.uuidString == "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F" {
                 self.printingCharacteristic = characteristic
             }
         }
     }
     
+    // Convert incoming text to bytes (20 byte chunks) and send to printer.
     public func sendToPrinter(message: String) {
         let data = Data(message.utf8)
         let chunks = splitData(data: data)
@@ -97,6 +112,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         }
     }
     
+    // Reset properties
     private func disconnect() {
         self.connected = false
         self.peripheral = nil
@@ -104,6 +120,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         self.printingCharacteristic = nil
     }
     
+    // Splits the data object into 20 byte chunks to avoid overflowing the buffer
     private func splitData(data: Data) -> [Data] {
         var chunks = [Data]()
         let dataSize = data.count

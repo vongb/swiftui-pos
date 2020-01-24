@@ -19,7 +19,7 @@ struct MenuViewEditing: View {
                 ForEach(menu.items) { section in
                     Section(header: Text(section.name)) {
                         ForEach(section.items) { item in
-                            ItemRowEditing(items: self.$items, item: item)
+                            ItemRowOrderEditing(items: self.$items, item: item)
                         }
                     }
                 }

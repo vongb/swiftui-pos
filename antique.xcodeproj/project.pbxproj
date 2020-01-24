@@ -27,10 +27,14 @@
 		E30BABC123CB085E0086E3D6 /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30BABC023CB085E0086E3D6 /* Orders.swift */; };
 		E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31EBE3A23CAC65C00E03500 /* SavedOrderRow.swift */; };
 		E31EBE3D23CAC6BC00E03500 /* DetailedOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31EBE3C23CAC6BC00E03500 /* DetailedOrderView.swift */; };
+		E320CE0823D7FEBF0045A25C /* CodableOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E320CE0723D7FEBF0045A25C /* CodableOrder.swift */; };
+		E320CE0B23D9A1A20045A25C /* OrderReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E320CE0A23D9A1A20045A25C /* OrderReport.swift */; };
+		E320CE0D23D9A3BC0045A25C /* ReportItemHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = E320CE0C23D9A3BC0045A25C /* ReportItemHeader.swift */; };
+		E320CE0F23D9A6BD0045A25C /* MonthPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E320CE0E23D9A6BD0045A25C /* MonthPicker.swift */; };
 		E32A487E23D3532E00B08D14 /* OrderSummaryOrderEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A487D23D3532E00B08D14 /* OrderSummaryOrderEditing.swift */; };
 		E32A488023D3542900B08D14 /* OrderConfirmEditingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A487F23D3542900B08D14 /* OrderConfirmEditingButton.swift */; };
 		E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488723D4338300B08D14 /* DetailedViewEditing.swift */; };
-		E32A488A23D4374D00B08D14 /* ItemRowEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488923D4374D00B08D14 /* ItemRowEditing.swift */; };
+		E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */; };
 		E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */; };
 		E35C20E423D3223700577853 /* CancelOrderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35C20E323D3223700577853 /* CancelOrderButton.swift */; };
 		E39731E123BE488A00A1D9EF /* MenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39731E023BE488A00A1D9EF /* MenuItem.swift */; };
@@ -95,10 +99,14 @@
 		E30BABC023CB085E0086E3D6 /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
 		E31EBE3A23CAC65C00E03500 /* SavedOrderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedOrderRow.swift; sourceTree = "<group>"; };
 		E31EBE3C23CAC6BC00E03500 /* DetailedOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedOrderView.swift; sourceTree = "<group>"; };
+		E320CE0723D7FEBF0045A25C /* CodableOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableOrder.swift; sourceTree = "<group>"; };
+		E320CE0A23D9A1A20045A25C /* OrderReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderReport.swift; sourceTree = "<group>"; };
+		E320CE0C23D9A3BC0045A25C /* ReportItemHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportItemHeader.swift; sourceTree = "<group>"; };
+		E320CE0E23D9A6BD0045A25C /* MonthPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthPicker.swift; sourceTree = "<group>"; };
 		E32A487D23D3532E00B08D14 /* OrderSummaryOrderEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryOrderEditing.swift; sourceTree = "<group>"; };
 		E32A487F23D3542900B08D14 /* OrderConfirmEditingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderConfirmEditingButton.swift; sourceTree = "<group>"; };
 		E32A488723D4338300B08D14 /* DetailedViewEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedViewEditing.swift; sourceTree = "<group>"; };
-		E32A488923D4374D00B08D14 /* ItemRowEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRowEditing.swift; sourceTree = "<group>"; };
+		E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRowOrderEditing.swift; sourceTree = "<group>"; };
 		E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewEditing.swift; sourceTree = "<group>"; };
 		E35C20E323D3223700577853 /* CancelOrderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrderButton.swift; sourceTree = "<group>"; };
 		E39731E023BE488A00A1D9EF /* MenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuItem.swift; sourceTree = "<group>"; };
@@ -202,11 +210,12 @@
 				E3024A3723A8D0E6009E3654 /* Menu.swift */,
 				E39731E023BE488A00A1D9EF /* MenuItem.swift */,
 				E3024A3923A8D0F2009E3654 /* Order.swift */,
+				E320CE0723D7FEBF0045A25C /* CodableOrder.swift */,
 				E3024A4523B13774009E3654 /* OrderItem.swift */,
 				E30BABC023CB085E0086E3D6 /* Orders.swift */,
+				E3A9768223CB921500C66344 /* ItemOrdered.swift */,
 				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
 				E39731EB23C6F1EF00A1D9EF /* Receipt.swift */,
-				E3A9768223CB921500C66344 /* ItemOrdered.swift */,
 				E3A9768423CB9A5100C66344 /* Styles.swift */,
 			);
 			path = Model;
@@ -218,6 +227,7 @@
 				E3D970DA23B330C700DA535A /* Menu */,
 				E3D970DB23B330D300DA535A /* Order */,
 				E35C20E223D3215700577853 /* SavedOrders */,
+				E320CE0923D9A1440045A25C /* Reports */,
 				E30BABBE23CAE0E40086E3D6 /* ReceiptPrinter.swift */,
 				E3A9768623CB9B9000C66344 /* CustomText.swift */,
 			);
@@ -245,6 +255,15 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
+		E320CE0923D9A1440045A25C /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				E320CE0A23D9A1A20045A25C /* OrderReport.swift */,
+				E320CE0E23D9A6BD0045A25C /* MonthPicker.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
 		E35C20E223D3215700577853 /* SavedOrders */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +271,7 @@
 				E3CB374723D32A2F00BC3326 /* SettleOrUnsettleButton.swift */,
 				E35C20E323D3223700577853 /* CancelOrderButton.swift */,
 				E3CB375123D33EC300BC3326 /* OrderStatusLabel.swift */,
+				E320CE0C23D9A3BC0045A25C /* ReportItemHeader.swift */,
 			);
 			path = SavedOrders;
 			sourceTree = "<group>";
@@ -321,7 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				E3024A3B23B0BCB7009E3654 /* ItemRow.swift */,
-				E32A488923D4374D00B08D14 /* ItemRowEditing.swift */,
+				E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */,
 				E3A9769923CC3AD000C66344 /* EditItemRow.swift */,
 				E3CB375E23D347AB00BC3326 /* DetailedItemViews */,
 			);
@@ -456,6 +476,7 @@
 				E3D970E123B333BC00DA535A /* OrderConfirmView.swift in Sources */,
 				E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */,
 				E3CB375623D343A800BC3326 /* OrderConfirmEditing.swift in Sources */,
+				E320CE0B23D9A1A20045A25C /* OrderReport.swift in Sources */,
 				E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */,
 				E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */,
 				E30BABC123CB085E0086E3D6 /* Orders.swift in Sources */,
@@ -468,7 +489,9 @@
 				E32A487E23D3532E00B08D14 /* OrderSummaryOrderEditing.swift in Sources */,
 				E3CB375023D3310D00BC3326 /* ChangeCalculator.swift in Sources */,
 				E3024A1D23A8CC4D009E3654 /* AppDelegate.swift in Sources */,
+				E320CE0D23D9A3BC0045A25C /* ReportItemHeader.swift in Sources */,
 				E3024A3423A8CFAD009E3654 /* Helper.swift in Sources */,
+				E320CE0823D7FEBF0045A25C /* CodableOrder.swift in Sources */,
 				E3024A4623B13774009E3654 /* OrderItem.swift in Sources */,
 				E39731E123BE488A00A1D9EF /* MenuItem.swift in Sources */,
 				E3A9768523CB9A5100C66344 /* Styles.swift in Sources */,
@@ -484,9 +507,10 @@
 				E3A9768723CB9B9000C66344 /* CustomText.swift in Sources */,
 				E31EBE3D23CAC6BC00E03500 /* DetailedOrderView.swift in Sources */,
 				E3024A1F23A8CC4D009E3654 /* SceneDelegate.swift in Sources */,
+				E320CE0F23D9A6BD0045A25C /* MonthPicker.swift in Sources */,
 				E3CB376623D34A9500BC3326 /* SugarSelector.swift in Sources */,
 				E3024A3A23A8D0F2009E3654 /* Order.swift in Sources */,
-				E32A488A23D4374D00B08D14 /* ItemRowEditing.swift in Sources */,
+				E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */,
 				E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */,
 				E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */,
 				E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */,

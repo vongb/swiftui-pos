@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct QtyUpdater: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Binding var qty : Int
     
     var body: some View {

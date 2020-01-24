@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+// Item row for editing MenuItems
 struct EditItemRow: View {
     let item : MenuItem
     var body: some View {

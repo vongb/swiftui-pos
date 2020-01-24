@@ -19,7 +19,7 @@ class Menu : ObservableObject {
                                         ["Hot", "Less", "Regular"],
                                         ["None", "Less", "Regular"]]
     
-    func refreshItems() {
+    func refreshMenuItems() {
         self.items = Bundle.main.decode([MenuSection].self, from: "menu.json")
     }
 }

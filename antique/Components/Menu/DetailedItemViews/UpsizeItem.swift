@@ -10,7 +10,7 @@ import SwiftUI
 
 struct UpsizeItem: View {
     @Binding var upsized : Bool
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     
     var body: some View {
         Toggle(isOn: self.$upsized) {

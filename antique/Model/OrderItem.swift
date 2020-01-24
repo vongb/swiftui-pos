@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Struct containing details about each order item
 struct OrderItem: Codable, Equatable, Identifiable {
     let id : UUID = UUID()
     let item : MenuItem

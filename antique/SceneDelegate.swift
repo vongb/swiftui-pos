@@ -12,10 +12,11 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    // Initialisation of Environment Objeccts
     var order = Order()
     var printer = BLEConnection()
     var orders = Orders()
-    var styles = Styles()
     var menu = Menu()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
@@ -33,7 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .environmentObject(order)
             .environmentObject(printer)
             .environmentObject(orders)
-            .environmentObject(styles)
             .environmentObject(menu)
 
         // Use a UIHostingController as window root view controller.

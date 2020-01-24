@@ -9,8 +9,21 @@
 import SwiftUI
 
 struct ReportMonth: View {
+//    @ObservedObject var orders = Orders(monthOnly: <#T##Bool#>: false)
+    @ObservedObject var styles = Styles()
+    
     var body: some View {
-        Text("This shit don't work yet, wait.")
+        VStack(spacing: 10){
+//            Form {
+//                MonthPicker(date: self.$orders.date)
+//                OrderReport(daily: false, items: self.items)
+//            }
+            Text("Under Development")
+        }
+        .padding(20)
+        .background(styles.colors[0])
+        .cornerRadius(20)
+        .frame(width: 600)
     }
 }
 

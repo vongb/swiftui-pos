@@ -9,6 +9,7 @@
 import SwiftUI
 import Combine
 
+// Calculates Change in USD + KHR based on order total and cash received
 struct ChangeCalculator: View {
     var total : Double
     
@@ -16,13 +17,11 @@ struct ChangeCalculator: View {
     @State var khrReceived : String = "0"
     @State var usdChangeOffset : Int = 0
     
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
 
-    let exchangeRate : Double = 4000
+    let EXCHANGE_RATE : Double = 4000
     
-    var canSettle : Bool {
-        totalReceivedInUSD >= self.total
-    }
+    // Converts KHR to USD with exchange rate provided
     var totalReceivedInUSD : Double {
         var usd : Double
         var khr : Double
@@ -36,15 +35,19 @@ struct ChangeCalculator: View {
         } else {
             khr = 0
         }
-        return usd + khr / exchangeRate
+        return usd + khr / EXCHANGE_RATE
     }
+    
+    // Calculates change to be tendered. Prioritises USD change.
+    // Can be offset in the case USD currency is insufficient at the register.
     var usdChange : Int {
         Int((Double(totalReceivedInUSD) - self.total) + Double(usdChangeOffset))
     }
     var khrChange : Int {
         let changeLeft = totalReceivedInUSD - self.total - Double(usdChange)
-        return Int((changeLeft * exchangeRate).rounded(.up))
+        return Int((changeLeft * EXCHANGE_RATE).rounded(.up))
     }
+    
     
     var body: some View {
         VStack {

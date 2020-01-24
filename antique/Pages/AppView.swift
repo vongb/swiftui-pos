@@ -10,10 +10,13 @@ import SwiftUI
 
 struct AppView: View {
     
+    // Make tableview backgrounds transparent
     init() {
         UITableView.appearance().backgroundColor = .clear
     }
     
+    
+    // Main App Landing Page
     var body: some View {
         TabView {
             POSView()

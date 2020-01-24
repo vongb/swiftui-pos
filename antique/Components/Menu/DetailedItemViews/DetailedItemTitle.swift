@@ -8,10 +8,11 @@
 
 import SwiftUI
 
+// Title for DetailedView
 struct DetailedItemTitle: View {
     var item : MenuItem
     var total : Double = 0
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     
     var body: some View {
         HStack{

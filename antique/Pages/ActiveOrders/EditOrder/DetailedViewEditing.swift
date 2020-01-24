@@ -13,7 +13,7 @@ struct DetailedViewEditing: View {
     var item : MenuItem
     
     @EnvironmentObject var menu : Menu
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     @State private var qty : Int = 1
@@ -97,7 +97,7 @@ struct DetailedViewEditing: View {
         let newItem = OrderItem(item: self.item, qty: qty, upsized: upsized, sugarLevel: sugar, iceLevel: ice)
         
         for (index, orderItem) in items.enumerated() {
-            if(item.id == orderItem.item.id) {
+            if(item.name == orderItem.item.name) {
                 if(orderItem.iceLevel == ice && orderItem.sugarLevel == sugar && orderItem.upsized == upsized) {
                     items[index].qty += qty
                     return
@@ -105,7 +105,6 @@ struct DetailedViewEditing: View {
             }
         }
         self.items.append(newItem)
-        print(self.items)
         self.presentationMode.wrappedValue.dismiss()
     }
 }

@@ -12,7 +12,7 @@ import Combine
 struct OrderConfirmView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var orders : Orders
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     var codableOrder : CodableOrder {

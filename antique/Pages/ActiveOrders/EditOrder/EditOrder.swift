@@ -15,7 +15,7 @@ struct EditOrder: View {
     var body: some View {
         HStack {
             MenuViewEditing(items: self.$order.items)
-            OrderViewEditing(editingOrder: self.$editingOrder, items: self.$order.items, discPercentage: self.$order.discPercentage, orderNo: self.order.orderNo, subtotal: self.order.subtotal, total: self.order.total)
+            OrderViewEditing(editingOrder: self.$editingOrder, order: self.$order)
         }
         .onDisappear{
             self.order = CodableOrder(orderNo: self.order.orderNo, items: self.order.items, discPercentage: self.order.discPercentage, date: self.order.date, settled: false, cancelled: false)

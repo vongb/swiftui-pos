@@ -10,31 +10,42 @@ import SwiftUI
 
 struct OrderConfirmEditing: View {
     @Binding var editingOrder : Bool
-    var total : Double
+    @Binding var order : CodableOrder
     
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @EnvironmentObject var orders : Orders
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            OrderTotalLabel(total: self.total)
+            OrderTotalLabel(total: self.order.total)
             
             Divider().frame(width: 300)
             
-            ChangeCalculator(total: self.total)
+            ChangeCalculator(total: self.order.total)
             
             Divider().frame(width: 300)
             
             // Update Order
             HStack {
-                Button(action: self.updateAndRefreshOrders) {
+                Button(action: saveOrder) {
                     Text("Save Order")
                         .padding(10)
                         .foregroundColor(.white)
                 }
                 .frame(width: 120)
-                .background(styles.colors[2])
+                .background(styles.colors[4])
+                .cornerRadius(20)
+                
+                Spacer()
+                
+                Button(action: settleOrder) {
+                    Text("Settle Order")
+                        .padding(10)
+                        .foregroundColor(.white)
+                }
+                .frame(width: 120)
+                .background(Color.green)
                 .cornerRadius(20)
             }
         }
@@ -46,7 +57,15 @@ struct OrderConfirmEditing: View {
         }
     }
     
-    func updateAndRefreshOrders() {
+    func saveOrder(){
+        self.order.settled = false
+        self.order.cancelled = false
+        self.editingOrder = false
+    }
+    
+    func settleOrder() {
+        self.order.settled = true
+        self.order.cancelled = false
         self.editingOrder = false
     }
 }

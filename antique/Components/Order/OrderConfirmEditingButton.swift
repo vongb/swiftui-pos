@@ -10,12 +10,12 @@ import SwiftUI
 
 struct OrderConfirmEditingButton: View {
     @Binding var editingOrder : Bool
-    var total : Double
+    @Binding var order : CodableOrder
     
     var body: some View {
-        NavigationLink(destination : OrderConfirmEditing(editingOrder: self.$editingOrder, total: self.total)) {
+        NavigationLink(destination : OrderConfirmEditing(editingOrder: self.$editingOrder, order: self.$order)) {
             HStack {
-                if self.total == 0 {
+                if self.order.total == 0 {
                     Text("Confirm Order")
                         .font(.system(size: 20))
                         .bold()
@@ -31,7 +31,7 @@ struct OrderConfirmEditingButton: View {
             .padding(10)
             .background(Color.green)
         }
-        .disabled(self.total == 0)
+        .disabled(self.order.total == 0)
     }
 }
 

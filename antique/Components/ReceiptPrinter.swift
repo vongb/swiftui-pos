@@ -12,7 +12,7 @@ struct ReceiptPrinter: View {
     @EnvironmentObject var printer : BLEConnection
     @EnvironmentObject var orders : Orders
     @EnvironmentObject var order : Order
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
 
     var codableOrder : CodableOrder
@@ -60,13 +60,26 @@ struct ReceiptPrinter: View {
                     }
                 }
             } else {
-                Button(action: self.printer.startCentral) {
-                    Text("Connect to Printer")
-                        .padding(10)
-                        .foregroundColor(.white)
+                if !self.printer.scanning {
+                    Button(action: self.printer.startScan) {
+                        Text("Connect to Printer")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .background(styles.colors[4])
+                    .cornerRadius(20)
+                    
+                } else {
+                    Text("Scanning")
+                    Button(action: self.printer.stopScan) {
+                        Text("Stop Scan")
+                            .padding(10)
+                            .foregroundColor(.white)
+                    }
+                    .background(Color.yellow)
+                    .cornerRadius(20)
                 }
-                .background(styles.colors[4])
-                .cornerRadius(20)
+                
             }
         }
     }

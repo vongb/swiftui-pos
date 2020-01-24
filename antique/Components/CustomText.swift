@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct BlackText: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body: some View {
@@ -24,7 +24,7 @@ struct BlackText: View {
 }
 
 struct DarkBlueText : View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -39,7 +39,7 @@ struct DarkBlueText : View {
 }
 
 struct MaroonText : View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -54,7 +54,7 @@ struct MaroonText : View {
 }
 
 struct RedText : View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -69,7 +69,7 @@ struct RedText : View {
 }
 
 struct GreenText : View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {

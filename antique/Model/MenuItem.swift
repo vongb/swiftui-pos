@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MenuItem: Codable, Equatable, Identifiable {
-    var id : UUID = UUID()
+    let id : UUID = UUID()
     
     var name: String
 

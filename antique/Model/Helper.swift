@@ -27,6 +27,7 @@ extension Bundle {
         return loaded
     }
     
+    // Read orders from the given date's folder, will return EMPTY [CodableOrder] if no files or directory found.
     func readOrders(orderDate: Date = Date()) -> [CodableOrder]{
         do {
             let format = DateFormatter()
@@ -56,7 +57,45 @@ extension Bundle {
         }
     }
     
-    func saveOrder(orderToEncode: CodableOrder) {
+    func readMonthOrders(orderDate: Date = Date()) -> [CodableOrder] {
+        do{
+            let format = DateFormatter()
+            format.dateFormat = "yyyy/MMM"
+            
+            let month = format.string(from: orderDate)
+            
+            let fileManager = FileManager.default
+            
+            let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            
+            let monthFolderURL = directory.appendingPathComponent(month)
+            
+            let days = try fileManager.contentsOfDirectory(atPath: monthFolderURL.path)
+            
+            var monthOrders = [CodableOrder]()
+            
+            var date = DateComponents()
+            format.dateFormat = "yyyy"
+            date.year = Int(format.string(from: orderDate)) ?? 2020
+            format.dateFormat = "MM"
+            date.month = Int(format.string(from: orderDate)) ?? 1
+            date.hour = 0
+            date.minute = 0
+            for day in days {
+                date.day = Int(day)
+                if date.day != nil {
+                    monthOrders.append(contentsOf: readOrders(orderDate: Calendar.current.date(from: date)!))
+                }
+            }
+            return monthOrders
+        } catch {
+            print(error)
+            return [CodableOrder]()
+        }
+    }
+    
+    // Creates a new order file. Only call when creating new order
+    func createOrder(orderToEncode: CodableOrder) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         
@@ -70,6 +109,7 @@ extension Bundle {
         }
     }
     
+    // Updates existing order in CodableOrder, the format stored in JSON files.
     func updateOrder(order: CodableOrder) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
@@ -91,7 +131,7 @@ extension Bundle {
     }
         
     // Returns the save file name along with path to folder of day
-    func saveFileName() -> String {
+    private func saveFileName() -> String {
         let docsDir = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
         
         let dirPath = docsDir.appendingPathComponent(date(directory: true))
@@ -109,7 +149,7 @@ extension Bundle {
         return fileName
     }
     
-    func date(directory: Bool, forDate: Date = Date()) -> String {
+    private func date(directory: Bool, forDate: Date = Date()) -> String {
         let format = DateFormatter()
         if(directory) {
             format.dateFormat = "yyyy/MMM/dd"
@@ -119,7 +159,7 @@ extension Bundle {
         return format.string(from: forDate)
     }
     
-    func getDocumentsDirectory() -> URL {
+    private func getDocumentsDirectory() -> URL {
         do {
             return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
         } catch {

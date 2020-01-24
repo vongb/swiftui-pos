@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct EditItem: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @EnvironmentObject var menu : Menu
     @Environment(\.presentationMode) var presentationMode
     
@@ -86,7 +86,7 @@ struct EditItem: View {
     
     func delete(){
         // per form delete
-        self.menu.refreshItems()
+        self.menu.refreshMenuItems()
         self.presentationMode.wrappedValue.dismiss()
     }
     

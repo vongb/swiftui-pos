@@ -9,16 +9,14 @@
 import SwiftUI
 
 struct OrderSummaryOrderEditing: View {
-    @Binding var discPercentage : Int
-    var subtotal : Double
-    var total : Double
+    @Binding var order : CodableOrder
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
                 Text("Subtotal")
                 Spacer()
-                Text(String(format: "$%.02f", subtotal))
+                Text(String(format: "$%.02f", self.order.subtotal))
             }
 
             HStack {
@@ -27,7 +25,9 @@ struct OrderSummaryOrderEditing: View {
                 Spacer()
                 
                 // Decrement Discount
-                Button(action: decDiscount) {
+                Button(action: {
+                    self.order.decDiscount()
+                }) {
                     Text("-")
                         .padding(5)
                         .foregroundColor(Color.white)
@@ -37,10 +37,12 @@ struct OrderSummaryOrderEditing: View {
                 .cornerRadius(10)
 
                 // Discount Label
-                Text(String(discPercentage) + "%")
+                Text(String(self.order.discPercentage) + "%")
                 
                 // Increment Discount
-                Button(action: incDiscount) {
+                Button(action: {
+                    self.order.incDiscount()
+                }) {
                     Text("+")
                     .padding(5)
                     .foregroundColor(Color.white)
@@ -53,23 +55,11 @@ struct OrderSummaryOrderEditing: View {
             HStack {
                 Text("Grand Total")
                 Spacer()
-                Text(String(format: "$%.02f", total))
+                Text(String(format: "$%.02f", self.order.total))
             }
         }
         .padding(10)
         .background(Color(red:0.64, green:0.83, blue:0.68))
-    }
-    
-    func incDiscount(){
-        if(self.discPercentage < 100) {
-            self.discPercentage += 5
-        }
-    }
-    
-    func decDiscount(){
-        if(self.discPercentage > 0) {
-            self.discPercentage -= 5
-        }
     }
 }
 

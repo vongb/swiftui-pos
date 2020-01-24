@@ -8,8 +8,9 @@
 
 import SwiftUI
 
+// Sugar Selector, different levels taken from Menu class
 struct SugarSelector: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @EnvironmentObject var menu : Menu
     @Binding var sugarLevel : Int
     
@@ -25,7 +26,8 @@ struct SugarSelector: View {
                 }
             }
             .pickerStyle(SegmentedPickerStyle())
-        }    }
+        }
+    }
 }
 
 //struct SugarSelector_Previews: PreviewProvider {

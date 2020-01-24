@@ -8,7 +8,11 @@
 
 import SwiftUI
 
-struct ItemRowEditing: View {
+// Menu Item Row for editing orders
+// Links to DetailedViewEditing
+// Split this into its separate component
+// to avoid too many if statements running when building a menu
+struct ItemRowOrderEditing: View {
     @Binding var items : [OrderItem]
     let item : MenuItem
     

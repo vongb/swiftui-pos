@@ -51,6 +51,10 @@ struct OrderSummary: View {
                 .cornerRadius(10)
             }
             
+//            Toggle("$ / %", isOn: self.$order.isDiscPercentage)
+//                .labelsHidden()
+//                .frame(height: 30)
+            
             HStack {
                 Text("Grand Total")
                 Spacer()

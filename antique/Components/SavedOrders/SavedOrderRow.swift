@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct SavedOrderRow: View {
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     
     let order : CodableOrder
     let orderNo : Int

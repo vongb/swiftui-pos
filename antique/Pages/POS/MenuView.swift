@@ -12,10 +12,17 @@ struct MenuView: View {
     @EnvironmentObject var menu : Menu
 
     var body: some View {
+        // Displays menu in sections
         NavigationView {
             List {
                 ForEach(menu.items) { section in
-                    Section(header: Text(section.name)) {
+                    
+                    Section(header:
+                        Text(section.name)
+                            .bold()
+                            .font(.system(size: 25))
+                    ) {
+                        
                         ForEach(section.items) { item in
                             ItemRow(item: item)
                         }

@@ -12,7 +12,7 @@ struct DetailedOrderView: View {
     @EnvironmentObject var printer : BLEConnection
     @EnvironmentObject var menu : Menu
     @EnvironmentObject var orders : Orders
-    @EnvironmentObject var styles : Styles
+    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
 
     @State var order : CodableOrder

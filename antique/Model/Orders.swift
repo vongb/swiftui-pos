@@ -8,23 +8,53 @@
 
 import Foundation
 
+// Class that holds a list of saved orders based on a given date
 class Orders : ObservableObject {
-    @Published var date = Date() {
+    var monthOnly : Bool {
         didSet {
-            savedOrders = Bundle.main.readOrders(orderDate: date)
+            refreshSavedOrders()
         }
     }
     
-    @Published var savedOrders = Bundle.main.readOrders()
     
-    var formatter : DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.timeStyle = .none
-        return formatter
+    // Date where the list of order is based on.
+    // Changes savedOrders when date changes value
+    @Published var date : Date {
+        didSet {
+            if monthOnly {
+                savedOrders = Bundle.main.readMonthOrders(orderDate: date)
+            } else {
+                savedOrders = Bundle.main.readOrders(orderDate: date)
+            }
+        }
     }
     
-    var dailyTotal : Double {
+    // [CodableOrder] array of all the orders found in the given date directory
+    @Published var savedOrders : [CodableOrder]
+    
+    init() {
+        monthOnly = false
+        self.date = Date()
+        if monthOnly {
+            self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
+        } else {
+            self.savedOrders = Bundle.main.readOrders(orderDate: Date())
+        }
+    }
+    
+    init(monthOnly: Bool) {
+        self.monthOnly = monthOnly
+        self.date = Date()
+        if monthOnly {
+            self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
+        } else {
+            self.savedOrders = Bundle.main.readOrders(orderDate: Date())
+        }
+    }
+    
+    
+    // Calculates total, excluding any cancelled orders
+    var total : Double {
         var total : Double = 0.0
         self.savedOrders.forEach{ order in
             if !order.cancelled {
@@ -34,6 +64,8 @@ class Orders : ObservableObject {
         return total
     }
     
+    // A list of unique items ordered with their quantities and totals
+    // Returns a descending array based on quantity ordered.
     var items : [ItemOrdered] {
         var temp = [ItemOrdered]()
         self.savedOrders.forEach{ order in
@@ -49,7 +81,7 @@ class Orders : ObservableObject {
                         }
                     }
                     if !found {
-                        temp.append(ItemOrdered(item: orderItem.item, qty: orderItem.qty, itemTotal: orderItem.total))
+                        temp.append(ItemOrdered(item: orderItem.item, qty: orderItem.qty, itemTotal: orderItem.total, date: order.date))
                     }
                 }
             }
@@ -57,19 +89,21 @@ class Orders : ObservableObject {
         return temp.sorted(by: {$0.qty > $1.qty})
     }
     
-    init(date: Date = Date()) {
-        self.date = date
-    }
-    
+    // Next order number
     var nextOrderNo : Int {
-        return savedOrders.count + 1
+        if monthOnly {
+            return 0
+        } else {
+            return savedOrders.count + 1
+        }
     }
     
-    func resetDate() {
-        self.date = Date()
-    }
-    
+    // Manually updates the current order list
     func refreshSavedOrders() {
-        self.savedOrders = Bundle.main.readOrders(orderDate: self.date)
+        if monthOnly {
+            self.savedOrders = Bundle.main.readMonthOrders(orderDate: self.date)
+        } else {
+            self.savedOrders = Bundle.main.readOrders(orderDate: self.date)
+        }
     }
 }

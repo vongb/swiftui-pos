@@ -17,11 +17,11 @@ struct AdminView: View {
                 NavigationView {
                     List {
                         NavigationLink(destination: ReportDay()) {
-                            Text("Day")
+                            Text("Reports")
                         }
-                        NavigationLink(destination: ReportMonth()) {
-                            Text("Month")
-                        }
+//                        NavigationLink(destination: ReportMonth()) {
+//                            Text("Month")
+//                        }
                         NavigationLink(destination: AddItem()) {
                             Text("Add Item")
                         }
