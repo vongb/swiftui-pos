@@ -1,4 +1,4 @@
-# Cafe POS
+# Antique Cafe POS
 I created this as a side project and also to help a friend manage sales at her small cafe in Wat Phnom, Phnom Penh. It was built with SwiftUI intended for iPad use. The app can manages orders, calculates change based on the dual KHR/USD currency used in Cambodia, as well as generating daily sales reports. It is also capable of connecting to a bluetooth printer to issue receipts. The app is currently distributed ad hoc as I am currently based in Sydney. Further improvements and features are currently being developed.
 
 ---
