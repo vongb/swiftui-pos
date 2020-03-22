@@ -8,35 +8,106 @@
 import LocalAuthentication
 import SwiftUI
 
+enum ActiveSheet {
+    case report, addItem, editItem
+}
+
 struct AdminView: View {
-    @State var isUnlocked = false
+    @State private var isUnlocked = false
+    
+    @State private var showSheet = false
+    @State private var activeSheet : ActiveSheet = .report
+    
+    @State private var editItemID : String = ""
+    @State private var itemForEdit : MenuItem = MenuItem(name: "", price: 0)
+    @State private var sectionSelection : Int = 0
+    
+    @State private var reset = false
+    
+    @EnvironmentObject var menu : Menu
+    private var styles = Styles()
     
     var body: some View {
-        VStack(alignment: .center) {
+        VStack(alignment: .leading, spacing: 10) {
             if self.isUnlocked {
-                NavigationView {
-                    List {
-                        NavigationLink(destination: ReportDay()) {
-                            Text("Reports")
-                        }
-//                        NavigationLink(destination: ReportMonth()) {
-//                            Text("Month")
-//                        }
-                        NavigationLink(destination: AddItem()) {
-                            Text("Add Item")
-                        }
-                        NavigationLink(destination: ViewItems()){
-                            Text("Edit/Delete Item")
-                        }
-                    }
-                    .navigationBarTitle("Admin Controls")
-                    .navigationViewStyle(DoubleColumnNavigationViewStyle())
+                Text("Administrator")
+                    .bold()
+                    .font(.largeTitle)
+                Divider()
+                HStack {
+                    Text("Reports")
+                        .font(.title)
+                    Spacer()
                 }
+                
+                HStack {
+                    Button(action: {
+                        self.showSheet = true
+                        self.activeSheet = .report
+                    }) {
+                        Text("Reports")
+                            .foregroundColor(.white)
+                            .font(.body)
+                            .padding()
+                    }
+                    .background(Color.green)
+                    .cornerRadius(10)
+                    Spacer()
+                }
+                
+                HStack {
+                    Text("Menu Item Management")
+                        .font(.title)
+                    Spacer()
+                }
+                HStack {
+                    Button(action: {
+                        self.showSheet = true
+                        self.activeSheet = .addItem
+                    }) {
+                        Text("Add Item")
+                                .foregroundColor(.white)
+                                .font(.body)
+                                .padding()
+                    }
+                    .background(styles.colors[1])
+                    .cornerRadius(10)
+                    
+                    Spacer()
+                    Button(action: {self.reset = true}) {
+                        Text("Reset Menu")
+                                .foregroundColor(.white)
+                                .font(.body)
+                                .padding()
+                    }
+                    .background(styles.colors[4])
+                    .cornerRadius(10)
+                }
+                ViewItems(editItemID: self.$editItemID, editingItem: self.$showSheet, activeSheet: self.$activeSheet, itemForEdit: self.$itemForEdit, menuSectionSelection: self.$sectionSelection)
             } else {
                 Text("Locked")
             }
         }
         .onAppear(perform: authenticate)
+        .sheet(isPresented: self.$showSheet) {
+            if self.activeSheet == .report {
+                ReportDay()
+            } else if self.activeSheet == .addItem {
+                ItemEditor().environmentObject(self.menu)
+            } else if self.activeSheet == .editItem {
+                ItemEditor(id: self.editItemID, item: self.itemForEdit, sectionSelection: self.sectionSelection).environmentObject(self.menu)
+            }
+        }
+        .alert(isPresented: self.$reset) {
+            Alert(title: Text("Confirm"), message: Text("Are you sure you want to reset the menu"), primaryButton: .destructive(Text("Reset")) {
+                self.resetMenu()
+            }, secondaryButton: .cancel())
+        }
+        .padding()
+    }
+    
+    func resetMenu() {
+        menu.resetMenu()
     }
     
     func authenticate() {

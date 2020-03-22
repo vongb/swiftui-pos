@@ -27,6 +27,42 @@ extension Bundle {
         return loaded
     }
     
+    func readMenu() -> [MenuSection] {
+        let menuFileName = getMenuFileName()
+        do {
+            if FileManager.default.fileExists(atPath: menuFileName) {
+                let data = try Data(contentsOf: URL(fileURLWithPath: menuFileName))
+                let menuSection = try JSONDecoder().decode([MenuSection].self, from: data)
+                return menuSection
+            }
+        } catch {
+            print(error)
+        }
+        return [MenuSection]()
+    }
+    
+    func updateMenu(menuSections: [MenuSection]) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        do {
+            let data = try encoder.encode(menuSections)
+            if FileManager.default.fileExists(atPath: getMenuFileName()) {
+                try data.write(to: URL(fileURLWithPath: getMenuFileName()))
+            } else {
+                FileManager.default.createFile(atPath: getMenuFileName(), contents: data)
+            }
+        } catch {
+            print(error)
+        }
+        
+    }
+    
+    func getMenuFileName() -> String {
+        let directory = getDocumentsDirectory()
+        let fileName = "menu.json"
+        return directory.appendingPathComponent(fileName).path
+    }
+    
     // Read orders from the given date's folder, will return EMPTY [CodableOrder] if no files or directory found.
     func readOrders(orderDate: Date = Date()) -> [CodableOrder]{
         do {
@@ -37,7 +73,7 @@ extension Bundle {
             
             let fileManager = FileManager.default
             
-            let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let directory = getDocumentsDirectory()
             
             let folderURL = directory.appendingPathComponent(day)
 
@@ -45,10 +81,12 @@ extension Bundle {
             
             var orders = [CodableOrder]()
             for orderFile in orderFiles {
-                let data = try Data(contentsOf: folderURL.appendingPathComponent(orderFile))
-                let orderDTO = try JSONDecoder().decode(CodableOrderDTO.self, from: data)
-                let codableOrder = CodableOrder(orderDTO)
-                orders.append(codableOrder)
+                if orderFile != "cashout" {
+                    let data = try Data(contentsOf: folderURL.appendingPathComponent(orderFile))
+                    let orderDTO = try JSONDecoder().decode(CodableOrderDTO.self, from: data)
+                    let codableOrder = CodableOrder(orderDTO)
+                    orders.append(codableOrder)
+                }
             }
             return orders.sorted(by: {$0.orderNo < $1.orderNo})
         } catch {
@@ -66,7 +104,7 @@ extension Bundle {
             
             let fileManager = FileManager.default
             
-            let directory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
+            let directory = getDocumentsDirectory()
             
             let monthFolderURL = directory.appendingPathComponent(month)
             
@@ -91,6 +129,95 @@ extension Bundle {
         } catch {
             print(error)
             return [CodableOrder]()
+        }
+    }
+    
+    func readCashout(date: Date = Date()) -> [CashOut] {
+        do {
+            let format = DateFormatter()
+            format.dateFormat = "yyyy/MMM/dd"
+            
+            let day = format.string(from: date)
+            
+            let fileManager = FileManager.default
+            
+            let directory = getDocumentsDirectory()
+            
+            let cashoutFolderURL = directory.appendingPathComponent(day).appendingPathComponent("cashout")
+            
+            let cashoutFiles = try fileManager.contentsOfDirectory(atPath: cashoutFolderURL.path)
+            var cashouts = [CashOut]()
+            for cashoutFile in cashoutFiles {
+                    let data = try Data(contentsOf: cashoutFolderURL.appendingPathComponent(cashoutFile))
+                    let cashout = try JSONDecoder().decode(CashOut.self, from: data)
+                    cashouts.append(cashout)
+            }
+            return cashouts.sorted(by: {$0.date < $1.date})
+        } catch {
+            print(error)
+            return [CashOut]()
+        }
+    }
+    
+    func readMonthCashouts(cashOutDate: Date = Date()) -> [CashOut] {
+        do {
+            let format = DateFormatter()
+            format.dateFormat = "yyyy/MMM"
+            
+            let month = format.string(from: cashOutDate)
+            
+            let fileManager = FileManager.default
+            
+            let directory = getDocumentsDirectory()
+            
+            let monthFolderURL = directory.appendingPathComponent(month)
+            
+            let days = try fileManager.contentsOfDirectory(atPath: monthFolderURL.path)
+            
+            var monthCashouts = [CashOut]()
+            
+            var date = DateComponents()
+            format.dateFormat = "yyyy"
+            date.year = Int(format.string(from: cashOutDate)) ?? 2020
+            format.dateFormat = "MM"
+            date.month = Int(format.string(from: cashOutDate)) ?? 1
+            date.hour = 0
+            date.minute = 0
+            for day in days {
+                date.day = Int(day)
+                if date.day != nil {
+                    monthCashouts.append(contentsOf: readCashout(date: Calendar.current.date(from: date)!))
+                }
+            }
+            return monthCashouts
+        } catch {
+            print(error)
+            return [CashOut]()
+        }
+    }
+    
+    // Creates a cash out file
+    func cashOut(_ cashOut: CashOut) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        let fileManager = FileManager.default
+        let docDir = getDocumentsDirectory()
+        let currentDay = date(directory: true)
+        let cashOutFolderName = "cashout"
+        
+        let cashOutDir = docDir.appendingPathComponent(currentDay).appendingPathComponent(cashOutFolderName).path
+        
+        do {
+            // Check if directory exists
+            if !fileManager.fileExists(atPath: cashOutDir) {
+                try FileManager.default.createDirectory(atPath: cashOutDir, withIntermediateDirectories: true, attributes: nil)
+            }
+            let data = try encoder.encode(cashOut)
+            let cashOutFileName = cashOutDir + "/" + date(directory: false) + ".json"
+            fileManager.createFile(atPath: cashOutFileName, contents: data, attributes: nil)
+        } catch {
+            print(error)
         }
     }
     
@@ -129,13 +256,32 @@ extension Bundle {
             }
         }
     }
+    
+    func updateCashOut(_ cashout: CashOut) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        
+        let docsDir = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
+        
+        let dirPath = docsDir.appendingPathComponent(date(directory: true, forDate: cashout.date))
+        
+        let fileURL = dirPath?.appendingPathComponent("cashout").appendingPathComponent(date(directory: false, forDate: cashout.date)).appendingPathExtension("json")
+
+        if FileManager.default.fileExists(atPath: fileURL!.path) {
+            do {
+                let data = try encoder.encode(cashout)
+                try data.write(to: fileURL!)
+            } catch {
+                print(error)
+            }
+        }
+    }
         
     // Returns the save file name along with path to folder of day
     private func saveFileName() -> String {
         let docsDir = NSURL(fileURLWithPath: NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0])
         
         let dirPath = docsDir.appendingPathComponent(date(directory: true))
-        
         
         if(!FileManager.default.fileExists(atPath: dirPath!.path)) {
             do {

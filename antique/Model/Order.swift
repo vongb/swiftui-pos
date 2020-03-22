@@ -9,13 +9,13 @@
 import SwiftUI
 
 
-// Used for main POS page as an Environmen Object
+// Used for main POS page as an Environment Object
 class Order : ObservableObject {
     @Published var items = [OrderItem]() // Items ordered
     @Published var discPercentage : Int = 0 // Discount percentage
     @Published var isDiscPercentage : Bool = true
     @Published var discAmountInUSD : Double = 0
-    let date : Date = Date()
+    var date : Date = Date()
     
     // Calculates subtotal
     var subtotal: Double {
@@ -63,13 +63,14 @@ class Order : ObservableObject {
         }
     }
     
-    func settleOrder(orderNo: Int, settled: Bool = true) {
+    func settleOrder(orderNo: Int, settled: Bool = true, settleDate : Date = Date()) {
         if(items.count > 0) {
-            let codedItemDTO = CodableOrderDTO(orderNo: orderNo, items: self.items, discPercentage: self.discPercentage, date: Date(), settled: settled)
+            let codedItemDTO = CodableOrderDTO(orderNo: orderNo, items: self.items, discPercentage: self.discPercentage, date: settleDate, settled: settled)
             let codableOrder = CodableOrder(codedItemDTO)
             Bundle.main.createOrder(orderToEncode: codableOrder)
             items.removeAll()
             discPercentage = 0
+            self.date = Date()
         }
     }
 }

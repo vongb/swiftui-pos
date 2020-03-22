@@ -16,6 +16,11 @@ class Orders : ObservableObject {
         }
     }
     
+    var includeCashOut : Bool {
+        didSet {
+            refreshSavedOrders()
+        }
+    }
     
     // Date where the list of order is based on.
     // Changes savedOrders when date changes value
@@ -31,35 +36,54 @@ class Orders : ObservableObject {
     
     // [CodableOrder] array of all the orders found in the given date directory
     @Published var savedOrders : [CodableOrder]
+    @Published var cashOuts : [CashOut]
     
     init() {
-        monthOnly = false
+        self.monthOnly = false
+        self.includeCashOut = true
         self.date = Date()
         if monthOnly {
             self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
+            self.cashOuts = Bundle.main.readMonthCashouts(cashOutDate: Date())
         } else {
             self.savedOrders = Bundle.main.readOrders(orderDate: Date())
+            self.cashOuts = Bundle.main.readCashout(date: Date())
         }
     }
     
     init(monthOnly: Bool) {
         self.monthOnly = monthOnly
+        self.includeCashOut = true
         self.date = Date()
         if monthOnly {
             self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
+            self.cashOuts = Bundle.main.readMonthCashouts(cashOutDate: Date())
         } else {
             self.savedOrders = Bundle.main.readOrders(orderDate: Date())
+            self.cashOuts = Bundle.main.readCashout(date: Date())
         }
     }
     
     
     // Calculates total, excluding any cancelled orders
     var total : Double {
+        return incomeTotal - (includeCashOut ? cashoutTotal : 0)
+    }
+    
+    var incomeTotal : Double {
         var total : Double = 0.0
         self.savedOrders.forEach{ order in
             if !order.cancelled {
                 total += order.total
             }
+        }
+        return total
+    }
+    
+    var cashoutTotal : Double {
+        var total : Double = 0.0
+        self.cashOuts.forEach { cashout in
+            total += cashout.priceInUSD
         }
         return total
     }
@@ -102,8 +126,14 @@ class Orders : ObservableObject {
     func refreshSavedOrders() {
         if monthOnly {
             self.savedOrders = Bundle.main.readMonthOrders(orderDate: self.date)
+            if includeCashOut {
+                self.cashOuts = Bundle.main.readMonthCashouts(cashOutDate: self.date)
+            }
         } else {
             self.savedOrders = Bundle.main.readOrders(orderDate: self.date)
+            if includeCashOut {
+                self.cashOuts = Bundle.main.readCashout(date: self.date)
+            }
         }
     }
 }

@@ -15,23 +15,16 @@ struct OrderConfirmEditingButton: View {
     var body: some View {
         NavigationLink(destination : OrderConfirmEditing(editingOrder: self.$editingOrder, order: self.$order)) {
             HStack {
-                if self.order.total == 0 {
-                    Text("Confirm Order")
-                        .font(.system(size: 20))
-                        .bold()
-                        .foregroundColor(.gray)
-                } else {
-                    Text("Confirm Order")
-                        .font(.system(size: 20))
-                        .bold()
-                        .foregroundColor(.white)
-                }
+                Text("Confirm Order")
+                    .font(.system(size: 20))
+                    .bold()
+                    .foregroundColor(.white)
                 Spacer()
             }
             .padding(10)
-            .background(Color.green)
+            .background(self.order.items.count == 0 ? Color.gray : Color.green)
         }
-        .disabled(self.order.total == 0)
+        .disabled(self.order.items.count == 0)
     }
 }
 

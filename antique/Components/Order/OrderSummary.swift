@@ -10,6 +10,7 @@ import SwiftUI
 
 struct OrderSummary: View {
     @EnvironmentObject var order : Order
+    @State var isRiels : Bool = true
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             HStack {
@@ -21,6 +22,9 @@ struct OrderSummary: View {
             HStack {
                 Text("Discount")
                 
+                Toggle(isOn: self.$isRiels) {
+                    Text("Riels")
+                }
                 Spacer()
                 
                 // Decrement Discount

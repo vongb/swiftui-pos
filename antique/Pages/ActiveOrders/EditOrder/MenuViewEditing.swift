@@ -15,17 +15,21 @@ struct MenuViewEditing: View {
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(menu.items) { section in
-                    Section(header: Text(section.name)) {
-                        ForEach(section.items) { item in
-                            ItemRowOrderEditing(items: self.$items, item: item)
+            if menu.items.count != 0 {
+                List {
+                    ForEach(menu.items) { section in
+                        Section(header: Text(section.name)) {
+                            ForEach(section.items) { item in
+                                ItemRowOrderEditing(items: self.$items, item: item)
+                            }
                         }
                     }
                 }
+                .navigationBarTitle("Menu")
+                .listStyle(GroupedListStyle())
+            } else {
+                Text("No Items, Please Reset Menu in Admin View")
             }
-            .navigationBarTitle("Menu")
-            .listStyle(GroupedListStyle())
         }
         .navigationViewStyle(StackNavigationViewStyle())
     }

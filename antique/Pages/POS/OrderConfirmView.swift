@@ -15,52 +15,65 @@ struct OrderConfirmView: View {
     @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var editingCents : Bool = false
+    @State private var editingRiels : Bool = false
+    
     var codableOrder : CodableOrder {
         CodableOrder(orderNo: orders.nextOrderNo, items: order.items, discPercentage: order.discPercentage, date: order.date, settled: false, cancelled: false)
     }
     
+    @State private var showChangeCalc : Bool = false
+    
     var body: some View {
-        VStack(alignment: .center, spacing: 10) {
-            OrderTotalLabel(total: self.order.total)
-            
-            Divider().frame(width: 300)
-            
-            ChangeCalculator(total: self.order.total)
-            
-            Divider().frame(width: 300)
-            
-            Group {
-                HStack {
-                    // Save Order
-                    Button(action: self.saveOrder) {
-                        Text("Save Order")
-                            .padding(10)
-                            .foregroundColor(.white)
+        ZStack(alignment: .top) {
+            Rectangle()
+                .fill(styles.colors[0])
+                .frame(width: 400, height: ((self.editingCents || self.editingRiels) ? 600 : 500))
+                .cornerRadius(20)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation{
+                        self.editingRiels = false
+                        self.editingCents = false
                     }
-                    .frame(width: 120)
-                    .background(styles.colors[4])
-                    .cornerRadius(20)
+                }
+            VStack(alignment: .center, spacing: 10) {
+                    OrderTotalLabel(total: self.order.total)
+                
+                    Divider().frame(width: 300)
+                    
+                ScrollView {
+                    ChangeCalculator(total: self.order.total, editingCents: self.$editingCents, editingRiels: self.$editingRiels)
+                    
+                    Divider().frame(width: 300)
+                    
+                    Group {
+                        HStack(spacing: 50) {
+                            // Save Order
+                            Button(action: self.saveOrder) {
+                                Text("Save Order")
+                                    .padding(10)
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 120)
+                            .background(styles.colors[4])
+                            .cornerRadius(20)
 
-                    Spacer().frame(width: 50)
-
-                    // Confirm Order Button
-                    Button(action: self.settleOrder) {
-                        Text("Settle Order")
-                            .padding(10)
-                            .foregroundColor(.white)
+                            // Confirm Order Button
+                            Button(action: self.settleOrder) {
+                                Text("Settle Order")
+                                    .padding(10)
+                                    .foregroundColor(.white)
+                            }
+                            .frame(width: 120)
+                            .background(Color.green)
+                            .cornerRadius(20)
+                        }
                     }
-                    .frame(width: 120)
-                    .background(Color.green)
-                    .cornerRadius(20)
+                    ReceiptPrinter(codableOrder: getCodable())
                 }
             }
-            ReceiptPrinter(codableOrder: getCodable(), justPrint: false)
-        }
-        .padding(20)
-        .background(styles.colors[0])
-        .cornerRadius(20)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
+            .padding()
         }
     }
     
@@ -80,7 +93,7 @@ struct OrderConfirmView: View {
     }
     
     func getCodable() -> CodableOrder {
-        return CodableOrder(CodableOrderDTO(orderNo: orders.nextOrderNo,items: order.items, discPercentage: order.discPercentage, date: order.date))
+        return CodableOrder(CodableOrderDTO(orderNo: orders.nextOrderNo,items: order.items, discPercentage: order.discPercentage, date: Date()))
     }
 }
 

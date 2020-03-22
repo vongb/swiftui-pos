@@ -16,7 +16,7 @@ struct ReceiptPrinter: View {
     @Environment(\.presentationMode) var presentationMode
 
     var codableOrder : CodableOrder
-    var justPrint : Bool = true
+//    var justPrint : Bool = false
     
     var body: some View {
         VStack {
@@ -27,16 +27,16 @@ struct ReceiptPrinter: View {
             Spacer().frame(height: 10)
             
             if printer.connected {
-                if justPrint {
-                    Button(action: self.printReceipt) {
-                        Text("Print Receipt")
-                            .padding(10)
-                            .foregroundColor(.white)
-                    }
-                    .disabled(!self.printer.connected)
-                    .background(styles.colors[1])
-                    .cornerRadius(20)
-                } else {
+//                if justPrint {
+//                    Button(action: {self.printReceipt(}) {
+//                        Text("Print Receipt")
+//                            .padding(10)
+//                            .foregroundColor(.white)
+//                    }
+//                    .disabled(!self.printer.connected)
+//                    .background(styles.colors[1])
+//                    .cornerRadius(20)
+//                } else {
                     HStack {
                     Button(action: self.saveAndPrint) {
                         Text("Save & Print")
@@ -58,7 +58,7 @@ struct ReceiptPrinter: View {
                     .background(styles.colors[1])
                     .cornerRadius(20)
                     }
-                }
+//                }
             } else {
                 if !self.printer.scanning {
                     Button(action: self.printer.startScan) {
@@ -85,21 +85,23 @@ struct ReceiptPrinter: View {
     }
     
     func saveAndPrint() {
-        order.settleOrder(orderNo: orders.nextOrderNo, settled: false)
-        printReceipt()
+        let settleDate : Date = Date()
+        order.settleOrder(orderNo: orders.nextOrderNo, settled: false, settleDate: settleDate)
+        printReceipt(settleDate: settleDate)
         orders.refreshSavedOrders()
         self.presentationMode.wrappedValue.dismiss()
     }
     
     func settleAndPrint() {
-        order.settleOrder(orderNo: orders.nextOrderNo, settled: true)
-        printReceipt()
+        let settleDate : Date = Date()
+        order.settleOrder(orderNo: orders.nextOrderNo, settled: true, settleDate: settleDate)
+        printReceipt(settleDate: settleDate)
         orders.refreshSavedOrders()
         self.presentationMode.wrappedValue.dismiss()
     }
     
-    func printReceipt() {
-        let receipt = Receipt(order: codableOrder)
+    func printReceipt(settleDate : Date = Date()) {
+        let receipt = Receipt(order: codableOrder, date: settleDate)
         self.printer.sendToPrinter(message: receipt.receipt())
     }
 }

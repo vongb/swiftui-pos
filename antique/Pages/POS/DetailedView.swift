@@ -19,13 +19,19 @@ struct DetailedView: View {
     @State private var upsized : Bool = false
     @State private var sugarLevel : Int = 2
     @State private var iceLevel : Int = 2
+    @State private var specialDiscounted : Bool = false
     
     private var total : Double {
+        var tot : Double
         if upsized {
-            return (item.price + item.upsizePrice) * Double(qty)
+            tot = (item.price + item.upsizePrice) * Double(qty)
         } else {
-            return Double(qty) * item.price
+            tot = Double(qty) * item.price
         }
+        if specialDiscounted {
+            tot = tot - (self.item.specialDiscount! * Double(self.qty))
+        }
+        return tot
     }
     
     
@@ -33,10 +39,15 @@ struct DetailedView: View {
         VStack(alignment: .leading, spacing: 10) {
             DetailedItemTitle(item: item, total: self.total)
             HStack() {
-                if(self.item.canUpsize) {
-                    UpsizeItem(upsized: $upsized)
-                } else {
-                    Spacer()
+                VStack(alignment: .leading, spacing: 10) {
+                    if(self.item.canUpsize) {
+                        UpsizeItem(upsized: $upsized)
+                    } else {
+                        Spacer()
+                    }
+                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
+                    Text(String(format: "$%.02f", self.item.specialDiscount!))
+                        .font(.caption)
                 }
                 
                 Spacer().frame(width: 40)

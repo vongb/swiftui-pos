@@ -12,49 +12,62 @@ struct OrderConfirmEditing: View {
     @Binding var editingOrder : Bool
     @Binding var order : CodableOrder
     
+    @State var editingCents = false
+    @State var editingRiels = false
+    
     @ObservedObject var styles = Styles()
     @EnvironmentObject var orders : Orders
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        VStack(alignment: .center, spacing: 10) {
-            OrderTotalLabel(total: self.order.total)
-            
-            Divider().frame(width: 300)
-            
-            ChangeCalculator(total: self.order.total)
-            
-            Divider().frame(width: 300)
-            
-            // Update Order
-            HStack {
-                Button(action: saveOrder) {
-                    Text("Save Order")
-                        .padding(10)
-                        .foregroundColor(.white)
-                }
-                .frame(width: 120)
-                .background(styles.colors[4])
+        ZStack(alignment: .top) {
+            Rectangle()
+                .fill(styles.colors[0])
+                .frame(width: 350, height: ((self.editingCents || self.editingRiels) ? 600 : 500))
                 .cornerRadius(20)
-                
-                Spacer()
-                
-                Button(action: settleOrder) {
-                    Text("Settle Order")
-                        .padding(10)
-                        .foregroundColor(.white)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    withAnimation{
+                        self.editingRiels = false
+                        self.editingCents = false
+                    }
                 }
-                .frame(width: 120)
-                .background(Color.green)
-                .cornerRadius(20)
+            VStack(alignment: .center, spacing: 10) {
+                Spacer().frame(height: 10)
+                OrderTotalLabel(total: self.order.total)
+                
+                Divider().frame(width: 300)
+                
+                ScrollView {
+                    ChangeCalculator(total: self.order.total, editingCents: self.$editingCents, editingRiels: self.$editingRiels)
+                    
+                    Divider().frame(width: 300)
+                    
+                    // Update Order
+                    HStack(spacing: 25) {
+                        Button(action: saveOrder) {
+                            Text("Save Order")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 120)
+                        .background(styles.colors[4])
+                        .cornerRadius(20)
+                        
+                        Button(action: settleOrder) {
+                            Text("Settle Order")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        }
+                        .frame(width: 120)
+                        .background(Color.green)
+                        .cornerRadius(20)
+                    }
+                    Spacer().frame(height: 15)
+                }
             }
         }
-        .padding(20)
-        .background(styles.colors[0])
-        .cornerRadius(20)
-        .onTapGesture {
-            UIApplication.shared.endEditing()
-        }
+        .padding()
     }
     
     func saveOrder(){

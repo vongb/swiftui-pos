@@ -13,8 +13,12 @@ import Combine
 struct ChangeCalculator: View {
     var total : Double
     
-    @State var usdReceived : String = "0"
-    @State var khrReceived : String = "0"
+    @State var centsReceived : Int = 0
+    @Binding var editingCents : Bool
+    
+    @State var khrReceived : Int = 0
+    @Binding var editingRiels : Bool
+    
     @State var usdChangeOffset : Int = 0
     
     @ObservedObject var styles = Styles()
@@ -23,19 +27,7 @@ struct ChangeCalculator: View {
     
     // Converts KHR to USD with exchange rate provided
     var totalReceivedInUSD : Double {
-        var usd : Double
-        var khr : Double
-        if !usdReceived.isEmpty {
-            usd = (usdReceived as NSString).doubleValue
-        } else {
-            usd = 0
-        }
-        if !khrReceived.isEmpty {
-            khr = (khrReceived as NSString).doubleValue
-        } else {
-            khr = 0
-        }
-        return usd + khr / EXCHANGE_RATE
+        return Double(centsReceived / 100) + (Double(khrReceived) / EXCHANGE_RATE)
     }
     
     // Calculates change to be tendered. Prioritises USD change.
@@ -53,50 +45,10 @@ struct ChangeCalculator: View {
         VStack {
             Group {
                 Text("USD Received")
-                TextField("Amount", text: $usdReceived, onEditingChanged: { (editingChanged) in
-                        if editingChanged {
-                            self.usdReceived = ""
-                        } else {
-                            if (self.usdReceived.isEmpty) {
-                                self.usdReceived = "0"
-                            }
-                        }
-                }) {
-                    UIApplication.shared.endEditing()
-                }
-                    .onReceive(Just(usdReceived)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.usdReceived = filtered
-                        }
-                    }
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .multilineTextAlignment(.center)
-                    .frame(minWidth: 100, maxWidth: 300)
+                CurrencyTextField(currencyIsRiels: false, currencyValue: self.$centsReceived, editing: self.$editingCents)
                 
                 Text("KHR Received")
-                TextField("Amount", text: $khrReceived, onEditingChanged: { (editingChanged) in
-                        if editingChanged {
-                            self.khrReceived = ""
-                        } else {
-                            if (self.khrReceived.isEmpty) {
-                                self.khrReceived = "0"
-                            }
-                        }
-                    }) {
-                        UIApplication.shared.endEditing()
-                    }
-                    .onReceive(Just(usdReceived)) { newValue in
-                        let filtered = newValue.filter { "0123456789".contains($0) }
-                        if filtered != newValue {
-                            self.khrReceived = filtered
-                        }
-                    }
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .multilineTextAlignment(.center)
-                    .frame(minWidth: 100, maxWidth: 300)
+                CurrencyTextField(currencyIsRiels: true, currencyValue: self.$khrReceived, editing: self.$editingRiels)
             }
             
             // Change
@@ -146,9 +98,9 @@ struct ChangeCalculator: View {
     }
 }
 
-//struct ChangeCalculator_Previews: PreviewProvider {
-//    static let styles = Styles()
-//    static var previews: some View {
-//        ChangeCalculator(total: 5.9).environmentObject(styles)
-//    }
-//}
+struct ChangeCalculator_Previews: PreviewProvider {
+    static let styles = Styles()
+    static var previews: some View {
+        ChangeCalculator(total: 5.9, editingCents: .constant(true), editingRiels: .constant(false)).environmentObject(styles)
+    }
+}

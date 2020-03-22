@@ -12,7 +12,6 @@ struct SettleOrUnsettleButton: View {
     @Binding var order : CodableOrder
     @EnvironmentObject var orders : Orders
     @ObservedObject var styles = Styles()
-    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         if !order.cancelled {
@@ -51,7 +50,6 @@ struct SettleOrUnsettleButton: View {
     func updateAndRefreshOrders(){
         Bundle.main.updateOrder(order: order)
         orders.refreshSavedOrders()
-        self.presentationMode.wrappedValue.dismiss()
     }
 }
 

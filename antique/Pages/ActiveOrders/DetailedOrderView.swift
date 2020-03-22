@@ -19,7 +19,7 @@ struct DetailedOrderView: View {
     @State var editingOrder : Bool = false
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 10) {
             Group {
                 HStack {
                     BlackText(text: "Order No: #\(order.orderNo)", fontSize: 40)
@@ -34,8 +34,6 @@ struct DetailedOrderView: View {
                         .cornerRadius(20)
                     }
                 }
-                
-                Spacer().frame(height: 10)
 
                 HStack {
                     Text(String(format: "Total: $%.02f", self.order.total))
@@ -52,42 +50,40 @@ struct DetailedOrderView: View {
                     
                     SettleOrUnsettleButton(order: $order)
                 }
-                
-                Spacer().frame(height: 10)
-                
+            }
+            ScrollView {
                 Text("Discounts: \(self.order.discPercentage)%")
                 
                 Text("Subtotal: \(String(format: "$%.02f", self.order.subtotal))")
-            }
-            
-            Spacer().frame(height: 10)
-            Divider()
-            Group {
-                Text("Time: \(time())")
-                Text("Date: \(date())")
-            }
-            
-            Group {
-                OrderHeader()
-                if order.items.count > 0 {
-                    ForEach(order.items) { orderItem in
-                        OrderRow(orderItem: orderItem)
-                    }
-                } else {
-                    HStack(alignment: .center) {
-                        Spacer()
-                        Text("No Items")
-                        Spacer()
-                    }
-                }
+                
                 Divider()
+                Group {
+                    Text("Time: \(time())")
+                    Text("Date: \(date())")
+                }
+                
+                Group {
+                    OrderHeader()
+                    if order.items.count > 0 {
+                        ForEach(order.items) { orderItem in
+                            OrderRow(orderItem: orderItem)
+                        }
+                    } else {
+                        HStack(alignment: .center) {
+                            Spacer()
+                            Text("No Items")
+                            Spacer()
+                        }
+                    }
+                    Divider()
+                }
+                HStack {
+                    ReceiptPrinter(codableOrder: order)
+                    Spacer()
+                    CancelOrderButton(order: $order)
+                }
+                
             }
-            HStack {
-                ReceiptPrinter(codableOrder: order)
-                Spacer()
-                CancelOrderButton(order: $order)
-            }
-            
         }
         .padding(20)
         .background(styles.colors[0])
@@ -101,10 +97,8 @@ struct DetailedOrderView: View {
     }
     
     func endEdit() {
-        if self.order.items.count == 0 {
-            self.order.discPercentage = 0
-            self.order.cancelled = true
-        }
+        self.order.cancelled = false
+        self.order.settled = false
         Bundle.main.updateOrder(order: self.order)
         self.orders.refreshSavedOrders()
     }

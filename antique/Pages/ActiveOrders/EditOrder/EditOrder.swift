@@ -17,9 +17,6 @@ struct EditOrder: View {
             MenuViewEditing(items: self.$order.items)
             OrderViewEditing(editingOrder: self.$editingOrder, order: self.$order)
         }
-        .onDisappear{
-            self.order = CodableOrder(orderNo: self.order.orderNo, items: self.order.items, discPercentage: self.order.discPercentage, date: self.order.date, settled: false, cancelled: false)
-        }
     }
     
     

@@ -57,7 +57,6 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         if peripheral.name != nil {
             // Only connect to this printer to avoid user error
             if peripheral.name == "BlueTooth Printer" {
-                stopScan()
                 self.peripheral = peripheral
                 self.peripheral.delegate = self
                 self.centralManager.connect(self.peripheral, options: nil)
@@ -93,6 +92,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
             // Printing characteristic
             if characteristic.uuid.uuidString == "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F" {
                 self.printingCharacteristic = characteristic
+                stopScan()
             }
         }
     }

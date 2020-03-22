@@ -20,13 +20,19 @@ struct DetailedViewEditing: View {
     @State private var upsized : Bool = false
     @State private var sugarLevel : Int = 2
     @State private var iceLevel : Int = 2
+    @State private var specialDiscounted : Bool = false
     
     private var total : Double {
+        var tot : Double
         if upsized {
-            return (item.price + item.upsizePrice) * Double(qty)
+            tot = (item.price + item.upsizePrice) * Double(qty)
         } else {
-            return Double(qty) * item.price
+            tot = Double(qty) * item.price
         }
+        if specialDiscounted {
+            tot = tot - (self.item.specialDiscount! * Double(self.qty))
+        }
+        return tot
     }
     
     var body: some View {
@@ -44,7 +50,11 @@ struct DetailedViewEditing: View {
                 
                 QtyUpdater(qty: $qty)
             }
-            
+            HStack {
+                SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
+                Text(String(format: "$%.02f", self.item.specialDiscount!))
+            }
+
             if(self.item.hasSugarLevels) {
                 Spacer().frame(height: 10)
                 // Sugar Levels

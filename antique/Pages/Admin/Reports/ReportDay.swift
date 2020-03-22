@@ -21,6 +21,7 @@ struct ReportDay: View {
                     BlackText(text: "Report Date", fontSize: 30)
                 }
                 Toggle("Include Whole Month", isOn: self.$orders.monthOnly)
+                Toggle("Include Cash Outs", isOn: self.$orders.includeCashOut)
                 OrderReport(orders: self.orders)
             }
         }

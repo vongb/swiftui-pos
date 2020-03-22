@@ -11,6 +11,7 @@ import SwiftUI
 struct ActiveOrdersView: View {
     @EnvironmentObject var orders : Orders
     @State private var onlyShowActive : Bool = true
+    @State private var showCashout : Bool = false
     
     var body: some View {
         NavigationView {
@@ -27,7 +28,17 @@ struct ActiveOrdersView: View {
                             Text("Active Orders Only")
                         }
                         .onTapGesture {
-                            self.onlyShowActive.toggle()
+                            withAnimation {
+                                self.onlyShowActive.toggle()
+                            }
+                        }
+                        Toggle(isOn: $showCashout) {
+                            Text("Show Cash Outs")
+                        }
+                        .onTapGesture {
+                            withAnimation {
+                                self.showCashout.toggle()
+                            }
                         }
                         if onlyShowActive {
                             ForEach(orders.savedOrders.filter{!$0.settled && !$0.cancelled} ) { order in
@@ -36,6 +47,14 @@ struct ActiveOrdersView: View {
                         } else {
                             ForEach(orders.savedOrders) { order in
                                 SavedOrderRow(order: order, orderNo: order.orderNo)
+                            }
+                        }
+                        if showCashout {
+                            Text("Cash Outs")
+                                .bold()
+                                .transition(.slide)
+                            ForEach(orders.cashOuts) { cashout in
+                                CashOutRow(cashout: cashout)
                             }
                         }
                     }

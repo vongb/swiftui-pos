@@ -24,7 +24,7 @@ struct Receipt {
     
     // Order to print
     let order : CodableOrder
-    
+    let date : Date
     // Title Section
     // Name of Cafe (Centred)
     // Date (Left)
@@ -36,7 +36,7 @@ struct Receipt {
         dateFormatter.dateFormat = "dd MMM, yyyy"
         let date = "Date: " + dateFormatter.string(from: order.date) + "\n"
         dateFormatter.dateFormat = "hh:mm:ss"
-        let time = "Time: " + dateFormatter.string(from: order.date) + "\n"
+        let time = "Time: " + dateFormatter.string(from: self.date) + "\n"
         return title + orderNo + date + time
     }
     
