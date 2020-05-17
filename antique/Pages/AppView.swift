@@ -21,14 +21,17 @@ struct AppView: View {
         TabView {
             POSView()
                 .tabItem {
+                    Image(systemName: "dollarsign.circle")
                     Text("Sale")
                 }
             ActiveOrdersView()
                 .tabItem{
-                    Text("Active Orders")
+                    Image(systemName: "flag")
+                    Text("Manage")
                 }
             AdminView()
                 .tabItem {
+                    Image(systemName: "person.crop.circle")
                     Text("Admin")
                 }
         }

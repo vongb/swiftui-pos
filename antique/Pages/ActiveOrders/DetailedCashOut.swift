@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct DetailedCashOut : View {
-    @EnvironmentObject var menu : Menu
-    @EnvironmentObject var orders : Orders
     let styles = Styles()
     @Environment(\.presentationMode) var presentationMode
+    
+    @EnvironmentObject var cashouts : Cashouts
 
-    let cashout : CashOut
+    var cashout : CodableCashout
     @State private var title : String = ""
     @State private var price : Int = 0
     @State private var desc : String = ""
@@ -22,6 +22,10 @@ struct DetailedCashOut : View {
     @State var editingCashout : Bool = false
     @State var priceInRiels : Bool = false
     @State var editingPrice : Bool = false
+    
+    @State private var prevTitle : String = ""
+    @State private var prevPrice : Int = 0
+    @State private var prevDesc : String = ""
     
     var priceDisplay : Double {
         if priceInRiels {
@@ -31,7 +35,7 @@ struct DetailedCashOut : View {
         }
     }
     
-    init(_ cashOut: CashOut) {
+    init(_ cashOut: CodableCashout) {
         self.cashout = cashOut
         self.priceInRiels = false
         self.editingCashout = false
@@ -40,9 +44,10 @@ struct DetailedCashOut : View {
     
     var body: some View {
         VStack(alignment: .leading, spacing : 10) {
-            Text("Cash Out")
+            Text((editingCashout ? "Editing Cash Out" : "Viewing Cash Out"))
                 .font(.largeTitle)
                 .bold()
+            Divider()
             HStack {
                 if editingCashout {
                     TextField("Title", text: self.$title)
@@ -50,21 +55,18 @@ struct DetailedCashOut : View {
                         .font(.largeTitle)
                         .transition(.move(edge: .leading))
                 } else {
-                    Text("\(self.title)")
+                    Text("Title: \(self.title)")
                         .font(.headline)
                         .bold()
                         .transition(.move(edge: .leading))
                 }
                 Spacer()
                 if !editingCashout {
-                    Button(action: toggle) {
-                        Text("Edit")
-                            .foregroundColor(.white)
-                            .padding()
+                    Button(action: edit) {
+                        Image(systemName: "square.and.pencil")
+                            .font(.largeTitle)
                     }
-                    .background(self.styles.colors[2])
-                    .cornerRadius(20)
-                    .transition(.scale)
+                    .padding()
                 } else {
                     HStack(spacing: 10) {
                         Button(action: update) {
@@ -76,10 +78,10 @@ struct DetailedCashOut : View {
                         .cornerRadius(20)
                         .transition(.scale)
                         
-                        Button(action: toggle) {
+                        Button(action: cancel) {
                             Text("Cancel")
-                                    .padding()
-                                    .foregroundColor(.white)
+                                .padding()
+                                .foregroundColor(.white)
                         }
                         .background(Color.red)
                         .cornerRadius(20)
@@ -94,25 +96,18 @@ struct DetailedCashOut : View {
                         .frame(height: (editingPrice ? 300 : 30))
                     Toggle("Price in Riels?", isOn: self.$priceInRiels.animation())
                 }
+                TextField("Description", text: self.$desc)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .transition(.scale)
             } else {
                 Text(String(format: "Total: $%.02f", self.priceDisplay))
-                    .modifier(CashOutModifier())
-            }
-            
-            if self.editingCashout {
-                TextField("Description", text: self.$desc)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .transition(.scale)
-            } else {
-                Text(self.desc)
+                    .bold()
+                Text("Description: \(self.desc)")
                     .transition(.scale)
             }
             Spacer()
         }
         .padding()
-        .background(styles.colors[0])
-        .cornerRadius(20)
-        .frame(width: 600)
         .onAppear(perform: setUp)
     }
     
@@ -120,14 +115,17 @@ struct DetailedCashOut : View {
         self.title = self.cashout.title
         self.price = Int(self.cashout.priceInUSD * 100)
         self.desc = self.cashout.description
+        self.prevTitle = self.title
+        self.prevPrice = self.price
+        self.prevDesc = self.desc
     }
     
     func update() {
         let priceInUSD = (self.priceInRiels ? Int(Double(self.price / 4000) * 100) : self.price)
-        let editedCashOut = CashOut(title: self.title, description: self.desc, priceInCents: priceInUSD, date: self.cashout.date)
-        Bundle.main.updateCashOut(editedCashOut)
-        self.orders.refreshSavedOrders()
-        toggle()
+        let editedCashOut = CodableCashout(title: self.title, description: self.desc, priceInCents: priceInUSD, date: self.cashout.date)
+        Bundle.main.updateCashout(editedCashOut)
+        cashouts.refreshCashouts()
+        endEdit()
     }
     
     func date() -> String {
@@ -144,9 +142,26 @@ struct DetailedCashOut : View {
         return formatter.string(from: self.cashout.date)
     }
     
-    func toggle() {
+    func edit() {
+        prevTitle = self.title
+        prevPrice = self.price
+        prevDesc = self.desc
         withAnimation {
-            editingCashout.toggle()
+            editingCashout = true
+        }
+    }
+    
+    func cancel() {
+        self.title = prevTitle
+        self.price = self.prevPrice
+        self.desc = self.prevDesc
+        endEdit()
+    }
+    
+    func endEdit() {
+        UIApplication.shared.endEditing() // Call to dismiss keyboard
+        withAnimation {
+            editingCashout = false
         }
     }
     

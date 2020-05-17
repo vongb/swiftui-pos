@@ -30,7 +30,7 @@ struct ItemEditor: View {
     @State private var editingUpsizePrice : Bool = false
     
     private var canMakeChanges : Bool {
-        return !name.isEmpty && priceInCents > 0
+        return !name.isEmpty
     }
     
     @State private var menuSectionSelection : Int = 0 {
@@ -118,8 +118,8 @@ struct ItemEditor: View {
                         VStack(alignment: .leading) {
                             Text("Price:")
                             CurrencyTextField(currencyIsRiels: false, currencyValue: self.$priceInCents, editing: self.$editingPrice)
-                            Text("Special Discount:")
-                            CurrencyTextField(currencyIsRiels: false, currencyValue: self.$specialDiscountInCents, editing: self.$editingSpecialDiscPrice)
+//                            Text("Special Discount:")
+//                            CurrencyTextField(currencyIsRiels: false, currencyValue: self.$specialDiscountInCents, editing: self.$editingSpecialDiscPrice)
                             if canUpsize {
                                 Text("Upsize Price")
                                     .transition(.opacity)
@@ -166,7 +166,7 @@ struct ItemEditor: View {
                         }
                     }
                     Button(action: self.makeChanges) {
-                        Text(self.title)
+                        Text("Save Changes")
                             .foregroundColor(.white)
                             .padding()
                     }

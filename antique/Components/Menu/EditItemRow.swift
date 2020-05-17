@@ -19,20 +19,24 @@ struct EditItemRow: View {
     @Binding var itemForEdit : MenuItem
     @Binding var menuSectionSelection : Int
     var body: some View {
-        HStack() {
-            Text(item.name)
-            Spacer()
-            Text(String(format: "$%.02f", item.price))
-                .foregroundColor(Color(red:0.31, green:0.85, blue:0.56))
+        Button(action: setSelectedItem) {
+            HStack(alignment: .center) {
+                Text(item.name)
+                Spacer()
+                Text(String(format: "$%.02f", item.price))
+                    .foregroundColor(Color(red:0.31, green:0.85, blue:0.56))
+                Image(systemName: "square.and.pencil")
+                    .padding(.bottom, 5)
+            }
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            self.editItemID = self.id
-            self.itemForEdit = self.item
-            self.editingItem = true
-            self.activeSheet = .editItem
-            self.menuSectionSelection = self.sectionSelection
-        }
+    }
+    
+    func setSelectedItem() {
+        self.editItemID = self.id
+        self.itemForEdit = self.item
+        self.editingItem = true
+        self.activeSheet = .editItem
+        self.menuSectionSelection = self.sectionSelection
     }
 }
 

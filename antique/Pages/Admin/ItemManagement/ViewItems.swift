@@ -18,26 +18,23 @@ struct ViewItems: View {
     @EnvironmentObject var menu : Menu
     
     var body: some View {
-//        VStack {
-            NavigationView {
-                List {
-                    ForEach(0..<menu.items.count) { index in
-                        Section(header: Text(self.menu.items[index].name)) { // section
-                            ForEach(self.menu.items[index].items) { item in
-                                EditItemRow(id: item.id.uuidString,item: item, sectionSelection: index, editItemID: self.$editItemID, editingItem: self.$editingItem, activeSheet: self.$activeSheet, itemForEdit: self.$itemForEdit, menuSectionSelection: self.$menuSectionSelection)
-                            }
-                            .onMove{ (indexSet, destination) in
-                                self.move(from: indexSet, to: destination, section: index)
-                            }
+        NavigationView {
+            List {
+                ForEach(0..<menu.items.count) { index in
+                    Section(header: Text(self.menu.items[index].name)) { // section
+                        ForEach(self.menu.items[index].items) { item in
+                            EditItemRow(id: item.id.uuidString,item: item, sectionSelection: index, editItemID: self.$editItemID, editingItem: self.$editingItem, activeSheet: self.$activeSheet, itemForEdit: self.$itemForEdit, menuSectionSelection: self.$menuSectionSelection)
+                        }
+                        .onMove{ (indexSet, destination) in
+                            self.move(from: indexSet, to: destination, section: index)
                         }
                     }
                 }
-                .navigationBarTitle(Text("Menu"))
-                .navigationBarItems(trailing: EditButton())
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-//        }
-//        .padding()
+            .navigationBarTitle(Text("Menu"))
+            .navigationBarItems(trailing: EditButton())
+        }
+        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func move(from source: IndexSet, to destination: Int, section: Int) {

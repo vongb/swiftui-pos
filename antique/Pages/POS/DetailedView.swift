@@ -42,10 +42,8 @@ struct DetailedView: View {
                 VStack(alignment: .leading, spacing: 10) {
                     if(self.item.canUpsize) {
                         UpsizeItem(upsized: $upsized)
-                    } else {
-                        Spacer()
                     }
-                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
+//                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
                     Text(String(format: "$%.02f", self.item.specialDiscount!))
                         .font(.caption)
                 }

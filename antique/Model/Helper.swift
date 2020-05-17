@@ -132,7 +132,7 @@ extension Bundle {
         }
     }
     
-    func readCashout(date: Date = Date()) -> [CashOut] {
+    func readCashout(date: Date = Date()) -> [CodableCashout] {
         do {
             let format = DateFormatter()
             format.dateFormat = "yyyy/MMM/dd"
@@ -146,20 +146,20 @@ extension Bundle {
             let cashoutFolderURL = directory.appendingPathComponent(day).appendingPathComponent("cashout")
             
             let cashoutFiles = try fileManager.contentsOfDirectory(atPath: cashoutFolderURL.path)
-            var cashouts = [CashOut]()
+            var cashouts = [CodableCashout]()
             for cashoutFile in cashoutFiles {
                     let data = try Data(contentsOf: cashoutFolderURL.appendingPathComponent(cashoutFile))
-                    let cashout = try JSONDecoder().decode(CashOut.self, from: data)
+                    let cashout = try JSONDecoder().decode(CodableCashout.self, from: data)
                     cashouts.append(cashout)
             }
             return cashouts.sorted(by: {$0.date < $1.date})
         } catch {
             print(error)
-            return [CashOut]()
+            return [CodableCashout]()
         }
     }
     
-    func readMonthCashouts(cashOutDate: Date = Date()) -> [CashOut] {
+    func readMonthCashouts(cashOutDate: Date = Date()) -> [CodableCashout] {
         do {
             let format = DateFormatter()
             format.dateFormat = "yyyy/MMM"
@@ -174,7 +174,7 @@ extension Bundle {
             
             let days = try fileManager.contentsOfDirectory(atPath: monthFolderURL.path)
             
-            var monthCashouts = [CashOut]()
+            var monthCashouts = [CodableCashout]()
             
             var date = DateComponents()
             format.dateFormat = "yyyy"
@@ -192,12 +192,12 @@ extension Bundle {
             return monthCashouts
         } catch {
             print(error)
-            return [CashOut]()
+            return [CodableCashout]()
         }
     }
     
     // Creates a cash out file
-    func cashOut(_ cashOut: CashOut) {
+    func cashOut(_ cashOut: CodableCashout) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         
@@ -257,7 +257,7 @@ extension Bundle {
         }
     }
     
-    func updateCashOut(_ cashout: CashOut) {
+    func updateCashout(_ cashout: CodableCashout) {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         

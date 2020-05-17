@@ -18,6 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var printer = BLEConnection()
     var orders = Orders()
     var menu = Menu()
+    var cashouts = Cashouts()
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -35,6 +36,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             .environmentObject(printer)
             .environmentObject(orders)
             .environmentObject(menu)
+            .environmentObject(cashouts)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

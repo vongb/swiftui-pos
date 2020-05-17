@@ -21,10 +21,9 @@ struct OrderSummary: View {
 
             HStack {
                 Text("Discount")
-                
-                Toggle(isOn: self.$isRiels) {
-                    Text("Riels")
-                }
+//                Toggle(isOn: self.$isRiels) {
+//                    Text("Riels")
+//                }
                 Spacer()
                 
                 // Decrement Discount

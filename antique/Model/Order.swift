@@ -52,6 +52,7 @@ class Order : ObservableObject {
     }
     
     func incDiscount(){
+        
         if(discPercentage < 100) {
             discPercentage += 5
         }

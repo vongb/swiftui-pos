@@ -9,14 +9,14 @@ import LocalAuthentication
 import SwiftUI
 
 enum ActiveSheet {
-    case report, addItem, editItem
+    case incomeReport, cashoutReport, addItem, editItem
 }
 
 struct AdminView: View {
     @State private var isUnlocked = false
     
     @State private var showSheet = false
-    @State private var activeSheet : ActiveSheet = .report
+    @State private var activeSheet : ActiveSheet = .incomeReport
     
     @State private var editItemID : String = ""
     @State private var itemForEdit : MenuItem = MenuItem(name: "", price: 0)
@@ -25,6 +25,7 @@ struct AdminView: View {
     @State private var reset = false
     
     @EnvironmentObject var menu : Menu
+    @EnvironmentObject var cashouts : Cashouts
     private var styles = Styles()
     
     var body: some View {
@@ -43,7 +44,7 @@ struct AdminView: View {
                 HStack {
                     Button(action: {
                         self.showSheet = true
-                        self.activeSheet = .report
+                        self.activeSheet = .incomeReport
                     }) {
                         Text("Reports")
                             .foregroundColor(.white)
@@ -52,7 +53,18 @@ struct AdminView: View {
                     }
                     .background(Color.green)
                     .cornerRadius(10)
-                    Spacer()
+                    
+                    Button(action: {
+                        self.showSheet = true
+                        self.activeSheet = .cashoutReport
+                    }) {
+                        Text("Cashouts")
+                            .foregroundColor(.white)
+                            .font(.body)
+                            .padding()
+                    }
+                    .background(styles.colors[4])
+                    .cornerRadius(10)
                 }
                 
                 HStack {
@@ -90,12 +102,16 @@ struct AdminView: View {
         }
         .onAppear(perform: authenticate)
         .sheet(isPresented: self.$showSheet) {
-            if self.activeSheet == .report {
+            if self.activeSheet == .incomeReport {
                 ReportDay()
             } else if self.activeSheet == .addItem {
-                ItemEditor().environmentObject(self.menu)
+                ItemEditor()
+                    .environmentObject(self.menu)
             } else if self.activeSheet == .editItem {
                 ItemEditor(id: self.editItemID, item: self.itemForEdit, sectionSelection: self.sectionSelection).environmentObject(self.menu)
+            } else if self.activeSheet == .cashoutReport {
+                CashoutReport()
+                    .environmentObject(self.cashouts)
             }
         }
         .alert(isPresented: self.$reset) {

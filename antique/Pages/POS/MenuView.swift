@@ -11,6 +11,7 @@ import SwiftUI
 struct MenuView: View {
     @EnvironmentObject var menu : Menu
     @EnvironmentObject var orders : Orders
+    @EnvironmentObject var cashouts : Cashouts
     @State private var showingCashout : Bool = false
     var body: some View {
         // Displays menu in sections
@@ -40,7 +41,7 @@ struct MenuView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: self.$showingCashout) {
-            CashOutView().environmentObject(self.orders)
+            CashOutView().environmentObject(self.cashouts)
         }
     }
 }

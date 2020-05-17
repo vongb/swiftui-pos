@@ -11,7 +11,7 @@ import SwiftUI
 struct CashOutRow: View {
     @ObservedObject var styles = Styles()
     
-    let cashout : CashOut
+    let cashout : CodableCashout
     
     var body: some View {
         NavigationLink(destination: DetailedCashOut(self.cashout)) {

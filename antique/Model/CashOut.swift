@@ -1,48 +1,57 @@
+////
+////  Cashout.swift
+////  antique
+////
+////  Created by Vong Beng on 8/5/20.
+////  Copyright © 2020 Vong Beng. All rights reserved.
+////
 //
-//  CashOut.swift
-//  antique
+//import Foundation
 //
-//  Created by Vong Beng on 8/3/20.
-//  Copyright © 2020 Vong Beng. All rights reserved.
+//class Cashout : ObservableObject {
+//    @Published var title : String = ""
+//    @Published var description : String = ""
+//    @Published var price : Int = 0
+//    @Published var date : Date = Date()
+//    @Published var isPriceRiels : Bool = false
+//    var priceDisplay : String {
+//        let price : Double
+//        if self.isPriceRiels {
+//            price = Double(self.price) / 4000
+//            return String(format: "$%.02f", price)
+//        } else {
+//            price = Double(self.price) / 100
+//        }
+//        return String(format: "$%.02f", price)
+//    }
+//    init() {
+//        self.title = "No Title"
+//        self.price = 0
+//        self.description = "No Description"
+//        self.date = Date()
+//    }
 //
-
-import Foundation
-
-struct CashOut : Codable, Identifiable {
-    let id = UUID()
-    var title : String = ""
-    var description : String = ""
-    var priceInUSD : Double = 0.0
-    var date : Date = Date()
-    
-    init() {
-        self.title = ""
-        self.description = ""
-        self.priceInUSD = 0.0
-    }
-    
-    init(title: String, description: String, priceInRiels: Int) {
-        self.title = title
-        self.description = description
-        self.priceInUSD = Double(priceInRiels) / 4000
-    }
-    
-    init(title: String, description: String, priceInCents: Int) {
-        self.title = title
-        self.description = description
-        self.priceInUSD = Double(priceInCents) / 100.0
-    }
-    
-    init(title: String, description: String, priceInCents: Int, date: Date) {
-        self.title = title
-        self.description = description
-        self.priceInUSD = Double(priceInCents) / 100.0
-        self.date = date
-    }
-    
-    mutating func cashOut() {
-        self.date = Date()
-        Bundle.main.cashOut(self)
-    }
-    
-}
+//    init(_ cashout: CodableCashout) {
+//        self.title = cashout.title
+//        self.description = cashout.description
+//        self.price = Int(cashout.priceInUSD * 100)
+//        self.date = cashout.date
+//        self.isPriceRiels = false
+//    }
+//
+//    func updateCashout(_ cashout: CodableCashout) {
+//        self.title = cashout.title
+//        self.description = cashout.description
+//        self.price = Int(cashout.priceInUSD * 100)
+//        self.date = cashout.date
+//        self.isPriceRiels = false
+//    }
+//
+//    func getCodable() -> CodableCashout {
+//        if isPriceRiels {
+//            return CodableCashout(title: self.title, description: self.description, priceInRiels: price)
+//        } else {
+//            return CodableCashout(title: self.title, description: self.description, priceInCents: price)
+//        }
+//    }
+//}

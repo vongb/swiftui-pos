@@ -38,8 +38,12 @@
 		E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */; };
 		E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */; };
 		E35C20E423D3223700577853 /* CancelOrderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35C20E323D3223700577853 /* CancelOrderButton.swift */; };
+		E36831582462B6EA000FF793 /* CashoutReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831572462B6EA000FF793 /* CashoutReport.swift */; };
+		E368315A2462B8A7000FF793 /* Cashouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831592462B8A7000FF793 /* Cashouts.swift */; };
+		E368316224653A95000FF793 /* Cashout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E368316124653A95000FF793 /* Cashout.swift */; };
+		E368316424665643000FF793 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = E368316324665643000FF793 /* Report.swift */; };
 		E37BAC542414AF0B002CB335 /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC532414AF0B002CB335 /* CashOutView.swift */; };
-		E37BAC562414BC9F002CB335 /* CashOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC552414BC9F002CB335 /* CashOut.swift */; };
+		E37BAC562414BC9F002CB335 /* CodableCashout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC552414BC9F002CB335 /* CodableCashout.swift */; };
 		E37BAC5824239C05002CB335 /* CashOutRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC5724239C05002CB335 /* CashOutRow.swift */; };
 		E37BAC5A24239C3E002CB335 /* DetailedCashOut.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC5924239C3E002CB335 /* DetailedCashOut.swift */; };
 		E37BAC5C2424B1EB002CB335 /* SpecialDiscountItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC5B2424B1EB002CB335 /* SpecialDiscountItem.swift */; };
@@ -115,8 +119,12 @@
 		E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRowOrderEditing.swift; sourceTree = "<group>"; };
 		E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewEditing.swift; sourceTree = "<group>"; };
 		E35C20E323D3223700577853 /* CancelOrderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrderButton.swift; sourceTree = "<group>"; };
+		E36831572462B6EA000FF793 /* CashoutReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashoutReport.swift; sourceTree = "<group>"; };
+		E36831592462B8A7000FF793 /* Cashouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cashouts.swift; sourceTree = "<group>"; };
+		E368316124653A95000FF793 /* Cashout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cashout.swift; sourceTree = "<group>"; };
+		E368316324665643000FF793 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		E37BAC532414AF0B002CB335 /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
-		E37BAC552414BC9F002CB335 /* CashOut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOut.swift; sourceTree = "<group>"; };
+		E37BAC552414BC9F002CB335 /* CodableCashout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableCashout.swift; sourceTree = "<group>"; };
 		E37BAC5724239C05002CB335 /* CashOutRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CashOutRow.swift; sourceTree = "<group>"; };
 		E37BAC5924239C3E002CB335 /* DetailedCashOut.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedCashOut.swift; sourceTree = "<group>"; };
 		E37BAC5B2424B1EB002CB335 /* SpecialDiscountItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialDiscountItem.swift; sourceTree = "<group>"; };
@@ -219,11 +227,14 @@
 				E3024A3323A8CFAD009E3654 /* Helper.swift */,
 				E3024A3723A8D0E6009E3654 /* Menu.swift */,
 				E39731E023BE488A00A1D9EF /* MenuItem.swift */,
-				E37BAC552414BC9F002CB335 /* CashOut.swift */,
 				E3024A3923A8D0F2009E3654 /* Order.swift */,
 				E320CE0723D7FEBF0045A25C /* CodableOrder.swift */,
 				E3024A4523B13774009E3654 /* OrderItem.swift */,
 				E30BABC023CB085E0086E3D6 /* Orders.swift */,
+				E368316124653A95000FF793 /* Cashout.swift */,
+				E37BAC552414BC9F002CB335 /* CodableCashout.swift */,
+				E36831592462B8A7000FF793 /* Cashouts.swift */,
+				E368316324665643000FF793 /* Report.swift */,
 				E3A9768223CB921500C66344 /* ItemOrdered.swift */,
 				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
 				E39731EB23C6F1EF00A1D9EF /* Receipt.swift */,
@@ -313,6 +324,7 @@
 			isa = PBXGroup;
 			children = (
 				E3A9768A23CC2CBC00C66344 /* ReportDay.swift */,
+				E36831572462B6EA000FF793 /* CashoutReport.swift */,
 			);
 			path = Reports;
 			sourceTree = "<group>";
@@ -491,7 +503,7 @@
 				E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */,
 				E3CB375623D343A800BC3326 /* OrderConfirmEditing.swift in Sources */,
 				E37BAC5C2424B1EB002CB335 /* SpecialDiscountItem.swift in Sources */,
-				E37BAC562414BC9F002CB335 /* CashOut.swift in Sources */,
+				E37BAC562414BC9F002CB335 /* CodableCashout.swift in Sources */,
 				E320CE0B23D9A1A20045A25C /* OrderReport.swift in Sources */,
 				E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */,
 				E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */,
@@ -516,6 +528,7 @@
 				E32A488023D3542900B08D14 /* OrderConfirmEditingButton.swift in Sources */,
 				E37BAC5A24239C3E002CB335 /* DetailedCashOut.swift in Sources */,
 				E39731EC23C6F1EF00A1D9EF /* Receipt.swift in Sources */,
+				E368315A2462B8A7000FF793 /* Cashouts.swift in Sources */,
 				E30BABBF23CAE0E40086E3D6 /* ReceiptPrinter.swift in Sources */,
 				E3CB375223D33EC300BC3326 /* OrderStatusLabel.swift in Sources */,
 				E3024A2423A8CC4D009E3654 /* POSView.swift in Sources */,
@@ -527,9 +540,12 @@
 				E31EBE3D23CAC6BC00E03500 /* DetailedOrderView.swift in Sources */,
 				E3024A1F23A8CC4D009E3654 /* SceneDelegate.swift in Sources */,
 				E320CE0F23D9A6BD0045A25C /* MonthPicker.swift in Sources */,
+				E368316424665643000FF793 /* Report.swift in Sources */,
 				E3CB376623D34A9500BC3326 /* SugarSelector.swift in Sources */,
+				E36831582462B6EA000FF793 /* CashoutReport.swift in Sources */,
 				E3024A3A23A8D0F2009E3654 /* Order.swift in Sources */,
 				E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */,
+				E368316224653A95000FF793 /* Cashout.swift in Sources */,
 				E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */,
 				E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */,
 				E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */,

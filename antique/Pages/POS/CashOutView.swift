@@ -15,7 +15,7 @@ struct CashOutView: View {
     @State private var editingPrice : Bool = true
     @State private var priceIsRiels : Bool = false
     
-    @EnvironmentObject var orders : Orders
+    @EnvironmentObject var cashouts : Cashouts
     @Environment(\.presentationMode) var presentationMode
     
     private var styles = Styles()
@@ -54,7 +54,8 @@ struct CashOutView: View {
                             .padding()
                             .foregroundColor(.white)
                     }
-                    .background(self.styles.colors[1])
+                    .disabled(self.title.isEmpty)
+                    .background(self.title.isEmpty ? Color.gray : self.styles.colors[1])
                     .cornerRadius(20)
                     Spacer()
                 }
@@ -68,14 +69,14 @@ struct CashOutView: View {
     func cashOut() {
         Bundle.main.cashOut(createCashOut())
         self.presentationMode.wrappedValue.dismiss()
-        self.orders.refreshSavedOrders()
+        self.cashouts.refreshCashouts()
     }
     
-    func createCashOut() -> CashOut {
+    func createCashOut() -> CodableCashout {
         if priceIsRiels {
-            return CashOut(title: self.title, description: self.desc, priceInRiels: self.price)
+            return CodableCashout(title: self.title, description: self.desc, priceInRiels: self.price)
         } else {
-            return CashOut(title: self.title, description: self.desc, priceInCents: self.price)
+            return CodableCashout(title: self.title, description: self.desc, priceInCents: self.price)
         }
     }
 }

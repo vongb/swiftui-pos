@@ -22,12 +22,10 @@ struct DeleteItemButton: View {
             }
             HStack(spacing: 10) {
                 Button(action: delete) {
-                    Text("Delete")
-                        .foregroundColor(.white)
-                        .padding()
+                    Image(systemName: "trash.circle.fill")
+                        .foregroundColor(.red)
+                        .font(.largeTitle)
                 }
-                .background(Color.red)
-                .cornerRadius(10)
                 
                 if attemptingDelete {
                     Button(action: toggle) {

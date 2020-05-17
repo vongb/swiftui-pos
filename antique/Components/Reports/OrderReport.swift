@@ -10,29 +10,42 @@ import SwiftUI
 
 struct OrderReport: View {
     @ObservedObject var orders : Orders = Orders()
+    @ObservedObject var cashouts : Cashouts = Cashouts()
     @ObservedObject var styles = Styles()
+    @Binding var includeCashOut : Bool
     var label : String {
-        if self.orders.monthOnly {
+        if self.orders.includeWholeMonth {
             return "Monthly Total: "
         } else {
             return "Daily Total: "
         }
     }
+    
+    var total : Double {
+        if includeCashOut {
+            return orders.total - cashouts.total
+        } else {
+            return orders.total
+        }
+    }
+    
     var body: some View {
-        VStack(spacing: 10) {
-            Text("Income Total: \(String(format: "$%.02f", self.orders.incomeTotal))")
+        VStack(alignment: .leading ,spacing: 10) {
+            Text("Income Total: \(String(format: "$%.02f", self.orders.total))")
                 .modifier(SubtotalModifier())
-            if self.orders.includeCashOut {
-                Text("Cashout Total: \(String(format: "$%.02f", self.orders.cashoutTotal))")
+            if self.includeCashOut {
+                Text("Cashout Total: \(String(format: "$%.02f", self.cashouts.total))")
                     .modifier(CashOutModifier())
             }
             
-            Text("\(self.label) \(String(format: "$%.02f", self.orders.total))")
-                    .modifier(GrandTotalModifier(total: self.orders.total))
+            Text("\(self.label) \(String(format: "$%.02f", self.total))")
+                    .modifier(GrandTotalModifier(total: self.total))
             
             Divider()
             if self.orders.items.count != 0 {
                 List {
+                    Text("Most Popular Menu Items")
+                        .font(.headline)
                     ReportItemHeader()
                     ForEach(self.orders.items.indices, id: \.self) { index in
                         HStack {
@@ -98,8 +111,8 @@ struct CashOutModifier : ViewModifier {
 }
 
 
-struct OrderReport_Previews: PreviewProvider {
-    static var previews: some View {
-        OrderReport()
-    }
-}
+//struct OrderReport_Previews: PreviewProvider {
+//    static var previews: some View {
+//        OrderReport()
+//    }
+//}
