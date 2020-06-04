@@ -65,19 +65,16 @@ struct CodableOrder : Codable, Identifiable {
     }
     
     // Checks for duplicate items before adding to the ordered items array
-    mutating func add(item: MenuItem, qty : Int, sugarLevel : String, iceLevel : String, upsized: Bool) {
-        for (index, orderItem) in items.enumerated() {
-            if(item.name == orderItem.item.name) {
-                // Checks properties of the items
-                if(orderItem.iceLevel == iceLevel && orderItem.sugarLevel == sugarLevel && orderItem.upsized == upsized) {
-                    items[index].qty += qty
-                    return
-                }
+    mutating func add(_ newOrderItem : OrderItem) {
+        for (index, orderedItem) in items.enumerated() {
+            if OrderItem.hasSameAttributes(newOrderItem, orderedItem) {
+                items[index].qty = items[index].qty + newOrderItem.qty
+                let item = items.remove(at: index)
+                items.append(item)
+                return
             }
         }
-        items.append(
-            OrderItem(item: item, qty: qty, upsized: upsized, sugarLevel: sugarLevel, iceLevel: iceLevel)
-        )
+        self.items.append(newOrderItem)
     }
     
     // Will remove in future iterations for text input instead

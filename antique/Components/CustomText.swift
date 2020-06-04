@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct BlackText: View {
-    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body: some View {
@@ -18,13 +17,12 @@ struct BlackText: View {
             .padding(5)
             .font(.system(size: fontSize))
             .foregroundColor(.white)
-            .background(styles.colors[3])
+            .background(Styles.getColor(.darkGrey))
             .cornerRadius(10)
     }
 }
 
 struct DarkBlueText : View {
-    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -33,13 +31,12 @@ struct DarkBlueText : View {
             .padding(5)
             .font(.system(size: fontSize))
             .foregroundColor(.white)
-            .background(styles.colors[2])
+            .background(Styles.getColor(.darkCyan))
             .cornerRadius(10)
     }
 }
 
 struct MaroonText : View {
-    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -48,13 +45,12 @@ struct MaroonText : View {
             .padding(5)
             .font(.system(size: fontSize))
             .foregroundColor(.white)
-            .background(styles.colors[4])
+            .background(Styles.getColor(.lightRed))
             .cornerRadius(10)
     }
 }
 
 struct RedText : View {
-    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {
@@ -69,7 +65,6 @@ struct RedText : View {
 }
 
 struct GreenText : View {
-    @ObservedObject var styles = Styles()
     @State var text : String
     @State var fontSize : CGFloat = 20
     var body : some View {

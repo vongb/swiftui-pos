@@ -10,7 +10,6 @@ import SwiftUI
 
 // Sugar Selector, different levels taken from Menu class
 struct SugarSelector: View {
-    @ObservedObject var styles = Styles()
     @EnvironmentObject var menu : Menu
     @Binding var sugarLevel : Int
     
@@ -18,7 +17,7 @@ struct SugarSelector: View {
         Section(header:
             Text("Sugar Level")
                 .padding(5)
-                .foregroundColor(styles.colors[2])
+                .foregroundColor(Styles.getColor(.darkCyan))
         ) {
             Picker("Levels:", selection: $sugarLevel) {
                 ForEach(0 ..< self.menu.sugarLevels.count){

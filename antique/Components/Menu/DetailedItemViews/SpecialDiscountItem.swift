@@ -10,14 +10,13 @@ import SwiftUI
 
 struct SpecialDiscountItem: View {
     @Binding var specialDiscounted : Bool
-    @ObservedObject var styles = Styles()
     
     var body: some View {
         Toggle(isOn: self.$specialDiscounted) {
             Text("Special Discount")
             .font(.system(size: 20))
             .fontWeight(.bold)
-            .foregroundColor(styles.colors[2])
+            .foregroundColor(Styles.getColor(.darkCyan))
         }
         .padding(0)    }
 }

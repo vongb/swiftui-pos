@@ -15,7 +15,7 @@ struct MenuItem: Codable, Equatable, Identifiable {
     var canUpsize : Bool = true
     var upsizePrice : Double = 0.0
     
-    var specialDiscount : Double? = 0.5
+    var specialDiscount : Double = 0.5
     
     init() {
         self.name = "No Item Name"
@@ -27,17 +27,6 @@ struct MenuItem: Codable, Equatable, Identifiable {
         self.canUpsize = true
         self.specialDiscount = 0.5
     }
-    
-//    init(name: String, price: Double) {
-//        self.name = name
-//        self.price = price
-//        self.hasSugarLevels = true
-//        self.iceLevelIndex = 0
-//        self.hasIceLevels = true
-//        self.upsizePrice = 0.5
-//        self.canUpsize = true
-//        self.specialDiscount = 0.5
-//    }
     
     init(name: String = "No Name", price: Double = 0.5, hasSugarLevels: Bool = true, iceLevelIndex: Int = 0, hasIceLevels : Bool = true, canUpsize: Bool = true, upsizePrice : Double = 0.5, specialDiscount: Double = 0.5) {
         self.name = name
@@ -133,56 +122,3 @@ struct MenuItem: Codable, Equatable, Identifiable {
         case specialDiscount
     }
 }
-
-//struct MenuItemDTO : Codable {
-//    var name: String?
-//    var price: Double?
-//    var hasSugarLevels: Bool?
-//
-//    var iceLevelIndex: Int?
-//    var hasIceLevels: Bool?
-//
-//    var canUpsize : Bool?
-//    var upsizePrice : Double?
-//
-//    var specialDiscount : Double?
-//
-//    init() {
-//        self.name = "No Item Name"
-//        self.price = 2.5
-//        self.hasSugarLevels = true
-//        self.iceLevelIndex = 0
-//        self.hasIceLevels = true
-//        self.canUpsize = true
-//        self.upsizePrice = 0.5
-//        self.specialDiscount = 0.5
-//    }
-//
-//    init(from decoder: Decoder) throws {
-//        let newJSON = try decoder.container(keyedBy: Keys.self)
-//        name = try? newJSON.decode(String.self, forKey: .name)
-//        price = try? newJSON.decode(Double.self, forKey: .price)
-//        hasSugarLevels = try? newJSON.decode(Bool.self, forKey: .hasSugarLevels)
-//        hasIceLevels = try? newJSON.decode(Bool.self, forKey: .hasIceLevels)
-//        iceLevelIndex = try? newJSON.decode(Int.self, forKey: .iceLevelIndex)
-//        canUpsize = try? newJSON.decode(Bool.self, forKey: .canUpsize)
-//        upsizePrice = try? newJSON.decode(Double.self, forKey: .upsizePrice)
-//
-//        if let savedSpecialDiscountPrice = try? newJSON.decodeIfPresent(Double.self, forKey: .specialDiscount) {
-//            specialDiscount = savedSpecialDiscountPrice
-//        } else {
-//            specialDiscount = nil
-//        }
-//    }
-//
-//    private enum Keys : String, CodingKey {
-//        case name
-//        case price
-//        case hasSugarLevels
-//        case iceLevelIndex
-//        case hasIceLevels
-//        case canUpsize
-//        case upsizePrice
-//        case specialDiscount
-//    }
-//}

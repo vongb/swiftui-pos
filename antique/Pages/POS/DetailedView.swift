@@ -11,7 +11,6 @@ import SwiftUI
 struct DetailedView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var menu : Menu
-    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     var item : MenuItem
@@ -29,7 +28,7 @@ struct DetailedView: View {
             tot = Double(qty) * item.price
         }
         if specialDiscounted {
-            tot = tot - (self.item.specialDiscount! * Double(self.qty))
+            tot = tot - (self.item.specialDiscount * Double(self.qty))
         }
         return tot
     }
@@ -40,11 +39,15 @@ struct DetailedView: View {
             DetailedItemTitle(item: item, total: self.total)
             HStack() {
                 VStack(alignment: .leading, spacing: 10) {
+                    // Upsize
                     if(self.item.canUpsize) {
                         UpsizeItem(upsized: $upsized)
+                        Text(String(format: "+$%0.02f ea", self.item.upsizePrice))
+                            .font(.caption)
                     }
-//                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
-                    Text(String(format: "$%.02f", self.item.specialDiscount!))
+                    // Special Discount
+                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
+                    Text(String(format: "-$%.02f ea", self.item.specialDiscount))
                         .font(.caption)
                 }
                 
@@ -76,7 +79,7 @@ struct DetailedView: View {
                         .padding(10)
                         .foregroundColor(Color.white)
                 }
-                .background(styles.colors[1])
+                .background(Styles.getColor(.brightCyan))
                 .cornerRadius(20)
                 Spacer()
             }
@@ -103,13 +106,14 @@ struct DetailedView: View {
             ice = "None"
         }
         
-        self.order.add(item: self.item, qty: self.qty, sugarLevel: sugar, iceLevel: ice, upsized: self.upsized)
+        let newOrderItem = OrderItem(item: self.item, qty: self.qty, upsized: self.upsized, specialDiscounted: self.specialDiscounted, sugarLevel: sugar, iceLevel: ice)
+        self.order.add(newOrderItem)
         self.presentationMode.wrappedValue.dismiss()
     }
 }
 
-//struct DetailedViewOrderEditing_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DetailedViewOrderEditing()
-//    }
-//}
+struct DetailedView_Previews: PreviewProvider {
+    static var previews: some View {
+        DetailedView(item: MenuItem())
+    }
+}

@@ -20,7 +20,7 @@ struct OrderViewEditing: View {
                     ForEach(self.order.items) { orderItem in
                         OrderRow(orderItem: orderItem)
                     }
-                    .onDelete(perform: delete)
+//                    .onDelete(perform: delete)
                 }
                 .padding(0)
                 OrderSummaryOrderEditing(order: self.$order)

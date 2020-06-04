@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct DetailedCashOut : View {
-    let styles = Styles()
+    let EXCHANGE_RATE : Int = UserDefaults.standard.value(forKey: UserDefKeys.exchangeRateKey) as? Int ?? 4000
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var cashouts : Cashouts
@@ -29,7 +29,7 @@ struct DetailedCashOut : View {
     
     var priceDisplay : Double {
         if priceInRiels {
-            return Double(price) / 4000
+            return Double(price / EXCHANGE_RATE)
         } else {
             return Double(price) / 100
         }
@@ -121,7 +121,7 @@ struct DetailedCashOut : View {
     }
     
     func update() {
-        let priceInUSD = (self.priceInRiels ? Int(Double(self.price / 4000) * 100) : self.price)
+        let priceInUSD = (self.priceInRiels ? Int(Double(self.price / EXCHANGE_RATE) * 100) : self.price)
         let editedCashOut = CodableCashout(title: self.title, description: self.desc, priceInCents: priceInUSD, date: self.cashout.date)
         Bundle.main.updateCashout(editedCashOut)
         cashouts.refreshCashouts()

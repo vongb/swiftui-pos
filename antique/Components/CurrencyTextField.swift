@@ -12,6 +12,7 @@ struct CurrencyTextField: View {
     let currencyIsRiels : Bool
     @Binding var currencyValue : Int
     @Binding var editing : Bool
+    var editingExchangeRate : Bool = false
     var height : CGFloat = 25
     
     private var label : String {
@@ -67,6 +68,7 @@ struct CurrencyTextField: View {
                     .contentShape(Rectangle())
                     .onTapGesture {
                         self.toggle()
+                        UIApplication.shared.endEditing()
                     }
                     
                 if editing {
@@ -115,6 +117,9 @@ struct CurrencyTextField: View {
     }
     
     func toggle() {
+        if editingExchangeRate {
+            UserDefaults.standard.set(Int(self.currencyValue), forKey: UserDefKeys.exchangeRateKey)
+        }
         withAnimation {
             self.editing.toggle()
         }
@@ -132,7 +137,7 @@ struct NumButton : View {
                 .frame(minWidth: 50, maxWidth: 80)
                 .padding(10)
         }
-        .background(Color(red:0.36, green:0.55, blue:0.52))
+        .background(Styles.getColor(.darkGrey))
         .cornerRadius(5)
     }
     
@@ -151,7 +156,7 @@ struct DoubleZeroButton : View {
                 .frame(minWidth: 50, maxWidth: 80)
                 .padding(10)
         }
-        .background(Color(red:0.36, green:0.55, blue:0.52))
+        .background(Styles.getColor(.darkGrey))
         .cornerRadius(5)
     }
     

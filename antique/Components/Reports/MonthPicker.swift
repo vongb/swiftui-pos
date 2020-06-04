@@ -104,7 +104,7 @@ extension MonthPicker {
         
         func getDate() -> Date {
             var comp = DateComponents()
-            print(self.yearSelection)
+            
             comp.year = Int(self.years[self.yearSelection]) ?? Calendar.current.component(.year, from: Date())
             comp.month = self.monthSelection + 1
             comp.day = 1

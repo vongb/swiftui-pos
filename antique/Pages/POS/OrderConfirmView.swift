@@ -12,7 +12,6 @@ import Combine
 struct OrderConfirmView: View {
     @EnvironmentObject var order : Order
     @EnvironmentObject var orders : Orders
-    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     @State private var editingCents : Bool = false
@@ -27,7 +26,7 @@ struct OrderConfirmView: View {
     var body: some View {
         ZStack(alignment: .top) {
             Rectangle()
-                .fill(styles.colors[0])
+                .fill(Styles.getColor(.lightGreen))
                 .frame(width: 400, height: ((self.editingCents || self.editingRiels) ? 600 : 500))
                 .cornerRadius(20)
                 .contentShape(Rectangle())
@@ -38,9 +37,9 @@ struct OrderConfirmView: View {
                     }
                 }
             VStack(alignment: .center, spacing: 10) {
-                    OrderTotalLabel(total: self.order.total)
-                
-                    Divider().frame(width: 300)
+                OrderTotalLabel(total: self.order.total)
+            
+                Divider().frame(width: 300)
                     
                 ScrollView {
                     ChangeCalculator(total: self.order.total, editingCents: self.$editingCents, editingRiels: self.$editingRiels)
@@ -56,7 +55,7 @@ struct OrderConfirmView: View {
                                     .foregroundColor(.white)
                             }
                             .frame(width: 120)
-                            .background(styles.colors[4])
+                            .background(Styles.getColor(.lightRed))
                             .cornerRadius(20)
 
                             // Confirm Order Button

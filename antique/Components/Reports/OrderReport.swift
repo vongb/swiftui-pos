@@ -11,7 +11,6 @@ import SwiftUI
 struct OrderReport: View {
     @ObservedObject var orders : Orders = Orders()
     @ObservedObject var cashouts : Cashouts = Cashouts()
-    @ObservedObject var styles = Styles()
     @Binding var includeCashOut : Bool
     var label : String {
         if self.orders.includeWholeMonth {
@@ -75,37 +74,34 @@ struct OrderReport: View {
 
 struct GrandTotalModifier : ViewModifier {
     var total : Double
-    let styles = Styles()
     func body(content: Content) -> some View {
         return content
             .font(.largeTitle)
             .padding()
             .foregroundColor(.white)
-            .background((self.total >= 0 ? Color.green : self.styles.colors[4]))
+            .background(self.total >= 0 ? Color.green : (Styles.getColor(.lightRed)))
             .cornerRadius(10)
     }
 }
 
 struct SubtotalModifier : ViewModifier {
-    let styles = Styles()
     func body(content: Content) -> some View {
         return content
             .font(.subheadline)
             .padding()
             .foregroundColor(.white)
-            .background(self.styles.colors[3])
+            .background(Styles.getColor(.darkGrey))
             .cornerRadius(10)
     }
 }
 
 struct CashOutModifier : ViewModifier {
-    let styles = Styles()
     func body(content: Content) -> some View {
         return content
             .font(.subheadline)
             .padding()
             .foregroundColor(.white)
-            .background(self.styles.colors[4])
+            .background(Styles.getColor(.lightRed))
             .cornerRadius(10)
     }
 }

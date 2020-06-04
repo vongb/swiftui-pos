@@ -37,22 +37,20 @@ class Order : ObservableObject {
 
     // Will search through current ordered items and check if there are the same item already added.
     // If so, it will increase ordered QTY by the qty parameter.
-    func add(item: MenuItem, qty : Int, sugarLevel : String, iceLevel : String, upsized: Bool) {
-        for (index, orderItem) in items.enumerated() {
-            if(item.name == orderItem.item.name) {
-                if(orderItem.iceLevel == iceLevel && orderItem.sugarLevel == sugarLevel && orderItem.upsized == upsized) {
-                    items[index].qty += qty
-                    return
-                }
+    func add(_ newOrderItem : OrderItem) {
+        for (index, orderedItem) in items.enumerated() {
+            // Same item attributes matches (Name, sugar level, ice level, upsized, special discounted)
+            if OrderItem.hasSameAttributes(newOrderItem, orderedItem) {
+                items[index].qty = items[index].qty + newOrderItem.qty
+                let item = items.remove(at: index)
+                items.append(item)
+                return
             }
         }
-        items.append(
-            OrderItem(item: item, qty: qty, upsized: upsized, sugarLevel: sugarLevel, iceLevel: iceLevel)
-        )
+        items.append(newOrderItem)
     }
     
     func incDiscount(){
-        
         if(discPercentage < 100) {
             discPercentage += 5
         }

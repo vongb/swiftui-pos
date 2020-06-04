@@ -13,7 +13,6 @@ struct DetailedViewEditing: View {
     var item : MenuItem
     
     @EnvironmentObject var menu : Menu
-    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
     
     @State private var qty : Int = 1
@@ -23,16 +22,14 @@ struct DetailedViewEditing: View {
     @State private var specialDiscounted : Bool = false
     
     private var total : Double {
-        var tot : Double
-        if upsized {
-            tot = (item.price + item.upsizePrice) * Double(qty)
-        } else {
-            tot = Double(qty) * item.price
-        }
+        var basePrice = item.price
         if specialDiscounted {
-            tot = tot - (self.item.specialDiscount! * Double(self.qty))
+            basePrice -= item.specialDiscount
         }
-        return tot
+        if upsized && item.canUpsize {
+            basePrice += item.upsizePrice
+        }
+        return basePrice * Double(qty)
     }
     
     var body: some View {
@@ -40,19 +37,18 @@ struct DetailedViewEditing: View {
             DetailedItemTitle(item: item, total: self.total)
             
             HStack {
-                if(self.item.canUpsize) {
-                    UpsizeItem(upsized: $upsized)
-                } else {
-                    Spacer()
+                VStack(alignment: .leading, spacing: 0) {
+                    // Upsize
+                    if(self.item.canUpsize) {
+                        UpsizeItem(upsized: $upsized)
+                        Text(String(format: "+$%0.02f ea", self.item.upsizePrice))
+                            .font(.caption)
+                    }
+                    // Special Discount
+                    SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
+                    Text(String(format: "-$%.02f ea", self.item.specialDiscount))
                 }
-                
-                Spacer().frame(width: 40)
-                
                 QtyUpdater(qty: $qty)
-            }
-            HStack {
-                SpecialDiscountItem(specialDiscounted: self.$specialDiscounted)
-                Text(String(format: "$%.02f", self.item.specialDiscount!))
             }
 
             if(self.item.hasSugarLevels) {
@@ -78,7 +74,7 @@ struct DetailedViewEditing: View {
                         .padding(10)
                         .foregroundColor(Color.white)
                 }
-                .background(styles.colors[1])
+                .background(Styles.getColor(.brightCyan))
                 .cornerRadius(20)
                 Spacer()
             }
@@ -87,6 +83,7 @@ struct DetailedViewEditing: View {
         .padding(20)
     }
     func addToOrder() {
+        
         let sugar : String
         let ice : String
         if self.item.hasSugarLevels {
@@ -104,14 +101,15 @@ struct DetailedViewEditing: View {
         } else {
             ice = "None"
         }
-        let newItem = OrderItem(item: self.item, qty: qty, upsized: upsized, sugarLevel: sugar, iceLevel: ice)
         
+        let newItem = OrderItem(item: item, qty: qty, upsized: upsized, specialDiscounted: specialDiscounted, sugarLevel: sugar, iceLevel: ice)
         for (index, orderItem) in items.enumerated() {
-            if(item.name == orderItem.item.name) {
-                if(orderItem.iceLevel == ice && orderItem.sugarLevel == sugar && orderItem.upsized == upsized) {
-                    items[index].qty += qty
-                    return
-                }
+            if OrderItem.hasSameAttributes(newItem, orderItem) {
+                items[index].qty = items[index].qty + newItem.qty
+                let item = items.remove(at: index)
+                items.append(item)
+                self.presentationMode.wrappedValue.dismiss()
+                return
             }
         }
         self.items.append(newItem)

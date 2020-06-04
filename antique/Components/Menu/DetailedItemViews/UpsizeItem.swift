@@ -10,14 +10,13 @@ import SwiftUI
 
 struct UpsizeItem: View {
     @Binding var upsized : Bool
-    @ObservedObject var styles = Styles()
     
     var body: some View {
         Toggle(isOn: self.$upsized) {
             Text("Upsize")
             .font(.system(size: 20))
             .fontWeight(.bold)
-            .foregroundColor(styles.colors[2])
+            .foregroundColor(Styles.getColor(.darkCyan))
         }
         .padding(0)    }
 }

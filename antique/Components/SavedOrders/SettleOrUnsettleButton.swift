@@ -11,7 +11,6 @@ import SwiftUI
 struct SettleOrUnsettleButton: View {
     @Binding var order : CodableOrder
     @EnvironmentObject var orders : Orders
-    @ObservedObject var styles = Styles()
 
     var body: some View {
         if !order.cancelled {
@@ -21,7 +20,7 @@ struct SettleOrUnsettleButton: View {
                         .padding(10)
                         .foregroundColor(.white)
                 }
-                .background(styles.colors[4])
+                .background(Styles.getColor(.lightRed))
                 .cornerRadius(20))
             } else {
                 return AnyView(Button(action: settle) {

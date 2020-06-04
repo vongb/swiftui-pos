@@ -12,21 +12,20 @@ import SwiftUI
 struct DetailedItemTitle: View {
     var item : MenuItem
     var total : Double = 0
-    @ObservedObject var styles = Styles()
     
     var body: some View {
         HStack{
             Text(item.name)
                 .font(.system(size: 40))
                 .fontWeight(.bold)
-                .foregroundColor(styles.colors[3])
+                .foregroundColor(Styles.getColor(.darkGrey))
             
             Spacer()
             
             Text(String(format: "$%.02f", self.total))
                 .font(.system(size: 30))
                 .fontWeight(.bold)
-                .foregroundColor(styles.colors[3])
+                .foregroundColor(Styles.getColor(.darkGrey))
         }
     }
 }

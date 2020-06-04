@@ -9,8 +9,17 @@
 import SwiftUI
 
 struct OrderRow: View {
-    var orderItem : OrderItem
-    
+    var orderItem : OrderItem = OrderItem()
+    private var unitPrice : Double {
+        var unitP : Double = orderItem.item.price
+        if orderItem.upsized {
+            unitP += orderItem.item.upsizePrice
+        }
+        if orderItem.specialDiscounted {
+            unitP -= orderItem.item.specialDiscount
+        }
+        return unitP
+    }
     var body: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading) {
@@ -22,22 +31,26 @@ struct OrderRow: View {
                 
                 if(self.orderItem.item.hasSugarLevels) {
                     Text("Sugar: \(orderItem.sugarLevel)")
-                        .font(.system(size: 10))
+                        .font(.caption)
                 }
                 
                 if(self.orderItem.item.hasIceLevels) {
                     Text("Ice: \(orderItem.iceLevel)")
-                        .font(.system(size: 10))
+                        .font(.caption)
                 }
                 if orderItem.upsized {
-                    Text("Upsized (+" + String(format: "$%0.2f", orderItem.item.upsizePrice) + ")")
-                        .font(.system(size: 10))
+                    Text(String(format: "Upsized (+$%0.02f ea)", orderItem.item.upsizePrice))
+                        .font(.caption)
+                }
+                if orderItem.specialDiscounted {
+                    Text(String(format: "Special Discount (-$%0.02f ea)", orderItem.item.specialDiscount))
+                        .font(.caption)
                 }
             }
             
             Spacer()
             
-            Text(String(format: "$%.02f", orderItem.item.price))
+            Text(String(format: "$%.02f", unitPrice))
                 .font(.system(size: 15))
                 .bold()
             

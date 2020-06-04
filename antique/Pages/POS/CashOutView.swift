@@ -18,7 +18,6 @@ struct CashOutView: View {
     @EnvironmentObject var cashouts : Cashouts
     @Environment(\.presentationMode) var presentationMode
     
-    private var styles = Styles()
     var body: some View {
         ZStack(alignment: .leading) {
             Rectangle()
@@ -55,7 +54,7 @@ struct CashOutView: View {
                             .foregroundColor(.white)
                     }
                     .disabled(self.title.isEmpty)
-                    .background(self.title.isEmpty ? Color.gray : self.styles.colors[1])
+                    .background(self.title.isEmpty ? Color.gray : Styles.getColor(.brightCyan))
                     .cornerRadius(20)
                     Spacer()
                 }

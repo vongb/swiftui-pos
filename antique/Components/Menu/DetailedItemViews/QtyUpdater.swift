@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct QtyUpdater: View {
-    @ObservedObject var styles = Styles()
     @Binding var qty : Int
     
     var body: some View {
@@ -17,7 +16,7 @@ struct QtyUpdater: View {
             Text("Quantity")
                 .font(.system(size: 25))
                 .fontWeight(.bold)
-                .foregroundColor(styles.colors[2])
+                .foregroundColor(Styles.getColor(.darkCyan))
             HStack (spacing: 20){
                 // Decrement QTY
                 Button(action: decrement) {
@@ -27,7 +26,7 @@ struct QtyUpdater: View {
                         .frame(width: 40, height: 40)
                         .foregroundColor(.white)
                 }
-                .background(styles.colors[4])
+                .background(Styles.getColor(.lightRed))
                 .cornerRadius(5)
 
                     
@@ -45,7 +44,7 @@ struct QtyUpdater: View {
                         .frame(width: 40, height: 40)
                         .foregroundColor(.white)
                 }
-                .background(styles.colors[1])
+                .background(Styles.getColor(.brightCyan))
                 .cornerRadius(5)
             }
         }

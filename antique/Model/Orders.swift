@@ -56,7 +56,8 @@ class Orders : ObservableObject {
                 total += order.total
             }
         }
-        return total    }
+        return total
+    }
     
     // A list of unique items ordered with their quantities and totals
     // Returns a descending array based on quantity ordered.

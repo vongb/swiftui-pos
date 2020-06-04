@@ -9,7 +9,6 @@
 import SwiftUI
 
 struct CashOutRow: View {
-    @ObservedObject var styles = Styles()
     
     let cashout : CodableCashout
     

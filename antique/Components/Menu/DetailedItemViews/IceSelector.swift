@@ -13,7 +13,6 @@ import SwiftUI
 struct IceSelector: View {
     @Binding var iceLevel : Int
     
-    @ObservedObject var styles = Styles()
     @EnvironmentObject var menu : Menu
     
     let item : MenuItem
@@ -21,7 +20,7 @@ struct IceSelector: View {
     var body: some View {
         Section(header:
             Text("Ice Level")
-                .foregroundColor(styles.colors[2])
+                .foregroundColor(Styles.getColor(.darkCyan))
         ) {
             Picker("Levels:", selection: $iceLevel) {
                 ForEach(0 ..< self.menu.iceLevels[item.iceLevelIndex].count){

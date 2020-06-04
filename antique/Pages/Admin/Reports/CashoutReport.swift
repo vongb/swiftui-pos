@@ -10,7 +10,6 @@ import SwiftUI
 
 struct CashoutReport: View {
     @EnvironmentObject var cashouts : Cashouts
-    @ObservedObject var styles = Styles()
     
     @State private var selectedCashout : CodableCashout = CodableCashout()
     @State private var showDetailedCashout : Bool = false

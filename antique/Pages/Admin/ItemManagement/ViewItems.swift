@@ -14,7 +14,6 @@ struct ViewItems: View {
     @Binding var activeSheet : ActiveSheet
     @Binding var itemForEdit : MenuItem
     @Binding var menuSectionSelection : Int
-    var styles = Styles()
     @EnvironmentObject var menu : Menu
     
     var body: some View {
@@ -45,7 +44,6 @@ struct ViewItems: View {
 }
 //
 //struct ViewItems_Previews: PreviewProvider {
-//    static let styles = Styles()
 //    static let menu = Menu()
 //    static var previews: some View {
 //        ViewItems().environmentObject(styles).environmentObject(menu)

@@ -12,7 +12,6 @@ struct DetailedOrderView: View {
     @EnvironmentObject var printer : BLEConnection
     @EnvironmentObject var menu : Menu
     @EnvironmentObject var orders : Orders
-    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
 
     @State var order : CodableOrder
@@ -26,11 +25,11 @@ struct DetailedOrderView: View {
                     Spacer()
                     if !order.cancelled {
                         Button(action: edit) {
-                            Text("Edit")
+                            Text("Add to Order")
                                 .padding(10)
                                 .foregroundColor(.white)
                         }
-                        .background(styles.colors[2])
+                        .background(Styles.getColor(.darkCyan))
                         .cornerRadius(20)
                     }
                 }
@@ -41,7 +40,7 @@ struct DetailedOrderView: View {
                         .padding(5)
                         .font(.system(size: 30))
                         .foregroundColor(.white)
-                        .background(styles.colors[2])
+                        .background(Styles.getColor(.darkCyan))
                         .cornerRadius(10)
                     
                     OrderStatusLabel(cancelled: order.cancelled, settled: order.settled)
@@ -51,15 +50,31 @@ struct DetailedOrderView: View {
                     SettleOrUnsettleButton(order: $order)
                 }
             }
+            // Body
             ScrollView {
-                Text("Discounts: \(self.order.discPercentage)%")
-                
-                Text("Subtotal: \(String(format: "$%.02f", self.order.subtotal))")
-                
+                HStack {
+                    Text("Discounts:")
+                    Spacer()
+                    Text("\(self.order.discPercentage)%")
+                }
+                Divider()
+                HStack {
+                    Text("Subtotal:")
+                    Spacer()
+                    Text("\(String(format: "$%.02f", self.order.subtotal))")
+                }
                 Divider()
                 Group {
-                    Text("Time: \(time())")
-                    Text("Date: \(date())")
+                    HStack {
+                        Text("Time:")
+                        Spacer()
+                        Text("\(time())")
+                    }
+                    HStack {
+                        Text("Date:")
+                        Spacer()
+                        Text("\(date())")
+                    }
                 }
                 
                 Group {
@@ -86,13 +101,12 @@ struct DetailedOrderView: View {
             }
         }
         .padding(20)
-        .background(styles.colors[0])
+        .background(Styles.getColor(.lightGreen))
         .cornerRadius(20)
         .frame(width: 600)
         .sheet(isPresented: $editingOrder, onDismiss: endEdit) {
             EditOrder(order: self.$order, editingOrder: self.$editingOrder)
                 .environmentObject(self.menu)
-                .environmentObject(self.styles)
         }
     }
     
@@ -125,13 +139,11 @@ struct DetailedOrderView: View {
 
 struct DetailedOrderView_Previews: PreviewProvider {
     static let orders = Orders()
-    static let styles = Styles()
     static let order = CodableOrder(CodableOrderDTO())
     static let printer = BLEConnection()
     static var previews: some View {
         DetailedOrderView(order: order)
             .environmentObject(printer)
-            .environmentObject(styles)
             .environmentObject(orders)
     }
 }

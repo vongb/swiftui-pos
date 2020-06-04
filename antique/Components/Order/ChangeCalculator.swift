@@ -21,13 +21,12 @@ struct ChangeCalculator: View {
     
     @State var usdChangeOffset : Int = 0
     
-    @ObservedObject var styles = Styles()
 
-    let EXCHANGE_RATE : Double = 4000
+    let EXCHANGE_RATE : Int = UserDefaults.standard.value(forKey: UserDefKeys.exchangeRateKey) as? Int ?? 4000
     
     // Converts KHR to USD with exchange rate provided
     var totalReceivedInUSD : Double {
-        return Double(centsReceived / 100) + (Double(khrReceived) / EXCHANGE_RATE)
+        return Double(centsReceived / 100) + (Double(khrReceived / EXCHANGE_RATE))
     }
     
     // Calculates change to be tendered. Prioritises USD change.
@@ -37,7 +36,7 @@ struct ChangeCalculator: View {
     }
     var khrChange : Int {
         let changeLeft = totalReceivedInUSD - self.total - Double(usdChange)
-        return Int((changeLeft * EXCHANGE_RATE).rounded(.up))
+        return Int((changeLeft * Double(EXCHANGE_RATE)).rounded(.up))
     }
     
     
@@ -64,7 +63,7 @@ struct ChangeCalculator: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(.white)
                     }
-                    .background(styles.colors[4])
+                    .background(Styles.getColor(.lightRed))
                     .cornerRadius(5)
                     
                     Text("USD \(String(self.usdChange))")
@@ -77,7 +76,7 @@ struct ChangeCalculator: View {
                             .frame(width: 40, height: 40)
                             .foregroundColor(.white)
                     }
-                    .background(styles.colors[1])
+                    .background(Styles.getColor(.brightCyan))
                     .cornerRadius(5)
                 }
                 
@@ -99,8 +98,7 @@ struct ChangeCalculator: View {
 }
 
 struct ChangeCalculator_Previews: PreviewProvider {
-    static let styles = Styles()
     static var previews: some View {
-        ChangeCalculator(total: 5.9, editingCents: .constant(true), editingRiels: .constant(false)).environmentObject(styles)
+        ChangeCalculator(total: 5.9, editingCents: .constant(true), editingRiels: .constant(false))
     }
 }

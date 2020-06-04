@@ -14,15 +14,14 @@ struct OrderConfirmEditing: View {
     
     @State var editingCents = false
     @State var editingRiels = false
-    
-    @ObservedObject var styles = Styles()
+
     @EnvironmentObject var orders : Orders
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         ZStack(alignment: .top) {
             Rectangle()
-                .fill(styles.colors[0])
+                .fill(Styles.getColor(.lightGreen))
                 .frame(width: 350, height: ((self.editingCents || self.editingRiels) ? 600 : 500))
                 .cornerRadius(20)
                 .contentShape(Rectangle())
@@ -51,7 +50,7 @@ struct OrderConfirmEditing: View {
                                 .foregroundColor(.white)
                         }
                         .frame(width: 120)
-                        .background(styles.colors[4])
+                        .background(Styles.getColor(.lightRed))
                         .cornerRadius(20)
                         
                         Button(action: settleOrder) {

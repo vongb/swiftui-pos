@@ -12,8 +12,6 @@ import Combine
 struct ItemEditor: View {
     @EnvironmentObject var menu : Menu
     @Environment(\.presentationMode) var presentationMode
-
-    private let styles : Styles = Styles()
     
     var id : String
     
@@ -171,7 +169,7 @@ struct ItemEditor: View {
                             .padding()
                     }
                     .disabled(!self.canMakeChanges)
-                    .background(self.canMakeChanges ? self.styles.colors[1] : self.styles.colors[0])
+                    .background(self.canMakeChanges ? Styles.getColor(.brightCyan) : Styles.getColor(.lightGreen))
                     .cornerRadius(15)
                     Spacer()
                 }
@@ -195,7 +193,7 @@ struct ItemEditor: View {
             self.hasSugar = item.hasSugarLevels
             self.hasIce = item.hasIceLevels
             self.iceSelection = item.iceLevelIndex
-            self.specialDiscountInCents = Int(item.specialDiscount! * 100)
+            self.specialDiscountInCents = Int(item.specialDiscount * 100)
         }
     }
     

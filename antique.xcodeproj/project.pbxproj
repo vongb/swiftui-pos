@@ -25,6 +25,12 @@
 		E3024A4823B13A67009E3654 /* OrderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3024A4723B13A67009E3654 /* OrderRow.swift */; };
 		E30BABBF23CAE0E40086E3D6 /* ReceiptPrinter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30BABBE23CAE0E40086E3D6 /* ReceiptPrinter.swift */; };
 		E30BABC123CB085E0086E3D6 /* Orders.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30BABC023CB085E0086E3D6 /* Orders.swift */; };
+		E30E8DDE2483C76000716C7B /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DDD2483C76000716C7B /* KeychainItemAccessibility.swift */; };
+		E30E8DE02483C77C00716C7B /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DDF2483C77C00716C7B /* KeychainWrapper.swift */; };
+		E30E8DE22483C9F200716C7B /* PasscodeInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DE12483C9F200716C7B /* PasscodeInput.swift */; };
+		E30E8DE42483E2E700716C7B /* PasscodeCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DE32483E2E700716C7B /* PasscodeCreator.swift */; };
+		E30E8DE82483E52E00716C7B /* ChangePasscode.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DE72483E52E00716C7B /* ChangePasscode.swift */; };
+		E30E8DEA2483E7AB00716C7B /* PasscodeAuthenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E30E8DE92483E7AB00716C7B /* PasscodeAuthenticator.swift */; };
 		E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31EBE3A23CAC65C00E03500 /* SavedOrderRow.swift */; };
 		E31EBE3D23CAC6BC00E03500 /* DetailedOrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31EBE3C23CAC6BC00E03500 /* DetailedOrderView.swift */; };
 		E320CE0823D7FEBF0045A25C /* CodableOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E320CE0723D7FEBF0045A25C /* CodableOrder.swift */; };
@@ -40,7 +46,6 @@
 		E35C20E423D3223700577853 /* CancelOrderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35C20E323D3223700577853 /* CancelOrderButton.swift */; };
 		E36831582462B6EA000FF793 /* CashoutReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831572462B6EA000FF793 /* CashoutReport.swift */; };
 		E368315A2462B8A7000FF793 /* Cashouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831592462B8A7000FF793 /* Cashouts.swift */; };
-		E368316224653A95000FF793 /* Cashout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E368316124653A95000FF793 /* Cashout.swift */; };
 		E368316424665643000FF793 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = E368316324665643000FF793 /* Report.swift */; };
 		E37BAC542414AF0B002CB335 /* CashOutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC532414AF0B002CB335 /* CashOutView.swift */; };
 		E37BAC562414BC9F002CB335 /* CodableCashout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E37BAC552414BC9F002CB335 /* CodableCashout.swift */; };
@@ -53,6 +58,11 @@
 		E39731E823C4395C00A1D9EF /* BLEConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39731E723C4395C00A1D9EF /* BLEConnection.swift */; };
 		E39731EA23C6395F00A1D9EF /* 1024.png in Resources */ = {isa = PBXBuildFile; fileRef = E39731E923C6395F00A1D9EF /* 1024.png */; };
 		E39731EC23C6F1EF00A1D9EF /* Receipt.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39731EB23C6F1EF00A1D9EF /* Receipt.swift */; };
+		E3A2999A2488AC69007444BA /* antiqueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299992488AC69007444BA /* antiqueTests.swift */; };
+		E3A299A22488AC84007444BA /* orderItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A12488AC84007444BA /* orderItemTests.swift */; };
+		E3A299A42488CBAA007444BA /* orderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A32488CBAA007444BA /* orderTests.swift */; };
+		E3A299A62488E24E007444BA /* cashoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A52488E24E007444BA /* cashoutTests.swift */; };
+		E3A299A82488E2E5007444BA /* UserDefKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A72488E2E5007444BA /* UserDefKeys.swift */; };
 		E3A9768123CB78D000C66344 /* _.gitignore_ in Resources */ = {isa = PBXBuildFile; fileRef = E3A9768023CB78D000C66344 /* _.gitignore_ */; };
 		E3A9768323CB921500C66344 /* ItemOrdered.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768223CB921500C66344 /* ItemOrdered.swift */; };
 		E3A9768523CB9A5100C66344 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768423CB9A5100C66344 /* Styles.swift */; };
@@ -85,6 +95,16 @@
 		E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D970E423B9CC7C00DA535A /* AdminView.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		E3A2999C2488AC69007444BA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E3024A1123A8CC4D009E3654 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E3024A1823A8CC4D009E3654;
+			remoteInfo = antique;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		E3024A1923A8CC4D009E3654 /* antique.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = antique.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3024A1C23A8CC4D009E3654 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -106,6 +126,12 @@
 		E3024A4723B13A67009E3654 /* OrderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRow.swift; sourceTree = "<group>"; };
 		E30BABBE23CAE0E40086E3D6 /* ReceiptPrinter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReceiptPrinter.swift; sourceTree = "<group>"; };
 		E30BABC023CB085E0086E3D6 /* Orders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Orders.swift; sourceTree = "<group>"; };
+		E30E8DDD2483C76000716C7B /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
+		E30E8DDF2483C77C00716C7B /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
+		E30E8DE12483C9F200716C7B /* PasscodeInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeInput.swift; sourceTree = "<group>"; };
+		E30E8DE32483E2E700716C7B /* PasscodeCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeCreator.swift; sourceTree = "<group>"; };
+		E30E8DE72483E52E00716C7B /* ChangePasscode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasscode.swift; sourceTree = "<group>"; };
+		E30E8DE92483E7AB00716C7B /* PasscodeAuthenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasscodeAuthenticator.swift; sourceTree = "<group>"; };
 		E31EBE3A23CAC65C00E03500 /* SavedOrderRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedOrderRow.swift; sourceTree = "<group>"; };
 		E31EBE3C23CAC6BC00E03500 /* DetailedOrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailedOrderView.swift; sourceTree = "<group>"; };
 		E320CE0723D7FEBF0045A25C /* CodableOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableOrder.swift; sourceTree = "<group>"; };
@@ -121,7 +147,6 @@
 		E35C20E323D3223700577853 /* CancelOrderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrderButton.swift; sourceTree = "<group>"; };
 		E36831572462B6EA000FF793 /* CashoutReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashoutReport.swift; sourceTree = "<group>"; };
 		E36831592462B8A7000FF793 /* Cashouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cashouts.swift; sourceTree = "<group>"; };
-		E368316124653A95000FF793 /* Cashout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cashout.swift; sourceTree = "<group>"; };
 		E368316324665643000FF793 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		E37BAC532414AF0B002CB335 /* CashOutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashOutView.swift; sourceTree = "<group>"; };
 		E37BAC552414BC9F002CB335 /* CodableCashout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableCashout.swift; sourceTree = "<group>"; };
@@ -134,6 +159,13 @@
 		E39731E723C4395C00A1D9EF /* BLEConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEConnection.swift; sourceTree = "<group>"; };
 		E39731E923C6395F00A1D9EF /* 1024.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1024.png; sourceTree = "<group>"; };
 		E39731EB23C6F1EF00A1D9EF /* Receipt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Receipt.swift; sourceTree = "<group>"; };
+		E3A299972488AC69007444BA /* antiqueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = antiqueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3A299992488AC69007444BA /* antiqueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = antiqueTests.swift; sourceTree = "<group>"; };
+		E3A2999B2488AC69007444BA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3A299A12488AC84007444BA /* orderItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = orderItemTests.swift; sourceTree = "<group>"; };
+		E3A299A32488CBAA007444BA /* orderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = orderTests.swift; sourceTree = "<group>"; };
+		E3A299A52488E24E007444BA /* cashoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cashoutTests.swift; sourceTree = "<group>"; };
+		E3A299A72488E2E5007444BA /* UserDefKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefKeys.swift; sourceTree = "<group>"; };
 		E3A9768023CB78D000C66344 /* _.gitignore_ */ = {isa = PBXFileReference; lastKnownFileType = text; path = _.gitignore_; sourceTree = "<group>"; };
 		E3A9768223CB921500C66344 /* ItemOrdered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrdered.swift; sourceTree = "<group>"; };
 		E3A9768423CB9A5100C66344 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
@@ -174,6 +206,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3A299942488AC69007444BA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -181,6 +220,7 @@
 			isa = PBXGroup;
 			children = (
 				E3024A1B23A8CC4D009E3654 /* antique */,
+				E3A299982488AC69007444BA /* antiqueTests */,
 				E3024A1A23A8CC4D009E3654 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -189,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				E3024A1923A8CC4D009E3654 /* antique.app */,
+				E3A299972488AC69007444BA /* antiqueTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -231,7 +272,6 @@
 				E320CE0723D7FEBF0045A25C /* CodableOrder.swift */,
 				E3024A4523B13774009E3654 /* OrderItem.swift */,
 				E30BABC023CB085E0086E3D6 /* Orders.swift */,
-				E368316124653A95000FF793 /* Cashout.swift */,
 				E37BAC552414BC9F002CB335 /* CodableCashout.swift */,
 				E36831592462B8A7000FF793 /* Cashouts.swift */,
 				E368316324665643000FF793 /* Report.swift */,
@@ -239,6 +279,11 @@
 				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
 				E39731EB23C6F1EF00A1D9EF /* Receipt.swift */,
 				E3A9768423CB9A5100C66344 /* Styles.swift */,
+				E30E8DE32483E2E700716C7B /* PasscodeCreator.swift */,
+				E30E8DE92483E7AB00716C7B /* PasscodeAuthenticator.swift */,
+				E30E8DDD2483C76000716C7B /* KeychainItemAccessibility.swift */,
+				E30E8DDF2483C77C00716C7B /* KeychainWrapper.swift */,
+				E3A299A72488E2E5007444BA /* UserDefKeys.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -253,6 +298,7 @@
 				E30BABBE23CAE0E40086E3D6 /* ReceiptPrinter.swift */,
 				E3A9768623CB9B9000C66344 /* CustomText.swift */,
 				E320CE3023E7D6630045A25C /* CurrencyTextField.swift */,
+				E30E8DE12483C9F200716C7B /* PasscodeInput.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -311,6 +357,18 @@
 			path = ActiveOrders;
 			sourceTree = "<group>";
 		};
+		E3A299982488AC69007444BA /* antiqueTests */ = {
+			isa = PBXGroup;
+			children = (
+				E3A299A52488E24E007444BA /* cashoutTests.swift */,
+				E3A299A32488CBAA007444BA /* orderTests.swift */,
+				E3A299A12488AC84007444BA /* orderItemTests.swift */,
+				E3A299992488AC69007444BA /* antiqueTests.swift */,
+				E3A2999B2488AC69007444BA /* Info.plist */,
+			);
+			path = antiqueTests;
+			sourceTree = "<group>";
+		};
 		E3A9768E23CC346B00C66344 /* ItemManagement */ = {
 			isa = PBXGroup;
 			children = (
@@ -333,6 +391,7 @@
 			isa = PBXGroup;
 			children = (
 				E3A9769723CC356A00C66344 /* EditMisc.swift */,
+				E30E8DE72483E52E00716C7B /* ChangePasscode.swift */,
 			);
 			path = Misc;
 			sourceTree = "<group>";
@@ -433,18 +492,40 @@
 			productReference = E3024A1923A8CC4D009E3654 /* antique.app */;
 			productType = "com.apple.product-type.application";
 		};
+		E3A299962488AC69007444BA /* antiqueTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E3A299A02488AC69007444BA /* Build configuration list for PBXNativeTarget "antiqueTests" */;
+			buildPhases = (
+				E3A299932488AC69007444BA /* Sources */,
+				E3A299942488AC69007444BA /* Frameworks */,
+				E3A299952488AC69007444BA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				E3A2999D2488AC69007444BA /* PBXTargetDependency */,
+			);
+			name = antiqueTests;
+			productName = antiqueTests;
+			productReference = E3A299972488AC69007444BA /* antiqueTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		E3024A1123A8CC4D009E3654 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1120;
+				LastSwiftUpdateCheck = 1150;
 				LastUpgradeCheck = 1120;
 				ORGANIZATIONNAME = "Vong Beng";
 				TargetAttributes = {
 					E3024A1823A8CC4D009E3654 = {
 						CreatedOnToolsVersion = 11.2.1;
+					};
+					E3A299962488AC69007444BA = {
+						CreatedOnToolsVersion = 11.5;
+						TestTargetID = E3024A1823A8CC4D009E3654;
 					};
 				};
 			};
@@ -462,6 +543,7 @@
 			projectRoot = "";
 			targets = (
 				E3024A1823A8CC4D009E3654 /* antique */,
+				E3A299962488AC69007444BA /* antiqueTests */,
 			);
 		};
 /* End PBXProject section */
@@ -482,6 +564,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3A299952488AC69007444BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -492,6 +581,7 @@
 				E3A9768D23CC346700C66344 /* ItemEditor.swift in Sources */,
 				E3CB376223D3491700BC3326 /* UpsizeItem.swift in Sources */,
 				E3A9768323CB921500C66344 /* ItemOrdered.swift in Sources */,
+				E30E8DE42483E2E700716C7B /* PasscodeCreator.swift in Sources */,
 				E3024A3823A8D0E6009E3654 /* Menu.swift in Sources */,
 				E3CB374C23D32EE700BC3326 /* EditOrder.swift in Sources */,
 				E3A9768B23CC2CBC00C66344 /* ReportDay.swift in Sources */,
@@ -500,6 +590,7 @@
 				E39731E823C4395C00A1D9EF /* BLEConnection.swift in Sources */,
 				E3D970E323B9CC1700DA535A /* AppView.swift in Sources */,
 				E3D970E123B333BC00DA535A /* OrderConfirmView.swift in Sources */,
+				E30E8DDE2483C76000716C7B /* KeychainItemAccessibility.swift in Sources */,
 				E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */,
 				E3CB375623D343A800BC3326 /* OrderConfirmEditing.swift in Sources */,
 				E37BAC5C2424B1EB002CB335 /* SpecialDiscountItem.swift in Sources */,
@@ -513,6 +604,7 @@
 				E3CB374E23D3305000BC3326 /* OrderViewEditing.swift in Sources */,
 				E3A9769823CC356A00C66344 /* EditMisc.swift in Sources */,
 				E3024A2223A8CC4D009E3654 /* antique.xcdatamodeld in Sources */,
+				E30E8DEA2483E7AB00716C7B /* PasscodeAuthenticator.swift in Sources */,
 				E35C20E423D3223700577853 /* CancelOrderButton.swift in Sources */,
 				E37BAC5824239C05002CB335 /* CashOutRow.swift in Sources */,
 				E32A487E23D3532E00B08D14 /* OrderSummaryOrderEditing.swift in Sources */,
@@ -524,6 +616,7 @@
 				E320CE0823D7FEBF0045A25C /* CodableOrder.swift in Sources */,
 				E3024A4623B13774009E3654 /* OrderItem.swift in Sources */,
 				E39731E123BE488A00A1D9EF /* MenuItem.swift in Sources */,
+				E3A299A82488E2E5007444BA /* UserDefKeys.swift in Sources */,
 				E3A9768523CB9A5100C66344 /* Styles.swift in Sources */,
 				E32A488023D3542900B08D14 /* OrderConfirmEditingButton.swift in Sources */,
 				E37BAC5A24239C3E002CB335 /* DetailedCashOut.swift in Sources */,
@@ -545,8 +638,9 @@
 				E36831582462B6EA000FF793 /* CashoutReport.swift in Sources */,
 				E3024A3A23A8D0F2009E3654 /* Order.swift in Sources */,
 				E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */,
-				E368316224653A95000FF793 /* Cashout.swift in Sources */,
 				E3D970E523B9CC7C00DA535A /* AdminView.swift in Sources */,
+				E30E8DE22483C9F200716C7B /* PasscodeInput.swift in Sources */,
+				E30E8DE02483C77C00716C7B /* KeychainWrapper.swift in Sources */,
 				E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */,
 				E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */,
 				E3ACACB124146ACC00FC29ED /* DeleteItemButton.swift in Sources */,
@@ -554,13 +648,33 @@
 				E3D970D723B3050900DA535A /* MenuView.swift in Sources */,
 				E3D970D223B1FD4600DA535A /* OrderHeader.swift in Sources */,
 				E3024A4823B13A67009E3654 /* OrderRow.swift in Sources */,
+				E30E8DE82483E52E00716C7B /* ChangePasscode.swift in Sources */,
 				E3024A3C23B0BCB7009E3654 /* ItemRow.swift in Sources */,
 				E3024A4023B11106009E3654 /* OrderView.swift in Sources */,
 				E3CB375423D3411800BC3326 /* OrderTotalLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3A299932488AC69007444BA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E3A2999A2488AC69007444BA /* antiqueTests.swift in Sources */,
+				E3A299A42488CBAA007444BA /* orderTests.swift in Sources */,
+				E3A299A22488AC84007444BA /* orderItemTests.swift in Sources */,
+				E3A299A62488E24E007444BA /* cashoutTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E3A2999D2488AC69007444BA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E3024A1823A8CC4D009E3654 /* antique */;
+			targetProxy = E3A2999C2488AC69007444BA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		E3024A2A23A8CC53009E3654 /* LaunchScreen.storyboard */ = {
@@ -730,6 +844,48 @@
 			};
 			name = Release;
 		};
+		E3A2999E2488AC69007444BA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T5PKFCH6NT;
+				INFOPLIST_FILE = antiqueTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vongbeng.antiqueTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/antique.app/antique";
+			};
+			name = Debug;
+		};
+		E3A2999F2488AC69007444BA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = T5PKFCH6NT;
+				INFOPLIST_FILE = antiqueTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.5;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.vongbeng.antiqueTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/antique.app/antique";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -747,6 +903,15 @@
 			buildConfigurations = (
 				E3024A3123A8CC53009E3654 /* Debug */,
 				E3024A3223A8CC53009E3654 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E3A299A02488AC69007444BA /* Build configuration list for PBXNativeTarget "antiqueTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E3A2999E2488AC69007444BA /* Debug */,
+				E3A2999F2488AC69007444BA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

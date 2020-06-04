@@ -9,11 +9,11 @@ import LocalAuthentication
 import SwiftUI
 
 enum ActiveSheet {
-    case incomeReport, cashoutReport, addItem, editItem
+    case incomeReport, cashoutReport, addItem, editItem, updatePasscode, editMisc
 }
 
 struct AdminView: View {
-    @State private var isUnlocked = false
+    @ObservedObject var authenticator = PasscodeAuthenticator()
     
     @State private var showSheet = false
     @State private var activeSheet : ActiveSheet = .incomeReport
@@ -26,11 +26,11 @@ struct AdminView: View {
     
     @EnvironmentObject var menu : Menu
     @EnvironmentObject var cashouts : Cashouts
-    private var styles = Styles()
+
     
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            if self.isUnlocked {
+            if self.authenticator.authenticated {
                 Text("Administrator")
                     .bold()
                     .font(.largeTitle)
@@ -39,6 +39,8 @@ struct AdminView: View {
                     Text("Reports")
                         .font(.title)
                     Spacer()
+                    Text("Other")
+                        .font(.title)
                 }
                 
                 HStack {
@@ -63,7 +65,33 @@ struct AdminView: View {
                             .font(.body)
                             .padding()
                     }
-                    .background(styles.colors[4])
+                    .background(Styles.getColor(.lightRed))
+                    .cornerRadius(10)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.showSheet = true
+                        self.activeSheet = .updatePasscode
+                    }) {
+                        Text("Set Passcode")
+                            .foregroundColor(.white)
+                            .font(.body)
+                            .padding()
+                    }
+                    .background(Styles.getColor(.brightCyan))
+                    .cornerRadius(10)
+                    
+                    Button(action: {
+                        self.showSheet = true
+                        self.activeSheet = .editMisc
+                    }) {
+                        Text("Wifi & Exchange Rate")
+                            .foregroundColor(.white)
+                            .font(.body)
+                            .padding()
+                    }
+                    .background(Styles.getColor(.darkGrey))
                     .cornerRadius(10)
                 }
                 
@@ -82,7 +110,7 @@ struct AdminView: View {
                                 .font(.body)
                                 .padding()
                     }
-                    .background(styles.colors[1])
+                    .background(Styles.getColor(.brightCyan))
                     .cornerRadius(10)
                     
                     Spacer()
@@ -92,15 +120,18 @@ struct AdminView: View {
                                 .font(.body)
                                 .padding()
                     }
-                    .background(styles.colors[4])
+                    .background(Styles.getColor(.lightRed))
                     .cornerRadius(10)
                 }
                 ViewItems(editItemID: self.$editItemID, editingItem: self.$showSheet, activeSheet: self.$activeSheet, itemForEdit: self.$itemForEdit, menuSectionSelection: self.$sectionSelection)
             } else {
-                Text("Locked")
+                PasscodeInput(prompt: "Enter Passcode",
+                              value: $authenticator.value,
+                              passcodeDisplay: $authenticator.passcodeDisplay,
+                              displayColor: $authenticator.passcodeDisplayColor)
             }
         }
-        .onAppear(perform: authenticate)
+        .onAppear(perform: self.resetAuthentication)
         .sheet(isPresented: self.$showSheet) {
             if self.activeSheet == .incomeReport {
                 ReportDay()
@@ -112,6 +143,10 @@ struct AdminView: View {
             } else if self.activeSheet == .cashoutReport {
                 CashoutReport()
                     .environmentObject(self.cashouts)
+            } else if self.activeSheet == .updatePasscode {
+                ChangePasscode()
+            } else if self.activeSheet == .editMisc {
+                EditMisc()
             }
         }
         .alert(isPresented: self.$reset) {
@@ -126,29 +161,33 @@ struct AdminView: View {
         menu.resetMenu()
     }
     
-    func authenticate() {
-        let context = LAContext()
-        var error: NSError?
-
-        // check whether biometric authentication is possible
-        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
-            // it's possible, so go ahead and use it
-            let reason = "Accessing Confidential Information"
-
-            context.evaluatePolicy(.deviceOwnerAuthentication, localizedReason: reason) { success, authenticationError in
-                // authentication has now completed
-                DispatchQueue.main.async {
-                    if success {
-                        self.isUnlocked = true
-                    } else {
-                        self.isUnlocked = false
-                    }
-                }
-            }
-        } else {
-            self.isUnlocked = false
-        }
+    func resetAuthentication() {
+        self.authenticator.reset()
     }
+    
+//    func authenticate() {
+//        let context = LAContext()
+//        var error: NSError?
+//
+//        // check whether biometric authentication is possible
+//        if context.canEvaluatePolicy(.deviceOwnerAuthentication, error: &error) {
+//            // it's possible, so go ahead and use it
+//            let reason = "Accessing Confidential Information"
+//
+//            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+//                // authentication has now completed
+//                DispatchQueue.main.async {
+//                    if success {
+//                        self.isUnlocked = true
+//                    } else {
+//                        self.isUnlocked = false
+//                    }
+//                }
+//            }
+//        } else {
+//            self.isUnlocked = false
+//        }
+//    }
 }
 
 struct AdminView_Previews: PreviewProvider {

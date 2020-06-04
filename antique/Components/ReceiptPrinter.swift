@@ -12,11 +12,9 @@ struct ReceiptPrinter: View {
     @EnvironmentObject var printer : BLEConnection
     @EnvironmentObject var orders : Orders
     @EnvironmentObject var order : Order
-    @ObservedObject var styles = Styles()
     @Environment(\.presentationMode) var presentationMode
 
     var codableOrder : CodableOrder
-//    var justPrint : Bool = false
     
     var body: some View {
         VStack {
@@ -27,16 +25,6 @@ struct ReceiptPrinter: View {
             Spacer().frame(height: 10)
             
             if printer.connected {
-//                if justPrint {
-//                    Button(action: {self.printReceipt(}) {
-//                        Text("Print Receipt")
-//                            .padding(10)
-//                            .foregroundColor(.white)
-//                    }
-//                    .disabled(!self.printer.connected)
-//                    .background(styles.colors[1])
-//                    .cornerRadius(20)
-//                } else {
                     HStack {
                     Button(action: self.saveAndPrint) {
                         Text("Save & Print")
@@ -44,7 +32,7 @@ struct ReceiptPrinter: View {
                             .foregroundColor(.white)
                     }
                     .disabled(!self.printer.connected)
-                    .background(styles.colors[4])
+                    .background(Styles.getColor(.lightRed))
                     .cornerRadius(20)
                     
                         Spacer().frame(width: 50)
@@ -55,7 +43,7 @@ struct ReceiptPrinter: View {
                             .foregroundColor(.white)
                     }
                     .disabled(!self.printer.connected)
-                    .background(styles.colors[1])
+                    .background(Styles.getColor(.brightCyan))
                     .cornerRadius(20)
                     }
 //                }
@@ -66,7 +54,7 @@ struct ReceiptPrinter: View {
                             .padding(10)
                             .foregroundColor(.white)
                     }
-                    .background(styles.colors[4])
+                    .background(Styles.getColor(.lightRed))
                     .cornerRadius(20)
                     
                 } else {

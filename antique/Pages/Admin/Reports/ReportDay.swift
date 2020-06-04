@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ReportDay: View {
     @ObservedObject var report = Report()
-    @ObservedObject var styles = Styles()
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
@@ -24,7 +23,7 @@ struct ReportDay: View {
             }
         }
         .padding(20)
-        .background(styles.colors[0])
+        .background(Styles.getColor(.lightGreen))
     }
 }
 

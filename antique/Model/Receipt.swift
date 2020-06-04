@@ -20,7 +20,7 @@ struct Receipt {
     
     let SPACER : String = "\n\n\n"
     
-    let WIFI_PASS : String = "77779999"
+    let WIFI_PASS : String = UserDefaults.standard.string(forKey: UserDefKeys.wifiPasswordKey) ?? ""
     
     // Order to print
     let order : CodableOrder
@@ -64,9 +64,12 @@ struct Receipt {
             }
             if orderItem.item.canUpsize {
                 if orderItem.upsized {
-                    body += "Upsized (+" + String(format: "$%.02f", orderItem.item.upsizePrice) + ")\n"
+                    body += String(format: "Upsized ($%.02f ea)\n", orderItem.item.upsizePrice)
                 }
-            }            
+            }
+            if orderItem.specialDiscounted {
+                body += String(format: "Special Discount (-$%0.02f ea)\n", orderItem.item.specialDiscount)
+            }
             body += "\n"
         }
         
