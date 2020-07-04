@@ -13,14 +13,15 @@ struct Receipt {
     // Page width in number of characters
     let PAGE_WIDTH : Int = 32
     
-    // Difference of 2 to count for spaces between columns
-    let ITEM_COL : Int = 18
-    let QTY_COL : Int = 5
+    // Difference of 3 to account for spaces between columns
+    let ITEM_COL : Int = 12
+    let U_PRICE_COL : Int = 6
+    let QTY_COL : Int = 4
     let TOT_COL : Int = 8
     
     let SPACER : String = "\n\n\n"
     
-    let WIFI_PASS : String = UserDefaults.standard.string(forKey: UserDefKeys.wifiPasswordKey) ?? ""
+    let WIFI_PASS : String = UserDefKeys.getWifiPassword()
     
     // Order to print
     let order : CodableOrder
@@ -48,6 +49,7 @@ struct Receipt {
         let bodyHeader =
             String(repeating: "-", count: PAGE_WIDTH) + "\n" +
             self.pad(msg: "Item", totLength: ITEM_COL) + " " +
+            self.pad(msg: "Price", totLength: U_PRICE_COL, padRight: false) +
             self.pad(msg: "Qty", totLength: QTY_COL, padRight: false) +
             self.pad(msg: "Total", totLength: TOT_COL, padRight: false) +
             "\n" + String(repeating: "-", count: PAGE_WIDTH) + "\n"
@@ -55,21 +57,27 @@ struct Receipt {
         // Order items
         var body : String = ""
         self.order.items.forEach{orderItem in
-            body += self.itemMultiLine(name: orderItem.item.name, price: orderItem.total, qty: orderItem.qty)
+            
+            body += self.itemMultiLine(name: orderItem.item.name, unitPrice: orderItem.item.price, price: orderItem.total, qty: orderItem.qty)
+            
             if orderItem.item.hasIceLevels {
                 body += "Ice: " + orderItem.iceLevel + "\n"
             }
+            
             if orderItem.item.hasSugarLevels {
                 body += "Sugar: " + orderItem.sugarLevel + "\n"
             }
+            
             if orderItem.item.canUpsize {
                 if orderItem.upsized {
                     body += String(format: "Upsized ($%.02f ea)\n", orderItem.item.upsizePrice)
                 }
             }
+            
             if orderItem.specialDiscounted {
-                body += String(format: "Special Discount (-$%0.02f ea)\n", orderItem.item.specialDiscount)
+                body += String(format: "Discounted (-$%0.02f ea)\n", orderItem.item.specialDiscount)
             }
+            
             body += "\n"
         }
         
@@ -89,7 +97,7 @@ struct Receipt {
         let subtotal = self.pad(msg: "Subtotal:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.subtotal), totLength: REMAINING_SPACE, padRight: false) + "\n"
         let discount = self.pad(msg: "Discounts:", totLength: ITEM_COL) +
-            self.pad(msg: "\(self.order.discPercentage)%", totLength: REMAINING_SPACE, padRight: false) + "\n"
+            self.pad(msg: "\(self.order.discountDisplay)", totLength: REMAINING_SPACE, padRight: false) + "\n"
         let grandTotal = self.pad(msg: "Grand Total:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.total), totLength: REMAINING_SPACE, padRight: false) + "\n"
         
@@ -102,8 +110,11 @@ struct Receipt {
     }
     
     // Checks if item name is longer than item column and splits it into 2 lines if necessary.
-    func itemMultiLine(name: String, price: Double, qty: Int) -> String {
-        let qtyPrice = " " + self.pad(msg: "x" + String(qty), totLength: QTY_COL, padRight: false) + self.pad(msg: String(format: "$%.02f", price), totLength: TOT_COL, padRight: false)
+    func itemMultiLine(name: String, unitPrice: Double, price: Double, qty: Int) -> String {
+        let qtyPrice = " " +
+                        self.pad(msg: String(format: "$%.02f", unitPrice), totLength: U_PRICE_COL, padRight: false) +
+                        self.pad(msg: "x" + String(qty), totLength: QTY_COL, padRight: false) +
+                        self.pad(msg: String(format: "$%.02f", price), totLength: TOT_COL, padRight: false)
         
         if name.count <= ITEM_COL {
             return self.pad(msg: name, totLength: ITEM_COL)
@@ -111,8 +122,8 @@ struct Receipt {
         } else {
             let charsLeft = name.count - ITEM_COL
             return self.pad(msg: String(name.prefix(ITEM_COL)), totLength: ITEM_COL)
-                + qtyPrice + "\n"
-                + self.pad(msg: String(name.suffix(charsLeft)), totLength: ITEM_COL) + "\n"
+                    + qtyPrice + "\n"
+                    + self.pad(msg: String(name.suffix(charsLeft)), totLength: ITEM_COL + U_PRICE_COL) + "\n"
         }
     }
     

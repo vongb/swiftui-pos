@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MenuItem: Codable, Equatable, Identifiable {
+struct MenuItem: Codable, Equatable, Identifiable, Hashable {
     let id : UUID = UUID()
     
     var name: String
@@ -82,17 +82,6 @@ struct MenuItem: Codable, Equatable, Identifiable {
             specialDiscount = 0.5
         }
     }
-    
-//    init(_ item: MenuItemDTO) {
-//        self.name = item.name ?? "No Item Name"
-//        self.price = item.price ?? 2.5
-//        self.hasSugarLevels = item.hasSugarLevels ?? true
-//        self.iceLevelIndex = item.iceLevelIndex ?? 0
-//        self.hasIceLevels = item.hasIceLevels ?? true
-//        self.canUpsize = item.canUpsize ?? true
-//        self.upsizePrice = item.upsizePrice ?? 0.5
-//        self.specialDiscount = item.specialDiscount ?? 0.5
-//    }
     
     mutating func update(_ item: MenuItem) {
         self.name = item.name

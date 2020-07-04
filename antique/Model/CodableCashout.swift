@@ -14,7 +14,7 @@ struct CodableCashout : Codable, Identifiable, Hashable {
     var description : String = ""
     var priceInUSD : Double = 0.0
     var date : Date = Date()
-    let EXCHANGE_RATE : Double = UserDefaults.standard.value(forKey: UserDefKeys.exchangeRateKey) as? Double ?? 4000.0
+    let EXCHANGE_RATE : Int = UserDefKeys.getExchangeRate()
     init() {
         self.title = ""
         self.description = ""
@@ -24,7 +24,7 @@ struct CodableCashout : Codable, Identifiable, Hashable {
     init(title: String, description: String, priceInRiels: Int) {
         self.title = title
         self.description = description
-        self.priceInUSD = Double(priceInRiels) / EXCHANGE_RATE
+        self.priceInUSD = Double(priceInRiels) / Double(EXCHANGE_RATE)
     }
     
     init(title: String, description: String, priceInCents: Int) {
@@ -43,7 +43,7 @@ struct CodableCashout : Codable, Identifiable, Hashable {
     init(title: String, description: String, priceInRiels: Int, date: Date) {
         self.title = title
         self.description = description
-        self.priceInUSD = Double(priceInRiels) / EXCHANGE_RATE
+        self.priceInUSD = Double(priceInRiels) / Double(EXCHANGE_RATE)
         self.date = date
     }
     

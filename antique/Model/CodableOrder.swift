@@ -8,9 +8,8 @@
 
 import Foundation
 
-struct CodableOrder : Codable, Identifiable {
+struct CodableOrder : Codable, Identifiable, Hashable {
     let id : UUID = UUID()
-    
     var orderNo : Int
     var items : [OrderItem]
     var discPercentage : Int
@@ -19,6 +18,14 @@ struct CodableOrder : Codable, Identifiable {
     var date : Date
     var settled : Bool
     var cancelled : Bool
+    
+    var discountDisplay : String {
+        if isDiscPercentage {
+            return "\(discPercentage)%"
+        } else {
+            return String(format: "$%0.2f", discAmountInUSD)
+        }
+    }
     
     var subtotal: Double {
         if items.count > 0 {
@@ -43,11 +50,11 @@ struct CodableOrder : Codable, Identifiable {
     // Creates instance of CodableOrder from returned value from reading json files
     init(_ order: CodableOrderDTO) {
         self.orderNo = order.orderNo ?? 0
-        self.items = order.items ?? [OrderItem]()
+        self.items = order.getOrderItems()
         self.discPercentage = order.discPercentage ?? 0
         self.isDiscPercentage = order.isDiscPercentage ?? true
         self.discAmountInUSD = order.discAmountInUSD ?? 0
-        self.date = order.date ?? Date()
+        self.date = order.date ?? Date(timeIntervalSince1970: 0)
         self.settled = order.settled ?? false
         self.cancelled = order.cancelled ?? false
     }
@@ -116,7 +123,7 @@ struct CodableOrder : Codable, Identifiable {
 // Data Transfer Object for reading JSON files
 struct CodableOrderDTO : Codable {
     var orderNo : Int?
-    var items : [OrderItem]?
+    var items : [OrderItemDTO]?
     var discPercentage : Int?
     var isDiscPercentage : Bool?
     var discAmountInUSD: Double?
@@ -126,7 +133,7 @@ struct CodableOrderDTO : Codable {
     
     init() {
         orderNo = 1
-        items = [OrderItem]()
+        items = [OrderItemDTO]()
         discPercentage = 0
         isDiscPercentage = true
         discAmountInUSD = 0
@@ -135,7 +142,7 @@ struct CodableOrderDTO : Codable {
         cancelled = false
     }
     
-    init(orderNo: Int = -1, items: [OrderItem] = [OrderItem](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
+    init(orderNo: Int = -1, items: [OrderItemDTO] = [OrderItemDTO](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
         self.orderNo = orderNo
         self.items = items
         self.discPercentage = discPercentage
@@ -149,11 +156,11 @@ struct CodableOrderDTO : Codable {
     init(from decoder: Decoder) throws {
         let newJSON = try decoder.container(keyedBy: NewKeys.self)
         orderNo = try? newJSON.decode(Int.self, forKey: .orderNo)
-        if let orderedItems = try? newJSON.decodeIfPresent([OrderItem].self, forKey: .items){
+        if let orderedItems = try? newJSON.decodeIfPresent([OrderItemDTO].self, forKey: .items){
             items = orderedItems
         } else {
             let oldJSON = try decoder.container(keyedBy: OldKeys.self)
-            items = try? oldJSON.decode([OrderItem].self, forKey: .itemsOrdered)
+            items = try? oldJSON.decode([OrderItemDTO].self, forKey: .itemsOrdered)
         }
         discPercentage = try? newJSON.decode(Int.self, forKey: .discPercentage)
         isDiscPercentage = try? newJSON.decode(Bool.self, forKey: .isDiscPercentage)
@@ -161,6 +168,17 @@ struct CodableOrderDTO : Codable {
         date = try? newJSON.decode(Date.self, forKey: .date)
         settled = try? newJSON.decode(Bool.self, forKey: .settled)
         cancelled = try? newJSON.decode(Bool.self, forKey: .cancelled)
+    }
+    
+    func getOrderItems() -> [OrderItem] {
+        var items = [OrderItem]()
+        
+        if self.items != nil {
+            for index in 0 ..< self.items!.count {
+                items.append(self.items![index].convertToOrderItem())
+            }
+        }
+        return items
     }
     
     private enum NewKeys : String, CodingKey {

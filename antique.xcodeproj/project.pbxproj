@@ -43,6 +43,8 @@
 		E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488723D4338300B08D14 /* DetailedViewEditing.swift */; };
 		E32A488A23D4374D00B08D14 /* ItemRowOrderEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */; };
 		E32A488C23D4384D00B08D14 /* MenuViewEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */; };
+		E354AEEA248A76690082E135 /* OrderSubtotalLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E354AEE9248A76690082E135 /* OrderSubtotalLabel.swift */; };
+		E354AEEC248E3D0A0082E135 /* AllOrdersReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E354AEEB248E3D0A0082E135 /* AllOrdersReport.swift */; };
 		E35C20E423D3223700577853 /* CancelOrderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35C20E323D3223700577853 /* CancelOrderButton.swift */; };
 		E36831582462B6EA000FF793 /* CashoutReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831572462B6EA000FF793 /* CashoutReport.swift */; };
 		E368315A2462B8A7000FF793 /* Cashouts.swift in Sources */ = {isa = PBXBuildFile; fileRef = E36831592462B8A7000FF793 /* Cashouts.swift */; };
@@ -63,6 +65,7 @@
 		E3A299A42488CBAA007444BA /* orderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A32488CBAA007444BA /* orderTests.swift */; };
 		E3A299A62488E24E007444BA /* cashoutTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A52488E24E007444BA /* cashoutTests.swift */; };
 		E3A299A82488E2E5007444BA /* UserDefKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299A72488E2E5007444BA /* UserDefKeys.swift */; };
+		E3A299B824894395007444BA /* DiscountApplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A299B724894395007444BA /* DiscountApplier.swift */; };
 		E3A9768123CB78D000C66344 /* _.gitignore_ in Resources */ = {isa = PBXBuildFile; fileRef = E3A9768023CB78D000C66344 /* _.gitignore_ */; };
 		E3A9768323CB921500C66344 /* ItemOrdered.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768223CB921500C66344 /* ItemOrdered.swift */; };
 		E3A9768523CB9A5100C66344 /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9768423CB9A5100C66344 /* Styles.swift */; };
@@ -73,6 +76,7 @@
 		E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769923CC3AD000C66344 /* EditItemRow.swift */; };
 		E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3A9769B23CC5ECC00C66344 /* ViewItems.swift */; };
 		E3A9769E23CC672400C66344 /* levels.json in Resources */ = {isa = PBXBuildFile; fileRef = E3A9769D23CC672400C66344 /* levels.json */; };
+		E3AB1EDC24B078CA00B24B22 /* MenuSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3AB1EDB24B078CA00B24B22 /* MenuSection.swift */; };
 		E3ACACB124146ACC00FC29ED /* DeleteItemButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3ACACB024146ACC00FC29ED /* DeleteItemButton.swift */; };
 		E3CB374823D32A2F00BC3326 /* SettleOrUnsettleButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CB374723D32A2F00BC3326 /* SettleOrUnsettleButton.swift */; };
 		E3CB374C23D32EE700BC3326 /* EditOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3CB374B23D32EE700BC3326 /* EditOrder.swift */; };
@@ -144,6 +148,8 @@
 		E32A488723D4338300B08D14 /* DetailedViewEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailedViewEditing.swift; sourceTree = "<group>"; };
 		E32A488923D4374D00B08D14 /* ItemRowOrderEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemRowOrderEditing.swift; sourceTree = "<group>"; };
 		E32A488B23D4384D00B08D14 /* MenuViewEditing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuViewEditing.swift; sourceTree = "<group>"; };
+		E354AEE9248A76690082E135 /* OrderSubtotalLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSubtotalLabel.swift; sourceTree = "<group>"; };
+		E354AEEB248E3D0A0082E135 /* AllOrdersReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllOrdersReport.swift; sourceTree = "<group>"; };
 		E35C20E323D3223700577853 /* CancelOrderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancelOrderButton.swift; sourceTree = "<group>"; };
 		E36831572462B6EA000FF793 /* CashoutReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashoutReport.swift; sourceTree = "<group>"; };
 		E36831592462B8A7000FF793 /* Cashouts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cashouts.swift; sourceTree = "<group>"; };
@@ -166,6 +172,7 @@
 		E3A299A32488CBAA007444BA /* orderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = orderTests.swift; sourceTree = "<group>"; };
 		E3A299A52488E24E007444BA /* cashoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cashoutTests.swift; sourceTree = "<group>"; };
 		E3A299A72488E2E5007444BA /* UserDefKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefKeys.swift; sourceTree = "<group>"; };
+		E3A299B724894395007444BA /* DiscountApplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscountApplier.swift; sourceTree = "<group>"; };
 		E3A9768023CB78D000C66344 /* _.gitignore_ */ = {isa = PBXFileReference; lastKnownFileType = text; path = _.gitignore_; sourceTree = "<group>"; };
 		E3A9768223CB921500C66344 /* ItemOrdered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemOrdered.swift; sourceTree = "<group>"; };
 		E3A9768423CB9A5100C66344 /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
@@ -176,6 +183,7 @@
 		E3A9769923CC3AD000C66344 /* EditItemRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditItemRow.swift; sourceTree = "<group>"; };
 		E3A9769B23CC5ECC00C66344 /* ViewItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItems.swift; sourceTree = "<group>"; };
 		E3A9769D23CC672400C66344 /* levels.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = levels.json; sourceTree = "<group>"; };
+		E3AB1EDB24B078CA00B24B22 /* MenuSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSection.swift; sourceTree = "<group>"; };
 		E3ACACB024146ACC00FC29ED /* DeleteItemButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteItemButton.swift; sourceTree = "<group>"; };
 		E3CB374723D32A2F00BC3326 /* SettleOrUnsettleButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettleOrUnsettleButton.swift; sourceTree = "<group>"; };
 		E3CB374B23D32EE700BC3326 /* EditOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditOrder.swift; sourceTree = "<group>"; };
@@ -239,9 +247,9 @@
 			children = (
 				E3024A1C23A8CC4D009E3654 /* AppDelegate.swift */,
 				E3024A1E23A8CC4D009E3654 /* SceneDelegate.swift */,
-				E3024A4223B13266009E3654 /* Components */,
-				E3024A4323B1327B009E3654 /* Pages */,
+				E3C2A92F24B0BFF00056852B /* Views */,
 				E3024A4123B1324C009E3654 /* Model */,
+				E3C2A92E24B0BEC50056852B /* ViewModels */,
 				E3024A4423B13293009E3654 /* Data */,
 				E3024A2523A8CC53009E3654 /* Assets.xcassets */,
 				E39731E223BE79F100A1D9EF /* AppIcon.appiconset */,
@@ -266,21 +274,14 @@
 			isa = PBXGroup;
 			children = (
 				E3024A3323A8CFAD009E3654 /* Helper.swift */,
-				E3024A3723A8D0E6009E3654 /* Menu.swift */,
+				E3AB1EDB24B078CA00B24B22 /* MenuSection.swift */,
 				E39731E023BE488A00A1D9EF /* MenuItem.swift */,
-				E3024A3923A8D0F2009E3654 /* Order.swift */,
 				E320CE0723D7FEBF0045A25C /* CodableOrder.swift */,
 				E3024A4523B13774009E3654 /* OrderItem.swift */,
-				E30BABC023CB085E0086E3D6 /* Orders.swift */,
 				E37BAC552414BC9F002CB335 /* CodableCashout.swift */,
-				E36831592462B8A7000FF793 /* Cashouts.swift */,
-				E368316324665643000FF793 /* Report.swift */,
 				E3A9768223CB921500C66344 /* ItemOrdered.swift */,
-				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
 				E39731EB23C6F1EF00A1D9EF /* Receipt.swift */,
 				E3A9768423CB9A5100C66344 /* Styles.swift */,
-				E30E8DE32483E2E700716C7B /* PasscodeCreator.swift */,
-				E30E8DE92483E7AB00716C7B /* PasscodeAuthenticator.swift */,
 				E30E8DDD2483C76000716C7B /* KeychainItemAccessibility.swift */,
 				E30E8DDF2483C77C00716C7B /* KeychainWrapper.swift */,
 				E3A299A72488E2E5007444BA /* UserDefKeys.swift */,
@@ -383,6 +384,7 @@
 			children = (
 				E3A9768A23CC2CBC00C66344 /* ReportDay.swift */,
 				E36831572462B6EA000FF793 /* CashoutReport.swift */,
+				E354AEEB248E3D0A0082E135 /* AllOrdersReport.swift */,
 			);
 			path = Reports;
 			sourceTree = "<group>";
@@ -394,6 +396,30 @@
 				E30E8DE72483E52E00716C7B /* ChangePasscode.swift */,
 			);
 			path = Misc;
+			sourceTree = "<group>";
+		};
+		E3C2A92E24B0BEC50056852B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				E3024A3723A8D0E6009E3654 /* Menu.swift */,
+				E3024A3923A8D0F2009E3654 /* Order.swift */,
+				E30BABC023CB085E0086E3D6 /* Orders.swift */,
+				E36831592462B8A7000FF793 /* Cashouts.swift */,
+				E368316324665643000FF793 /* Report.swift */,
+				E39731E723C4395C00A1D9EF /* BLEConnection.swift */,
+				E30E8DE32483E2E700716C7B /* PasscodeCreator.swift */,
+				E30E8DE92483E7AB00716C7B /* PasscodeAuthenticator.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E3C2A92F24B0BFF00056852B /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E3024A4223B13266009E3654 /* Components */,
+				E3024A4323B1327B009E3654 /* Pages */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		E3CB375723D3458100BC3326 /* EditOrder */ = {
@@ -437,12 +463,14 @@
 			isa = PBXGroup;
 			children = (
 				E3CB374F23D3310D00BC3326 /* ChangeCalculator.swift */,
+				E3A299B724894395007444BA /* DiscountApplier.swift */,
 				E3D970D123B1FD4600DA535A /* OrderHeader.swift */,
 				E3024A4723B13A67009E3654 /* OrderRow.swift */,
 				E3D970D323B1FF9800DA535A /* OrderSummary.swift */,
 				E32A487D23D3532E00B08D14 /* OrderSummaryOrderEditing.swift */,
 				E3D970DE23B333AB00DA535A /* OrderConfirmButton.swift */,
 				E32A487F23D3542900B08D14 /* OrderConfirmEditingButton.swift */,
+				E354AEE9248A76690082E135 /* OrderSubtotalLabel.swift */,
 				E3CB375323D3411800BC3326 /* OrderTotalLabel.swift */,
 			);
 			path = Order;
@@ -589,12 +617,15 @@
 				E3CB376423D349C700BC3326 /* QtyUpdater.swift in Sources */,
 				E39731E823C4395C00A1D9EF /* BLEConnection.swift in Sources */,
 				E3D970E323B9CC1700DA535A /* AppView.swift in Sources */,
+				E3AB1EDC24B078CA00B24B22 /* MenuSection.swift in Sources */,
 				E3D970E123B333BC00DA535A /* OrderConfirmView.swift in Sources */,
 				E30E8DDE2483C76000716C7B /* KeychainItemAccessibility.swift in Sources */,
 				E32A488823D4338300B08D14 /* DetailedViewEditing.swift in Sources */,
 				E3CB375623D343A800BC3326 /* OrderConfirmEditing.swift in Sources */,
 				E37BAC5C2424B1EB002CB335 /* SpecialDiscountItem.swift in Sources */,
 				E37BAC562414BC9F002CB335 /* CodableCashout.swift in Sources */,
+				E354AEEA248A76690082E135 /* OrderSubtotalLabel.swift in Sources */,
+				E3A299B824894395007444BA /* DiscountApplier.swift in Sources */,
 				E320CE0B23D9A1A20045A25C /* OrderReport.swift in Sources */,
 				E3A9769A23CC3AD000C66344 /* EditItemRow.swift in Sources */,
 				E31EBE3B23CAC65C00E03500 /* SavedOrderRow.swift in Sources */,
@@ -645,6 +676,7 @@
 				E3A9769C23CC5ECC00C66344 /* ViewItems.swift in Sources */,
 				E3ACACB124146ACC00FC29ED /* DeleteItemButton.swift in Sources */,
 				E3D970DF23B333AB00DA535A /* OrderConfirmButton.swift in Sources */,
+				E354AEEC248E3D0A0082E135 /* AllOrdersReport.swift in Sources */,
 				E3D970D723B3050900DA535A /* MenuView.swift in Sources */,
 				E3D970D223B1FD4600DA535A /* OrderHeader.swift in Sources */,
 				E3024A4823B13A67009E3654 /* OrderRow.swift in Sources */,
@@ -807,6 +839,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"antique/Preview Content\"";
 				DEVELOPMENT_TEAM = T5PKFCH6NT;
 				ENABLE_PREVIEWS = YES;
@@ -816,6 +849,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vongbeng.antique;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -828,6 +862,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"antique/Preview Content\"";
 				DEVELOPMENT_TEAM = T5PKFCH6NT;
 				ENABLE_PREVIEWS = YES;
@@ -837,6 +872,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0.4;
 				PRODUCT_BUNDLE_IDENTIFIER = com.vongbeng.antique;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

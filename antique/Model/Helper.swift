@@ -32,8 +32,8 @@ extension Bundle {
         do {
             if FileManager.default.fileExists(atPath: menuFileName) {
                 let data = try Data(contentsOf: URL(fileURLWithPath: menuFileName))
-                let menuSection = try JSONDecoder().decode([MenuSection].self, from: data)
-                return menuSection
+                let menuSections = try JSONDecoder().decode([MenuSection].self, from: data)
+                return menuSections
             }
         } catch {
             print(error)
@@ -52,7 +52,7 @@ extension Bundle {
                 FileManager.default.createFile(atPath: getMenuFileName(), contents: data)
             }
         } catch {
-            print(error)
+
         }
         
     }
@@ -90,7 +90,6 @@ extension Bundle {
             }
             return orders.sorted(by: {$0.orderNo < $1.orderNo})
         } catch {
-            print(error)
             return [CodableOrder]()
         }
     }
@@ -127,7 +126,6 @@ extension Bundle {
             }
             return monthOrders
         } catch {
-            print(error)
             return [CodableOrder]()
         }
     }
@@ -154,7 +152,6 @@ extension Bundle {
             }
             return cashouts.sorted(by: {$0.date < $1.date})
         } catch {
-            print(error)
             return [CodableCashout]()
         }
     }
@@ -191,7 +188,6 @@ extension Bundle {
             }
             return monthCashouts
         } catch {
-            print(error)
             return [CodableCashout]()
         }
     }

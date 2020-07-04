@@ -21,14 +21,14 @@ class cashoutTests: XCTestCase {
     
     func testCorrectUserDefaultExchangeRate() {
         let cashout = CodableCashout()
-        let exchangeRate = UserDefaults.standard.value(forKey: UserDefKeys.exchangeRateKey) as? Double ?? 4000.0
+        let exchangeRate = UserDefKeys.getExchangeRate()
         XCTAssert(exchangeRate == cashout.EXCHANGE_RATE)
     }
 
     func testCashoutRielToUSD() {
         let riels = 40000
-        let exchangeRate = UserDefaults.standard.value(forKey: UserDefKeys.exchangeRateKey) as? Double ?? 4000.0
-        let usd = Double(riels) / exchangeRate
+        let exchangeRate = UserDefKeys.getExchangeRate()
+        let usd = Double(riels) / Double(exchangeRate)
         let cashout = CodableCashout(title: "Test Cashout", description: "Test Description", priceInRiels: riels)
         
         XCTAssert(usd == cashout.priceInUSD)
