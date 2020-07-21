@@ -5,7 +5,7 @@ I created this as a side project and also to help a friend manage sales at her s
 ## Getting Started
 ### Prerequisites
 * A device running **MacOS Catalina** or greater and
-* An iPhone or iPad with **iOS13** or greater to be able to compile and run the code.
+* An iPad with **iOS13** or greater to be able to compile and run the code.
 * KKmoon POS-5802DD portable thermal printer if you wish to test the printing functionality. (https://www.amazon.com.au/KKmoon-POS-5802DD-Portable-Wireless-Printing/dp/B01MY9H22U)
 
 ### Installing
@@ -20,8 +20,8 @@ It uses Swift's Codable protocol to create and encode orders to JSON files. Orde
 These were used to display order properties as well as pass order items across multiple views and reusable component.
 ### CoreBluetooth
 CoreBluetooth was used to establish a connection with the receipt printer and issue receipts.
-### Apple's Biometric Authentication
-This functionality is used to grant access to users attempting to view financial information regarding daily (and monthly) sales reports. As this app is meant to be used by both sales staff and shop owner, the feature was necessary.
+### Keychain
+With the help of Keychain Wrapper, the Keychain framework is used to store app passcode which grants access to the admin page. This page allows users to view financial reports regarding the cafe.
 
 ---
 ## Acknowledgements
@@ -35,6 +35,9 @@ Color Hunt is really great if you cannot design for the life of you (like me). A
 Of course where would I be without this site. Notable threads that REALLY helped me print to a bluetooth printer from an iOS device:
 * [Characteristic and Print Buffer](https://stackoverflow.com/questions/31353112/ios-corebluetooth-print-cbservice-and-cbcharacteristic) - Kudos to Giorgio for laying out which characteristics were meant for printing and pointing out the print buffer.
 * [BLEConnection](https://stackoverflow.com/questions/58239721/render-list-after-bluetooth-scanning-starts-swiftui) - information from here provided me with a really good understanding of how bluetooth connections work in SwiftUI.
+
+### [Keychain Wrapper](https://github.com/jrendel/SwiftKeychainWrapper)
+Kudos to jrendel for writing this wrapper to significantly simplify Keychain wrapper. Implementing the app passcode would be significantly more complicated without this.
 
 ### [Raywenderlich.com](https://www.raywenderlich.com/231-core-bluetooth-tutorial-for-ios-heart-rate-monitor)
 Although this guide is not specifically for SwiftUI, I was still able to learn how connecting to a BLE device should work and adapt it to the new framework by Apple.
