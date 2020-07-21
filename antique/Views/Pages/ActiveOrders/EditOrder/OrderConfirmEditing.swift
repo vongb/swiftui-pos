@@ -18,17 +18,21 @@ struct OrderConfirmEditing: View {
     @State private var showDiscount : Bool = false
     @State private var showCalculator = false
     
+    @State private var editingTableNo : Bool = false
     @State private var editingCents = false
     @State private var editingRiels = false
     @EnvironmentObject var orders : Orders
     @Environment(\.presentationMode) var presentationMode
     
+    private var height: CGFloat {
+        editingTableNo || showDiscount || showCalculator ? 600 : 350
+    }
     
     var body: some View {
         ZStack(alignment: .top) {
             Rectangle()
             .fill(Styles.getColor(.lightGreen))
-            .frame(width: contentWidth + 50, height: (showDiscount || showCalculator) ? 600 : 350)
+            .frame(width: contentWidth + 50, height: height)
             .cornerRadius(20)
             .contentShape(Rectangle())
             .onTapGesture {
@@ -67,6 +71,9 @@ struct OrderConfirmEditing: View {
                     
                     Divider()
                         .frame(width: contentWidth)
+                    
+                    // Table No
+                    TableNumberEntry(editing: $editingTableNo, tableID: $order.tableNo)
                     
                     // Update Order
                     HStack(spacing: 25) {

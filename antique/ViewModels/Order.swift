@@ -15,6 +15,7 @@ class Order : ObservableObject {
     @Published var discPercentage : Int = 0 // Discount percentage
     @Published var isDiscPercentage : Bool = true
     @Published var discAmountInUSD : Double = 0
+    @Published var tableNo : String = ""
     var date : Date = Date()
     
     var discountDisplay : String {
@@ -70,12 +71,14 @@ class Order : ObservableObject {
             }
             
             let codedItem = CodableOrderDTO(orderNo: orderNo,
+                                            tableNo: tableNo,
                                             items: orderItemsDTO,
                                             discPercentage: self.discPercentage,
                                             isDiscPercentage: self.isDiscPercentage,
                                             discAmountInUSD: self.discAmountInUSD,
                                             date: settleDate,
                                             settled: settled)
+            
             let codableOrder = CodableOrder(codedItem)
             
             Bundle.main.createOrder(orderToEncode: codableOrder)
@@ -84,11 +87,12 @@ class Order : ObservableObject {
     }
     
     func resetOrder() {
-        self.items.removeAll()
+        items.removeAll()
         discAmountInUSD = 0
         discPercentage = 0
         isDiscPercentage = true
-        self.date = Date()
+        date = Date()
+        tableNo = ""
     }
 }
 

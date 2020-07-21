@@ -11,6 +11,7 @@ import Foundation
 struct CodableOrder : Codable, Identifiable, Hashable {
     let id : UUID = UUID()
     var orderNo : Int
+    var tableNo : String
     var items : [OrderItem]
     var discPercentage : Int
     var isDiscPercentage : Bool
@@ -49,19 +50,21 @@ struct CodableOrder : Codable, Identifiable, Hashable {
     
     // Creates instance of CodableOrder from returned value from reading json files
     init(_ order: CodableOrderDTO) {
-        self.orderNo = order.orderNo ?? 0
-        self.items = order.getOrderItems()
-        self.discPercentage = order.discPercentage ?? 0
-        self.isDiscPercentage = order.isDiscPercentage ?? true
-        self.discAmountInUSD = order.discAmountInUSD ?? 0
-        self.date = order.date ?? Date(timeIntervalSince1970: 0)
-        self.settled = order.settled ?? false
-        self.cancelled = order.cancelled ?? false
+        orderNo = order.orderNo ?? 0
+        tableNo = order.tableNo ?? "No Table Number"
+        items = order.getOrderItems()
+        discPercentage = order.discPercentage ?? 0
+        isDiscPercentage = order.isDiscPercentage ?? true
+        discAmountInUSD = order.discAmountInUSD ?? 0
+        date = order.date ?? Date(timeIntervalSince1970: 0)
+        settled = order.settled ?? false
+        cancelled = order.cancelled ?? false
     }
     
     // Manual CodableOrder init
-    init(orderNo: Int, items: [OrderItem] = [OrderItem](), discPercentage : Int = 0, isDiscPercentage : Bool = true, discAmountInUSD : Double = 0, date: Date, settled : Bool = false, cancelled : Bool = false) {
+    init(orderNo: Int, tableNo: String = "", items: [OrderItem] = [OrderItem](), discPercentage : Int = 0, isDiscPercentage : Bool = true, discAmountInUSD : Double = 0, date: Date, settled : Bool = false, cancelled : Bool = false) {
         self.orderNo = orderNo
+        self.tableNo = tableNo
         self.items = items
         self.discPercentage = discPercentage
         self.isDiscPercentage = isDiscPercentage
@@ -123,6 +126,7 @@ struct CodableOrder : Codable, Identifiable, Hashable {
 // Data Transfer Object for reading JSON files
 struct CodableOrderDTO : Codable {
     var orderNo : Int?
+    var tableNo : String?
     var items : [OrderItemDTO]?
     var discPercentage : Int?
     var isDiscPercentage : Bool?
@@ -133,6 +137,7 @@ struct CodableOrderDTO : Codable {
     
     init() {
         orderNo = 1
+        tableNo = "TA"
         items = [OrderItemDTO]()
         discPercentage = 0
         isDiscPercentage = true
@@ -142,8 +147,9 @@ struct CodableOrderDTO : Codable {
         cancelled = false
     }
     
-    init(orderNo: Int = -1, items: [OrderItemDTO] = [OrderItemDTO](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
+    init(orderNo: Int = -1, tableNo: String = "", items: [OrderItemDTO] = [OrderItemDTO](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
         self.orderNo = orderNo
+        self.tableNo = tableNo
         self.items = items
         self.discPercentage = discPercentage
         self.isDiscPercentage = isDiscPercentage
@@ -156,6 +162,7 @@ struct CodableOrderDTO : Codable {
     init(from decoder: Decoder) throws {
         let newJSON = try decoder.container(keyedBy: NewKeys.self)
         orderNo = try? newJSON.decode(Int.self, forKey: .orderNo)
+        tableNo = try? newJSON.decode(String.self, forKey: .tableNo)
         if let orderedItems = try? newJSON.decodeIfPresent([OrderItemDTO].self, forKey: .items){
             items = orderedItems
         } else {
@@ -183,6 +190,7 @@ struct CodableOrderDTO : Codable {
     
     private enum NewKeys : String, CodingKey {
         case orderNo
+        case tableNo
         case items
         case discPercentage
         case isDiscPercentage

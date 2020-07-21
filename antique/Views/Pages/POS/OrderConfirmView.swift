@@ -19,13 +19,19 @@ struct OrderConfirmView: View {
     @State private var showDiscount : Bool = false
     @State private var showCalculator : Bool = false
     
+    @State private var editingTableNo : Bool = true
     @State private var editingCents : Bool = false
     @State private var editingRiels : Bool = false
     @State private var discountSelection : Int = 0
     
     @State private var confirmingSettle : Bool = false
+    var height : CGFloat {
+        showDiscount || showCalculator || editingTableNo ? 600 : 350
+    }
+    
     var codableOrder : CodableOrder {
         CodableOrder(orderNo: orders.nextOrderNo,
+                     tableNo: order.tableNo,
                      items: order.items,
                      discPercentage: order.discPercentage,
                      isDiscPercentage: order.isDiscPercentage,
@@ -36,12 +42,11 @@ struct OrderConfirmView: View {
     }
     
     @State private var showChangeCalc : Bool = false
-    
         var body: some View {
             ZStack(alignment: .top) {
                 Rectangle()
                         .fill(Styles.getColor(.lightGreen))
-                        .frame(width: contentWidth + 50, height: (showDiscount || showCalculator) ? 600 : 350)
+                        .frame(width: contentWidth + 50, height: height)
                         .cornerRadius(20)
                         .contentShape(Rectangle())
                         .onTapGesture {
@@ -50,6 +55,7 @@ struct OrderConfirmView: View {
                                 self.editingCents = false
                                 self.showCalculator = false
                                 self.showDiscount = false
+                                self.editingTableNo = false
                             }
                         }
                 VStack(alignment: .center, spacing: 10) {
@@ -60,6 +66,7 @@ struct OrderConfirmView: View {
                         .frame(width: contentWidth)
                         
                     ScrollView {
+                        
                         HStack(spacing: 50) {
                             if !self.showCalculator {
                                 DiscountApplier(showDiscount: self.$showDiscount, value: $discountValue, discPercentage: self.$order.discPercentage, isDiscPercentage: self.$order.isDiscPercentage, discAmountInUSD: self.$order.discAmountInUSD, selection: $discountSelection)
@@ -73,7 +80,11 @@ struct OrderConfirmView: View {
                         Divider()
                             .frame(width: contentWidth)
                         
-                        Group {
+                        // Table Number
+                        TableNumberEntry(editing: $editingTableNo, tableID: $order.tableNo)
+                        
+                        if !editingTableNo {
+                            // Save or Settle
                             HStack(spacing: 50) {
                                 // Save Order
                                 Button(action: saveOrder) {
@@ -95,8 +106,8 @@ struct OrderConfirmView: View {
                                 .background(Color.green)
                                 .cornerRadius(20)
                             }
+                            ReceiptPrinter(codableOrder: codableOrder)
                         }
-                        ReceiptPrinter(codableOrder: codableOrder)
                     }
                 }
                 .padding()

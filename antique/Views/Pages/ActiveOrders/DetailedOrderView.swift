@@ -21,7 +21,16 @@ struct DetailedOrderView: View {
         VStack(alignment: .leading, spacing: 10) {
             Group {
                 HStack {
-                    BlackText(text: "Order No: #\(order.orderNo)", fontSize: 40)
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Table No: \(order.tableNo)")
+                            .bold()
+                            .padding(5)
+                            .font(.system(size: 35))
+                            .foregroundColor(.white)
+                            .background(Styles.getColor(.darkGrey))
+                            .cornerRadius(10)
+                        BlackText(text: "Order No: #\(order.orderNo)", fontSize: 25)
+                    }
                     Spacer()
                     if !order.cancelled && !order.settled {
                         Button(action: edit) {

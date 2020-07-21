@@ -107,7 +107,8 @@ struct DetailedView: View {
         }
         
         let newOrderItem = OrderItem(item: self.item, qty: self.qty, upsized: self.upsized, specialDiscounted: self.specialDiscounted, sugarLevel: sugar, iceLevel: ice)
-        self.order.add(newOrderItem)
+        order.add(newOrderItem)
+        order.date = Date()
         self.presentationMode.wrappedValue.dismiss()
     }
 }

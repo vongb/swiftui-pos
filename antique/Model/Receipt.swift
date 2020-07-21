@@ -4,14 +4,16 @@
 //
 //  Created by Vong Beng on 9/1/20.
 //  Copyright © 2020 Vong Beng. All rights reserved.
-//
+//  https://stackoverflow.com/questions/53769188/change-font-size-programmatically-on-thermal-bluetooth-printer
 
 import Foundation
 
 // Struct for receipt layout
 struct Receipt {
     // Page width in number of characters
+    // CHANGE DIVIDER COUNT WHEN PAGE WIDTH CHANGES
     let PAGE_WIDTH : Int = 32
+    let divider = String(repeating: "-", count: 32) + "\n"
     
     // Difference of 3 to account for spaces between columns
     let ITEM_COL : Int = 12
@@ -20,25 +22,28 @@ struct Receipt {
     let TOT_COL : Int = 8
     
     let SPACER : String = "\n\n\n"
-    
     let WIFI_PASS : String = UserDefKeys.getWifiPassword()
     
     // Order to print
     let order : CodableOrder
-    let date : Date
     // Title Section
     // Name of Cafe (Centred)
     // Date (Left)
     // Time (Left)
     func title() -> String{
-        let title = centre(msg: "ANTIQUE CAFE") + "\n"
+        let title = centre(msg: "ANTIQUE CAFE") + "\n\n"
+        let tableNo = "Table Number: \(order.tableNo)\n"
+        return title + tableNo
+    }
+    
+    func header() -> String {
         let orderNo = "Order #" + String(order.orderNo) + "\n"
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM, yyyy"
         let date = "Date: " + dateFormatter.string(from: order.date) + "\n"
         dateFormatter.dateFormat = "hh:mm:ss"
-        let time = "Time: " + dateFormatter.string(from: self.date) + "\n"
-        return title + orderNo + date + time
+        let time = "Time: " + dateFormatter.string(from: order.date) + "\n"
+        return orderNo + date + time
     }
     
     // Body Section (Will split item names in 2 lines if too long for item column)
@@ -47,12 +52,12 @@ struct Receipt {
     func body() -> String {
         // Column Labels
         let bodyHeader =
-            String(repeating: "-", count: PAGE_WIDTH) + "\n" +
+            divider +
             self.pad(msg: "Item", totLength: ITEM_COL) + " " +
             self.pad(msg: "Price", totLength: U_PRICE_COL, padRight: false) +
             self.pad(msg: "Qty", totLength: QTY_COL, padRight: false) +
             self.pad(msg: "Total", totLength: TOT_COL, padRight: false) +
-            "\n" + String(repeating: "-", count: PAGE_WIDTH) + "\n"
+            "\n" + divider
         
         // Order items
         var body : String = ""
@@ -84,47 +89,62 @@ struct Receipt {
         return bodyHeader + body
     }
     
-    // Footer Section
     // Subtotal
     // Discounts
     // Total
-    // WiFi Password
-    // Gratitude
-    // Spacer for next receipt
-    func footer() -> String{
+    func totals() -> String {
         let REMAINING_SPACE = PAGE_WIDTH - ITEM_COL
-        
         let subtotal = self.pad(msg: "Subtotal:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.subtotal), totLength: REMAINING_SPACE, padRight: false) + "\n"
         let discount = self.pad(msg: "Discounts:", totLength: ITEM_COL) +
             self.pad(msg: "\(self.order.discountDisplay)", totLength: REMAINING_SPACE, padRight: false) + "\n"
         let grandTotal = self.pad(msg: "Grand Total:", totLength: ITEM_COL) +
             self.pad(msg: String(format: "$%.02f", self.order.total), totLength: REMAINING_SPACE, padRight: false) + "\n"
-        
+        return divider + subtotal + discount + grandTotal
+    }
+    
+    // Footer Section
+    // WiFi Password
+    // Gratitude
+    // Spacer for next receipt
+    func footer() -> String{
         let footer = "WiFi Password: " + WIFI_PASS
-        let thankYou = "Thank You, Please Come Again"
-        let divider = String(repeating: "-", count: PAGE_WIDTH) + "\n"
+        let gratitude = "Thank You, Please Come Again"
         
-        
-        return divider + subtotal + discount + grandTotal + divider + centre(msg: footer) + centre(msg: thankYou)
+        return divider + centre(msg: footer) + centre(msg: gratitude)
     }
     
     // Checks if item name is longer than item column and splits it into 2 lines if necessary.
     func itemMultiLine(name: String, unitPrice: Double, price: Double, qty: Int) -> String {
-        let qtyPrice = " " +
+        var qtyPrice = " " +
                         self.pad(msg: String(format: "$%.02f", unitPrice), totLength: U_PRICE_COL, padRight: false) +
                         self.pad(msg: "x" + String(qty), totLength: QTY_COL, padRight: false) +
                         self.pad(msg: String(format: "$%.02f", price), totLength: TOT_COL, padRight: false)
-        
-        if name.count <= ITEM_COL {
-            return self.pad(msg: name, totLength: ITEM_COL)
-                + qtyPrice + "\n"
-        } else {
-            let charsLeft = name.count - ITEM_COL
-            return self.pad(msg: String(name.prefix(ITEM_COL)), totLength: ITEM_COL)
-                    + qtyPrice + "\n"
-                    + self.pad(msg: String(name.suffix(charsLeft)), totLength: ITEM_COL + U_PRICE_COL) + "\n"
+        qtyPrice = modify(qtyPrice, modifier: .normal)
+        let nameByWords = name.components(separatedBy: " ")
+        var spacesLeft = ITEM_COL
+        var passedFirstLine = false
+        var nameOnFirstLine = ""
+        var remainingName = ""
+        for word in nameByWords {
+            if spacesLeft - word.count <= 1 {
+                if passedFirstLine {
+                    remainingName += "\n"
+                }
+                passedFirstLine = true
+                spacesLeft = ITEM_COL - word.count
+            } else {
+                spacesLeft = spacesLeft - word.count
+            }
+            if passedFirstLine {
+                remainingName += word + " "
+            } else {
+                nameOnFirstLine += word + " "
+            }
         }
+        return modify(self.pad(msg: String(nameOnFirstLine.prefix(ITEM_COL)), totLength: ITEM_COL), modifier: .bold)
+                + qtyPrice
+            + modify(remainingName, modifier: .bold) + "\n" + modify("")
     }
     
     // Pads the rest of the totLength provided with spaces after including msg.
@@ -160,6 +180,38 @@ struct Receipt {
     
     
     func receipt() -> String {
-        return title() + body() + footer() + SPACER
+        return modify(title(), modifier: .doubleHeight) +
+            modify("") +
+            header() +
+            body() +
+            modify(totals(), modifier: .doubleHeight) +
+            modify("") +
+            footer() +
+            SPACER
+    }
+    
+    func modify(_ message: String, modifier: FontModifier = .normal) -> String {
+        let hexs : [Int]
+        switch modifier {
+            case .normal:
+                hexs = [0x1b,0x21,0x00]
+            case .doubleHeight:
+                hexs = [0x1b,0x21,0x10]
+            case .bold:
+                hexs = [0x1b,0x21,0x08]
+        }
+        var hexString = String()
+        for hex in hexs {
+            if let scalar = UnicodeScalar(hex) {
+                hexString.append(Character(scalar))
+            }
+        }
+        return hexString + message
+    }
+    
+    enum FontModifier {
+        case normal
+        case doubleHeight
+        case bold
     }
 }

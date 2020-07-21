@@ -7,15 +7,14 @@
 //      https://stackoverflow.com/questions/31353112/ios-corebluetooth-print-cbservice-and-cbcharacteristic
 //      https://stackoverflow.com/questions/58239721/render-list-after-bluetooth-scanning-starts-swiftui
 //
-
 import Foundation
 import UIKit
 import CoreBluetooth
 
 open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBCentralManagerDelegate {
     // Properties
-    private var centralManager: CBCentralManager! = nil
-    private var peripheral: CBPeripheral! = nil
+    private var centralManager: CBCentralManager!
+    private var peripheral: CBPeripheral!
     private var printingService: CBService!
     private var printingCharacteristic: CBCharacteristic!
     
@@ -24,20 +23,33 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     
     override init() {
         super.init()
-        self.centralManager = CBCentralManager(delegate: self, queue: nil)
+        centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
     func startScan() {
+        disconnect()
         if centralManager.state == .poweredOn {
-            self.scanning = true
-            self.centralManager.scanForPeripherals(withServices: nil)
-            print("isScanning: \(centralManager.isScanning)")
+            centralManager.scanForPeripherals(withServices: nil)
         }
+        scanning = centralManager.isScanning
+    }
+    
+    // Reset properties
+    private func disconnect() {
+        if self.peripheral != nil {
+            centralManager.cancelPeripheralConnection(self.peripheral)
+        }
+        connected = false
+        peripheral = nil
+        printingService = nil
+        printingCharacteristic = nil
+        scanning = centralManager.isScanning
     }
     
     func stopScan() {
-        self.centralManager.stopScan()
-        scanning = false
+        centralManager.stopScan()
+        scanning = centralManager.isScanning
+        print(centralManager.isScanning)
     }
     
     // Handles BT Turning On/Off
@@ -45,22 +57,18 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         switch (central.state) {
             case .poweredOn:
                 break
-            default:
+            case .unknown:
+                print("unknown state")
+            case .resetting:
+                print("resetting")
+            case .unsupported:
+                print("unsupported")
+            case .unauthorized:
+                print("unauthorised")
+            case .poweredOff:
                 disconnect()
-//        case .unknown:
-//            <#code#>
-//        case .resetting:
-//            <#code#>
-//        case .unsupported:
-//            <#code#>
-//        case .unauthorized:
-//            <#code#>
-//        case .poweredOff:
-//            <#code#>
-//        case .poweredOn:
-//            <#code#>
-//        @unknown default:
-//            <#code#>
+            @unknown default:
+                disconnect()
         }
     }
 
@@ -70,12 +78,26 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         if peripheral.name != nil {
             // Only connect to this printer to avoid user error
             if peripheral.name == "BlueTooth Printer" {
-                self.centralManager.connect(self.peripheral, options: nil)
                 self.peripheral = peripheral
-                self.peripheral.delegate = self
-                self.connected = true
+                peripheral.delegate = self
+                centralManager.connect(self.peripheral, options: nil)
             }
         }
+    }
+    
+    // Fail to connect
+    public func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
+        print("FAILED TO CONNECT: \(String(describing: error))")
+        connected = false
+        scanning = centralManager.isScanning
+    }
+    
+    // Handles Connection
+    public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        print("Connected to \(peripheral.name ?? "")")
+        connected = true
+        peripheral.discoverServices(nil)
+        scanning = centralManager.isScanning
     }
     
     // On Disconnect
@@ -83,12 +105,6 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         disconnect()
     }
 
-    // Handles Connection
-    public func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
-//        print("Connected to \(self.peripheral.name ?? "No Name")")
-        self.peripheral.discoverServices(nil)
-    }
-    
     // Search for characteristic
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
         guard let services = peripheral.services else { return }
@@ -98,14 +114,14 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         }
     }
     
+    // Discover Characteristics
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         guard let characteristics = service.characteristics else { return }
 
         for characteristic in characteristics {
             // Printing characteristic
             if characteristic.uuid.uuidString == "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F" {
-                print(service)
-                self.printingCharacteristic = characteristic
+                printingCharacteristic = characteristic
                 stopScan()
             }
         }
@@ -114,28 +130,16 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     // Convert incoming text to bytes (20 byte chunks) and send to printer.
     public func sendToPrinter(message: String) {
         let data = Data(message.utf8)
+        print(data)
         let chunks = splitData(data: data)
-        chunks.forEach{chunk in
-            if peripheral != nil {
-                if printingCharacteristic != nil {
-                    peripheral.writeValue(chunk, for: self.printingCharacteristic, type: CBCharacteristicWriteType.withResponse)
-                } else {
-                    disconnect()
-                }
+        chunks.forEach { chunk in
+            if peripheral != nil && printingCharacteristic != nil {
+                peripheral.writeValue(chunk, for: self.printingCharacteristic, type: .withoutResponse)
+            } else {
+                disconnect()
+                print("disconnected")
             }
         }
-    }
-    
-    // Reset properties
-    private func disconnect() {
-        if self.peripheral != nil {
-            self.centralManager.cancelPeripheralConnection(self.peripheral)
-        }
-        self.connected = false
-        self.peripheral = nil
-        self.printingService = nil
-        self.printingCharacteristic = nil
-        self.centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
     // Splits the data object into 20 byte chunks to avoid overflowing the buffer
