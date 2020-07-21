@@ -25,7 +25,7 @@ struct ReceiptPrinter: View {
             Spacer().frame(height: 10)
             
             if printer.connected {
-                    HStack {
+                HStack {
                     Button(action: self.saveAndPrint) {
                         Text("Save & Print")
                             .padding(10)
@@ -35,7 +35,7 @@ struct ReceiptPrinter: View {
                     .background(Styles.getColor(.lightRed))
                     .cornerRadius(20)
                     
-                        Spacer().frame(width: 50)
+                    Spacer().frame(width: 50)
                     
                     Button(action: self.settleAndPrint) {
                         Text("Settle & Print")
@@ -45,8 +45,7 @@ struct ReceiptPrinter: View {
                     .disabled(!self.printer.connected)
                     .background(Styles.getColor(.brightCyan))
                     .cornerRadius(20)
-                    }
-//                }
+                }
             } else {
                 if !self.printer.scanning {
                     Button(action: self.printer.startScan) {
@@ -67,7 +66,6 @@ struct ReceiptPrinter: View {
                     .background(Color.yellow)
                     .cornerRadius(20)
                 }
-                
             }
         }
     }

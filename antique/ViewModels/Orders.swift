@@ -10,6 +10,15 @@ import Foundation
 
 // Class that holds a list of saved orders based on a given date
 class Orders : ObservableObject {
+    let menuSections : [String]
+    let menuDictionary : [String : Set<String>]
+
+    var sectionSelection : Int {
+        didSet {
+            refreshSavedOrders()
+        }
+    }
+    
     var includeWholeMonth : Bool {
         didSet {
             refreshSavedOrders()
@@ -28,7 +37,10 @@ class Orders : ObservableObject {
     @Published var savedOrders : [CodableOrder]
     
     init() {
+        self.menuDictionary = Menu.getMenuDictionary()
+        self.menuSections = Menu.getMenuSections()
         self.includeWholeMonth = false
+        self.sectionSelection = 0
         self.date = Date()
         if includeWholeMonth {
             self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
@@ -38,7 +50,10 @@ class Orders : ObservableObject {
     }
     
     init(monthOnly: Bool) {
+        self.menuDictionary = Menu.getMenuDictionary()
+        self.menuSections = Menu.getMenuSections()
         self.includeWholeMonth = monthOnly
+        self.sectionSelection = 0
         self.date = Date()
         if monthOnly {
             self.savedOrders = Bundle.main.readMonthOrders(orderDate: Date())
@@ -65,7 +80,7 @@ class Orders : ObservableObject {
         var temp = [ItemOrdered]()
         self.savedOrders.forEach{ order in
             if !order.cancelled {
-                order.items.forEach{ orderItem in
+                order.items.forEach { orderItem in
                     var found = false
                     for index in 0..<temp.count {
                         if temp[index].item.name == orderItem.item.name {
@@ -83,6 +98,25 @@ class Orders : ObservableObject {
         }
         return temp.sorted(by: {$0.qty > $1.qty})
     }
+    
+    var filteredItems : [ItemOrdered] {
+        var filteredItems = [ItemOrdered]()
+        for item in items {
+            if menuDictionary[menuSections[sectionSelection]]?.contains(item.item.name) ?? false {
+                filteredItems.append(item)
+            }
+        }
+        return filteredItems
+    }
+    
+    var categoryTotal : Double {
+        var total = 0.0
+        self.filteredItems.forEach { (orderedItem) in
+            total += orderedItem.itemTotal
+        }
+        return total
+    }
+
     
     // Next order number
     var nextOrderNo : Int {
@@ -115,4 +149,5 @@ class Orders : ObservableObject {
             Bundle.main.updateOrder(order: self.savedOrders[index])
         }
     }
+    
 }

@@ -1,9 +1,18 @@
+
+
+
+
+
+
+
+
 import SwiftUI
+
 
 class Menu : ObservableObject {
     @Published var items : [MenuSection] = Bundle.main.readMenu()
 
-    let sugarLevels = ["None", "Less", "Regular", "Extra"]
+    let sugarLevels = ["0%", "25%", "50%", "75%", "100%"]
     let iceLevels : [[String]] = [["Hot"],
                                         ["Hot", "Less", "Regular"],
                                         ["None", "Less", "Regular"]]
@@ -60,6 +69,54 @@ class Menu : ObservableObject {
             }
         }
         return -1
+    }
+    
+    func appendNewSection(_ name: String) {
+        self.items.append(MenuSection(name: name, items: []))
+        update()
+        refreshMenuItems()
+    }
+    
+    func updateSectionName(newName : String, for section: MenuSection) {
+        let index = getSectionIndex(name: section.name)
+        self.items[index].name = newName
+        update()
+        refreshMenuItems()
+    }
+    
+    func deleteSection(_ sectionToDelete : String) {
+        var indexToRemove : Int?
+        for (index, section) in items.enumerated() {
+            if section.name == sectionToDelete {
+                indexToRemove = index
+                break
+            }
+        }
+        if let safeIndex = indexToRemove {
+            items.remove(at: safeIndex)
+        }
+    }
+    
+    static func getMenuSections() -> [String] {
+        let menuSections = Bundle.main.readMenu()
+        var sections = [String]()
+        menuSections.forEach { (section) in
+            sections.append(section.name)
+        }
+        return sections
+    }
+    
+    static func getMenuDictionary() -> [String : Set<String>] {
+        let sections = Bundle.main.readMenu()
+        var dictionary = [String : Set<String>]()
+        for menuSection in sections {
+            var tempSet = Set<String>()
+            menuSection.items.forEach { (item) in
+                tempSet.insert(item.name)
+            }
+            dictionary.updateValue(tempSet, forKey: menuSection.name)
+        }
+        return dictionary
     }
 }
 

@@ -37,17 +37,9 @@ struct ItemEditor: View {
     @State private var menuSectionSelection : Int = 0
     
     @State private var hasSugar : Bool = true
-    private var canShowSugar : Bool {
-        // Removes has sugar option if item is soft drink or food.
-        withAnimation { return self.menuSectionSelection < 3 }
-    }
     
     @State private var hasIce : Bool = true
     @State private var iceSelection : Int = 0
-    private var canShowIce : Bool {
-        // Removes ice option if item is not a drink
-        withAnimation{ return self.menuSectionSelection == 0 }
-    }
     
     var title : String {
         if editingItem {
@@ -76,6 +68,8 @@ struct ItemEditor: View {
                     TextField("Item Name", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .font(.largeTitle)
+                    Text("Please ensure that item names are unique across menu categories")
+                        .font(.caption)
                     HStack(spacing: 10) {
                         VStack(alignment: .leading) {
                             Text("Price:")
@@ -112,23 +106,18 @@ struct ItemEditor: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                     
-                    if canShowSugar {
-                        Divider()
-                        Toggle("Has Sugar Levels?", isOn: self.$hasSugar)
-                            .transition(.scale)
-                    }
-                    
-                    if canShowIce {
-                        Divider()
-                        Toggle("Has Ice Levels?", isOn: self.$hasIce.animation(.spring()))
-                        if hasIce {
-                            Picker(selection: self.$iceSelection, label: Text("Ice Level Types")) {
-                                ForEach(0..<self.menu.iceLevels.count) {
-                                    Text(self.menu.iceLevels[$0].joined(separator: "-"))
-                                }
+                    Divider()
+                    Toggle("Has Sugar Levels?", isOn: self.$hasSugar)
+                
+                    Divider()
+                    Toggle("Has Ice Levels?", isOn: self.$hasIce.animation(.spring()))
+                    if hasIce {
+                        Picker(selection: self.$iceSelection, label: Text("Ice Level Types")) {
+                            ForEach(0..<self.menu.iceLevels.count) {
+                                Text(self.menu.iceLevels[$0].joined(separator: "-"))
                             }
-                            .pickerStyle(SegmentedPickerStyle())
                         }
+                        .pickerStyle(SegmentedPickerStyle())
                     }
                     Button(action: self.makeChanges) {
                         Text("Save Changes")

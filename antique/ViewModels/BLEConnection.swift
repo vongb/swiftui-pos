@@ -28,13 +28,11 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     }
     
     func startScan() {
-        disconnect()
         if centralManager.state == .poweredOn {
             self.scanning = true
             self.centralManager.scanForPeripherals(withServices: nil)
-//            print("isScanning: \(centralManager.isScanning)")
+            print("isScanning: \(centralManager.isScanning)")
         }
-//        print("Central scanning")
     }
     
     func stopScan() {
@@ -49,6 +47,20 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
                 break
             default:
                 disconnect()
+//        case .unknown:
+//            <#code#>
+//        case .resetting:
+//            <#code#>
+//        case .unsupported:
+//            <#code#>
+//        case .unauthorized:
+//            <#code#>
+//        case .poweredOff:
+//            <#code#>
+//        case .poweredOn:
+//            <#code#>
+//        @unknown default:
+//            <#code#>
         }
     }
 
@@ -58,9 +70,9 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         if peripheral.name != nil {
             // Only connect to this printer to avoid user error
             if peripheral.name == "BlueTooth Printer" {
+                self.centralManager.connect(self.peripheral, options: nil)
                 self.peripheral = peripheral
                 self.peripheral.delegate = self
-                self.centralManager.connect(self.peripheral, options: nil)
                 self.connected = true
             }
         }
@@ -92,6 +104,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         for characteristic in characteristics {
             // Printing characteristic
             if characteristic.uuid.uuidString == "BEF8D6C9-9C21-4C9E-B632-BD58C1009F9F" {
+                print(service)
                 self.printingCharacteristic = characteristic
                 stopScan()
             }
@@ -122,6 +135,7 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
         self.peripheral = nil
         self.printingService = nil
         self.printingCharacteristic = nil
+        self.centralManager = CBCentralManager(delegate: self, queue: nil)
     }
     
     // Splits the data object into 20 byte chunks to avoid overflowing the buffer

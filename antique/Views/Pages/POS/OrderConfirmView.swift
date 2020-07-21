@@ -37,21 +37,21 @@ struct OrderConfirmView: View {
     
     @State private var showChangeCalc : Bool = false
     
-    var body: some View {
-        ZStack(alignment: .top) {
-            Rectangle()
-                    .fill(Styles.getColor(.lightGreen))
-                    .frame(width: contentWidth + 50, height: (showDiscount || showCalculator) ? 600 : 350)
-                    .cornerRadius(20)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        withAnimation{
-                            self.editingRiels = false
-                            self.editingCents = false
-                            self.showCalculator = false
-                            self.showDiscount = false
+        var body: some View {
+            ZStack(alignment: .top) {
+                Rectangle()
+                        .fill(Styles.getColor(.lightGreen))
+                        .frame(width: contentWidth + 50, height: (showDiscount || showCalculator) ? 600 : 350)
+                        .cornerRadius(20)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            withAnimation{
+                                self.editingRiels = false
+                                self.editingCents = false
+                                self.showCalculator = false
+                                self.showDiscount = false
+                            }
                         }
-                    }
                 VStack(alignment: .center, spacing: 10) {
                     OrderSubtotalLabel(subtotal: self.order.subtotal)
                     OrderTotalLabel(total: self.order.total)

@@ -24,6 +24,8 @@ class Report : ObservableObject {
         }
     }
     
+    
+    
     @Published var includeCashouts : Bool = false
     @Published var cashouts : Cashouts = Cashouts()
     @Published var orders : Orders = Orders()

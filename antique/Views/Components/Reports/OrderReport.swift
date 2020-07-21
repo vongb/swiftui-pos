@@ -39,6 +39,7 @@ struct OrderReport: View {
             
             Text("\(self.label) \(String(format: "$%.02f", self.total))")
                     .modifier(GrandTotalModifier(total: self.total))
+            Text("Ensure item names are unique across all sections").font(.caption)
             
             Divider()
             if self.orders.items.count != 0 {

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ItemOrdered : Identifiable {
+struct ItemOrdered : Identifiable, Equatable, Hashable {
     let id = UUID()
     var item: MenuItem
     var qty : Int = 0

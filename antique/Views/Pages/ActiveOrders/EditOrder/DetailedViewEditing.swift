@@ -17,7 +17,7 @@ struct DetailedViewEditing: View {
     
     @State private var qty : Int = 1
     @State private var upsized : Bool = false
-    @State private var sugarLevel : Int = 2
+    @State private var sugarLevel : Int = 4
     @State private var iceLevel : Int = 2
     @State private var specialDiscounted : Bool = false
     
@@ -89,7 +89,7 @@ struct DetailedViewEditing: View {
         if self.item.hasSugarLevels {
             sugar = self.menu.sugarLevels[self.sugarLevel]
         } else {
-            sugar = "None"
+            sugar = "0%"
         }
         
         if self.item.hasIceLevels {
