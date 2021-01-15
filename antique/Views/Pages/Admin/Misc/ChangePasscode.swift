@@ -16,8 +16,6 @@ struct ChangePasscode: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            Text(passcodeCreator.newPasscodeSet ? "Passcode Updated!" : "Set Passcode")
-                .font(.largeTitle)
             if !oldPasscodeAuth.authenticated {
                 PasscodeInput(prompt: "Enter Old Passcode",
                               value: $oldPasscodeAuth.value,
@@ -49,6 +47,7 @@ struct ChangePasscode: View {
                 Text("Updated Passcode: \(self.passcodeCreator.newValue)")
             }
         }
+        .navigationBarTitle("Manage Passcode")
     }
 }
 

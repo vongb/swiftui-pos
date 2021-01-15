@@ -9,57 +9,67 @@
 import SwiftUI
 
 struct ItemCategoryReport: View {
-    @ObservedObject var orders : Orders = Orders()
+    @ObservedObject var categoryReport = CategoryReport()
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             Form {
-                Text("Sales by Category").font(.largeTitle).bold()
-                DatePicker(selection: self.$orders.date, in: ...Date(), displayedComponents: .date) {
+                DatePicker(selection: self.$categoryReport.date, in: ...Date(), displayedComponents: .date) {
                     BlackText(text: "Date")
                 }
-                Toggle("Include Whole Month", isOn: self.$orders.includeWholeMonth)
+                Toggle("Include Whole Month", isOn: self.$categoryReport.includeWholeMonth)
                 VStack(alignment: .center) {
                     Text("Menu Categories")
-                    Picker(selection: self.$orders.sectionSelection, label: Text("Category")) {
-                        ForEach(0 ..< self.orders.menuSections.count) {
-                            Text(self.orders.menuSections[$0])
+                    Picker(selection: self.$categoryReport.sectionSelection, label: Text("Category")) {
+                        ForEach(0 ..< self.categoryReport.menuSections.count) { index in
+                            Text(self.categoryReport.menuSections[index])
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    Text("Ensure item names are unique across all sections").font(.caption)
                 }
                 
-                Text("All Items Total: " + String(format: "$%.02f", self.orders.total))
-                    .font(.title)
-                    .bold()
-                if self.orders.filteredItems.count != 0 {
-                    Text("\(self.orders.menuSections[self.orders.sectionSelection]) Total: " + String(format: "$%.02f", self.orders.categoryTotal))
-                        .font(.headline)
-                    ReportItemHeader()
-                    ForEach(self.orders.filteredItems.indices, id: \.self) { index in
-                        HStack {
-                            Text(String(index + 1))
-                            
-                            Spacer().frame(width: 30)
-                            
-                            Text(self.orders.filteredItems[index].item.name)
-                            
-                            Spacer()
-                            
-                            Text(String(self.orders.filteredItems[index].qty))
-                            
-                            Spacer().frame(width: 50)
-                            
-                            Text(String(format: "$%.02f", self.orders.filteredItems[index].itemTotal))
-                        }
-                        .padding(10)
+                if categoryReport.loadingItems || categoryReport.filteringItems {
+                    HStack {
+                        Spacer()
+                        Text("Loading Report")
+                            .font(.largeTitle)
+                            .bold()
+                        Spacer()
                     }
+                    .transition(.slide)
                 } else {
-                    Text("No \(self.orders.menuSections[self.orders.sectionSelection].lowercased()) ordered " + (self.orders.includeWholeMonth ? "this month" : "on on this date"))
+                    if self.categoryReport.filteredItems.count != 0 {
+                        Text("\(self.categoryReport.menuSections[self.categoryReport.sectionSelection]) Total: " + String(format: "$%.02f", self.categoryReport.filteredItemsTotal))
+                            .font(.headline)
+                        ReportItemHeader()
+                        ForEach(self.categoryReport.filteredItems.indices, id: \.self) { index in
+                            HStack {
+                                Text(String(index + 1))
+                                
+                                Spacer().frame(width: 30)
+                                
+                                Text(self.categoryReport.filteredItems[index].item.name)
+                                
+                                Spacer()
+                                
+                                Text(String(self.categoryReport.filteredItems[index].qty))
+                                
+                                Spacer().frame(width: 50)
+                                
+                                Text(String(format: "$%.02f", self.categoryReport.filteredItems[index].itemTotal))
+                            }
+                            .padding(10)
+                        }
+                    } else {
+                        Text("No \(self.categoryReport.menuSections[self.categoryReport.sectionSelection].lowercased()) items ordered " + (self.categoryReport.includeWholeMonth ? "this month" : "on this date"))
+                    }
                 }
             }
         }
+        .padding(.horizontal, 5)
+        .navigationBarTitle("Income by Category")
+        .onAppear(perform: categoryReport.refreshOrders)
+        .animation(.spring())
     }
 }
 

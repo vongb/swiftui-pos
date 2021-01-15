@@ -28,7 +28,6 @@ struct ReceiptPrinter: View {
                         .padding(10)
                         .foregroundColor(.white)
                 }
-//                .disabled(!self.printer.connected)
                 .background(Styles.getColor(.brightCyan))
                 .cornerRadius(20)
             } else {

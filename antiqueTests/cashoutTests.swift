@@ -18,12 +18,6 @@ class cashoutTests: XCTestCase {
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-    
-    func testCorrectUserDefaultExchangeRate() {
-        let cashout = CodableCashout()
-        let exchangeRate = UserDefKeys.getExchangeRate()
-        XCTAssert(exchangeRate == cashout.EXCHANGE_RATE)
-    }
 
     func testCashoutRielToUSD() {
         let riels = 40000

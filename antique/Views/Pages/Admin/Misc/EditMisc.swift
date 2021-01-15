@@ -15,9 +15,6 @@ struct EditMisc: View {
     @State var editingExchangeRate : Bool = false
     var body: some View {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Wifi & Exchange Rate").font(.largeTitle)
-                Divider()
-                
                 HStack {
                     Text("Wifi Password: ")
                     TextField("No password set", text: self.$wifiPassword)
@@ -40,6 +37,7 @@ struct EditMisc: View {
                 }
             }
             .padding()
+            .navigationBarTitle("Wifi & Exchange Rate")
     }
     
     func updateWifiPassword() {

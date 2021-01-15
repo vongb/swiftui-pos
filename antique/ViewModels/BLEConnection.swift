@@ -130,10 +130,12 @@ open class BLEConnection : NSObject, ObservableObject, CBPeripheralDelegate, CBC
     // Convert incoming text to bytes (20 byte chunks) and send to printer.
     public func sendToPrinter(message: String) {
         let data = Data(message.utf8)
-        print(data)
+//        print(message.utf8)
+//        print(data)
         let chunks = splitData(data: data)
         chunks.forEach { chunk in
             if peripheral != nil && printingCharacteristic != nil {
+//                print("Chunk: \(chunk.description)")
                 peripheral.writeValue(chunk, for: self.printingCharacteristic, type: .withoutResponse)
             } else {
                 disconnect()

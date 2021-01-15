@@ -13,7 +13,7 @@ struct CashOutRow: View {
     let cashout : CodableCashout
     
     var body: some View {
-        NavigationLink(destination: DetailedCashOut(self.cashout)) {
+        NavigationLink(destination: DetailedCashout(cashout: self.cashout)) {
             HStack(alignment: .center) {
                 Text("\(self.cashout.title)")
                     .lineLimit(1)

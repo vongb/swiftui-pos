@@ -32,15 +32,16 @@ class Menu : ObservableObject {
         refreshMenuItems()
     }
     
-    func addItem(section: Int, item: MenuItem) {
+    func addItem(section: Int, item: MenuItem) -> Bool{
         for (index, _) in self.items.enumerated() {
             if index == section {
                 self.items[index].add(item)
-                break
+                update()
+                refreshMenuItems()
+                return true
             }
         }
-        update()
-        refreshMenuItems()
+        return false
     }
     
     func remove(_ id: String) {
@@ -51,7 +52,13 @@ class Menu : ObservableObject {
         refreshMenuItems()
     }
     
-    func update(id: String, section: Int, item: MenuItem) {
+    func deleteMenuItem(_ offsets: IndexSet, _ section: Int) {
+        items[section].items.remove(atOffsets: offsets)
+        update()
+    }
+    
+    func updateItem(id: String, section: Int, item: MenuItem) {
+        print("ID Received for update: \(id)")
         let indexInMenuSection = self.items[section].contains(id) // checks if item exists in each section
         if indexInMenuSection != -1 { // if item exists
             self.items[section]
@@ -71,23 +78,49 @@ class Menu : ObservableObject {
         return -1
     }
     
-    func appendNewSection(_ name: String) {
-        self.items.append(MenuSection(name: name, items: []))
+    func moveSection(from source: IndexSet, to destination: Int) {
+        items.move(fromOffsets: source, toOffset: destination)
         update()
         refreshMenuItems()
     }
+
     
-    func updateSectionName(newName : String, for section: MenuSection) {
-        let index = getSectionIndex(name: section.name)
-        self.items[index].name = newName
-        update()
-        refreshMenuItems()
+    func appendNewSection(_ name: String) -> Bool {
+        if !containsSection(name) {
+            self.items.append(MenuSection(name: name, items: []))
+            update()
+            refreshMenuItems()
+            return true
+        } else {
+            return false
+        }
     }
     
-    func deleteSection(_ sectionToDelete : String) {
+    func updateSectionName(newName : String, for section: MenuSection) -> Bool {
+        if !containsSection(newName) {
+            let index = getSectionIndex(name: section.name)
+            self.items[index].name = newName
+            update()
+            refreshMenuItems()
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func containsSection(_ name: String) -> Bool {
+        for section in items {
+            if section.name == name {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func deleteSection(_ sectionIDToDelete : String) {
         var indexToRemove : Int?
         for (index, section) in items.enumerated() {
-            if section.name == sectionToDelete {
+            if section.id.uuidString == sectionIDToDelete {
                 indexToRemove = index
                 break
             }
@@ -95,6 +128,13 @@ class Menu : ObservableObject {
         if let safeIndex = indexToRemove {
             items.remove(at: safeIndex)
         }
+        update()
+        refreshMenuItems()
+    }
+    
+    func deleteSection(_ offsets: IndexSet) {
+        items.remove(atOffsets: offsets)
+        update()
     }
     
     static func getMenuSections() -> [String] {

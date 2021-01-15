@@ -1,5 +1,5 @@
 //
-//  DetailedOrderView.swift
+//  DetailedCashoutView.swift
 //  antique
 //
 //  Created by Vong Beng on 12/1/20.
@@ -8,55 +8,42 @@
 
 import SwiftUI
 
-struct DetailedCashOut : View {
-    let EXCHANGE_RATE : Int = UserDefKeys.getExchangeRate()
+struct DetailedCashout : View {
     @Environment(\.presentationMode) var presentationMode
     
     @EnvironmentObject var cashouts : Cashouts
 
-    var cashout : CodableCashout
+    @State var cashout : CodableCashout
     @State private var title : String = ""
     @State private var price : Int = 0
     @State private var desc : String = ""
     
-    @State var editingCashout : Bool = false
-    @State var priceInRiels : Bool = false
+    @State private var editingCashout : Bool = false
+    
+    @State var isPriceInRiels : Bool = false
     @State var editingPrice : Bool = false
-    
-    @State private var prevTitle : String = ""
-    @State private var prevPrice : Int = 0
-    @State private var prevDesc : String = ""
-    
-    var priceDisplay : Double {
-        if priceInRiels {
-            return Double(price / EXCHANGE_RATE)
-        } else {
-            return Double(price) / 100
-        }
-    }
-    
-    init(_ cashOut: CodableCashout) {
-        self.cashout = cashOut
-        self.priceInRiels = false
-        self.editingCashout = false
-        self.editingPrice = false
+
+
+    var priceDisplay : String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        let formattedRiels = numberFormatter.string(from: NSNumber(value: Currency.convertToRiels(dollars: cashout.priceInUSD))) ?? ""
+        return String(format: "$%.02f", self.cashout.priceInUSD) + " (approx. \(formattedRiels) ៛)"
     }
     
     var body: some View {
         VStack(alignment: .leading, spacing : 10) {
-            Text((editingCashout ? "Editing Cash Out" : "Viewing Cash Out"))
-                .font(.largeTitle)
-                .bold()
-            Divider()
-            HStack {
+            Text("Created: \(day(cashout.date))")
+                .font(.caption)
+            HStack(spacing: 10) {
                 if editingCashout {
                     TextField("Title", text: self.$title)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .font(.largeTitle)
                         .transition(.move(edge: .leading))
                 } else {
-                    Text("Title: \(self.title)")
-                        .font(.headline)
+                    Text("Title: \(self.cashout.title)")
+                        .font(.largeTitle)
                         .bold()
                         .transition(.move(edge: .leading))
                 }
@@ -91,38 +78,48 @@ struct DetailedCashOut : View {
             }
             if self.editingCashout {
                 HStack {
-                    CurrencyTextField(hideDecimal: self.priceInRiels, currencyValue: self.$price, editing: self.$editingPrice)
+                    CurrencyTextField(hideDecimal: self.isPriceInRiels, currencyValue: self.$price, editing: self.$editingPrice)
                     Divider()
                         .frame(height: (editingPrice ? 300 : 30))
-                    Toggle("Price in Riels?", isOn: self.$priceInRiels.animation())
+                    VStack(alignment: .leading) {
+                        Toggle("Price in Riels?", isOn: self.$isPriceInRiels.animation())
+                        Text("Exchange Rate: \(Currency.EXCHANGE_RATE)៛")
+                            .font(.caption)
+                    }
                 }
                 TextField("Description", text: self.$desc)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .transition(.scale)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .transition(.scale)
             } else {
-                Text(String(format: "Total: $%.02f", self.priceDisplay))
-                    .bold()
-                Text("Description: \(self.desc)")
+                HStack {
+                    Text(priceDisplay)
+                        .font(.headline)
+                        .bold()
+                    Spacer()
+                    Text("Exchange Rate: \(Currency.EXCHANGE_RATE)៛")
+                        .font(.caption)
+                }
+                Text("Description: \(self.cashout.description)")
                     .transition(.scale)
             }
             Spacer()
         }
         .padding()
+        .navigationBarTitle(editingCashout ? "Editing Cashout" : "Viewing Cashout")
         .onAppear(perform: setUp)
     }
     
     func setUp() {
         self.title = self.cashout.title
-        self.price = Int(self.cashout.priceInUSD * 100)
+        self.price = Currency.convertToCents(dollars: cashout.priceInUSD)
         self.desc = self.cashout.description
-        self.prevTitle = self.title
-        self.prevPrice = self.price
-        self.prevDesc = self.desc
     }
     
     func update() {
-        let priceInUSD = (self.priceInRiels ? Int(Double(self.price / EXCHANGE_RATE) * 100) : self.price)
-        let editedCashOut = CodableCashout(title: self.title, description: self.desc, priceInCents: priceInUSD, date: self.cashout.date)
+        price = self.isPriceInRiels ? Currency.convertToCents(riels: self.price) : self.price
+        let editedCashOut = CodableCashout(title: title, description: desc, priceInCents: price, date: self.cashout.date)
+        cashout = editedCashOut
+        self.isPriceInRiels = false
         Bundle.main.updateCashout(editedCashOut)
         cashouts.refreshCashouts()
         endEdit()
@@ -143,26 +140,35 @@ struct DetailedCashOut : View {
     }
     
     func edit() {
-        prevTitle = self.title
-        prevPrice = self.price
-        prevDesc = self.desc
+        self.title = cashout.title
+        self.price = Currency.convertToCents(dollars: cashout.priceInUSD)
+        self.isPriceInRiels = false
+        self.desc = cashout.description
         withAnimation {
             editingCashout = true
         }
     }
     
     func cancel() {
-        self.title = prevTitle
-        self.price = self.prevPrice
-        self.desc = self.prevDesc
+        self.title = cashout.title
+        self.price = Currency.convertToCents(dollars: cashout.priceInUSD)
+        self.isPriceInRiels = false
+        self.desc = cashout.description
         endEdit()
     }
     
     func endEdit() {
-        UIApplication.shared.endEditing() // Call to dismiss keyboard
         withAnimation {
             editingCashout = false
         }
+        UIApplication.shared.endEditing() // Call to dismiss keyboard
+    }
+    
+    func day(_ date : Date) -> String {
+        let dateFormmater = DateFormatter()
+        dateFormmater.dateStyle = .medium
+        dateFormmater.timeStyle = .medium
+        return dateFormmater.string(from: date)
     }
     
 }

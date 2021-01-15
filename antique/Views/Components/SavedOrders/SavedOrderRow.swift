@@ -16,7 +16,12 @@ struct SavedOrderRow: View {
     var body: some View {
         NavigationLink(destination: DetailedOrderView(order: self.order)) {
             HStack(alignment: .center) {
-                Text("# \(order.orderNo)")
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Table: \(order.tableNo.isEmpty ? "--" : order.tableNo)")
+                        .font(.headline)
+                    Text("Order: #\(order.orderNo)")
+                        .font(.subheadline)
+                }
                 Spacer()
                 OrderStatusLabel(cancelled: order.cancelled, settled: order.settled, size: 15)
             }.padding(10)

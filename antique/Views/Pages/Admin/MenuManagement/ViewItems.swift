@@ -12,24 +12,23 @@ struct ViewItems: View {
     @EnvironmentObject var menu : Menu
     
     var body: some View {
-        NavigationView {
             List {
                 ForEach(self.menu.items, id: \.self) { section in
                     Section(header: Text(section.name)) { // section
                         ForEach(section.items, id: \.self) { item in
-                            EditItemRow(item: self.$menu.items[self.menu.getSectionIndex(name: section.name)].items[section.contains(item.id.uuidString)],
-                                        sectionName: section.name)
+                            EditItemRow(sectionName: section.name, item: item)
                         }
-                        .onMove{ (indexSet, destination) in
+                        .onMove { (indexSet, destination) in
                             self.move(from: indexSet, to: destination, section: self.menu.getSectionIndex(name: section.name))
                         }
+                        .onDelete(perform: { offsets in
+                            self.menu.deleteMenuItem(offsets, self.menu.getSectionIndex(name: section.name))
+                        })
                     }
                 }
             }
             .navigationBarTitle(Text("Menu"))
             .navigationBarItems(trailing: EditButton())
-        }
-        .navigationViewStyle(StackNavigationViewStyle())
     }
     
     func move(from source: IndexSet, to destination: Int, section: Int) {

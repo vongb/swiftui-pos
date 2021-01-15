@@ -17,6 +17,7 @@ struct DetailedOrderView: View {
     @State var order : CodableOrder
     @State var editingOrder : Bool = false
     @State var canUnsettle : Bool = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Group {
@@ -56,10 +57,10 @@ struct DetailedOrderView: View {
                     
                     Spacer()
                     
-//                    if !order.settled {
-                        SettleOrUnsettleButton(order: $order, canUnsettle: self.canUnsettle)
-//                    }
+                    SettleOrUnsettleButton(order: $order, canUnsettle: self.canUnsettle)
                 }
+                Text("Paid by: \(order.paymentType)")
+                    .font(.headline)
             }
             // Body
             ScrollView {
@@ -112,6 +113,7 @@ struct DetailedOrderView: View {
             }
         }
         .padding(20)
+        .navigationBarTitle("Viewing Order")
         .background(Styles.getColor(.lightGreen))
         .cornerRadius(20)
         .frame(width: 600)

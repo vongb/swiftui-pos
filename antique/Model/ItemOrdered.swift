@@ -14,4 +14,9 @@ struct ItemOrdered : Identifiable, Equatable, Hashable {
     var qty : Int = 0
     var itemTotal : Double = 0.0
     var date : Date
+    
+    func barItem() -> BarItem {
+        return BarItem(label: "\(item.name) x\(qty)",
+                       amount: itemTotal)
+    }
 }

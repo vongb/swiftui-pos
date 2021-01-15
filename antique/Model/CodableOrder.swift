@@ -16,6 +16,7 @@ struct CodableOrder : Codable, Identifiable, Hashable {
     var discPercentage : Int
     var isDiscPercentage : Bool
     var discAmountInUSD : Double
+    var paymentType: String
     var date : Date
     var settled : Bool
     var cancelled : Bool
@@ -56,19 +57,21 @@ struct CodableOrder : Codable, Identifiable, Hashable {
         discPercentage = order.discPercentage ?? 0
         isDiscPercentage = order.isDiscPercentage ?? true
         discAmountInUSD = order.discAmountInUSD ?? 0
+        paymentType = order.paymentType ?? "Unknown"
         date = order.date ?? Date(timeIntervalSince1970: 0)
         settled = order.settled ?? false
         cancelled = order.cancelled ?? false
     }
     
     // Manual CodableOrder init
-    init(orderNo: Int, tableNo: String = "", items: [OrderItem] = [OrderItem](), discPercentage : Int = 0, isDiscPercentage : Bool = true, discAmountInUSD : Double = 0, date: Date, settled : Bool = false, cancelled : Bool = false) {
+    init(orderNo: Int, tableNo: String = "", items: [OrderItem] = [OrderItem](), discPercentage : Int = 0, isDiscPercentage : Bool = true, discAmountInUSD : Double = 0, paymentType: String = "", date: Date, settled : Bool = false, cancelled : Bool = false) {
         self.orderNo = orderNo
         self.tableNo = tableNo
         self.items = items
         self.discPercentage = discPercentage
         self.isDiscPercentage = isDiscPercentage
         self.discAmountInUSD = discAmountInUSD
+        self.paymentType = paymentType
         self.date = date
         self.settled = settled
         self.cancelled = cancelled
@@ -131,6 +134,7 @@ struct CodableOrderDTO : Codable {
     var discPercentage : Int?
     var isDiscPercentage : Bool?
     var discAmountInUSD: Double?
+    var paymentType: String?
     var date : Date?
     var settled : Bool?
     var cancelled : Bool?
@@ -142,18 +146,20 @@ struct CodableOrderDTO : Codable {
         discPercentage = 0
         isDiscPercentage = true
         discAmountInUSD = 0
+        paymentType = "Unknown"
         date = Date()
         settled = false
         cancelled = false
     }
     
-    init(orderNo: Int = -1, tableNo: String = "", items: [OrderItemDTO] = [OrderItemDTO](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
+    init(orderNo: Int = -1, tableNo: String = "", items: [OrderItemDTO] = [OrderItemDTO](), discPercentage: Int = 0, isDiscPercentage: Bool = true, discAmountInUSD: Double = 0, paymentType: String = "", date: Date = Date(), settled: Bool = false, cancelled: Bool = false) {
         self.orderNo = orderNo
         self.tableNo = tableNo
         self.items = items
         self.discPercentage = discPercentage
         self.isDiscPercentage = isDiscPercentage
         self.discAmountInUSD = discAmountInUSD
+        self.paymentType = paymentType
         self.date = date
         self.settled = settled
         self.cancelled = cancelled
@@ -172,6 +178,7 @@ struct CodableOrderDTO : Codable {
         discPercentage = try? newJSON.decode(Int.self, forKey: .discPercentage)
         isDiscPercentage = try? newJSON.decode(Bool.self, forKey: .isDiscPercentage)
         discAmountInUSD = try? newJSON.decode(Double.self, forKey: .discAmountInUSD)
+        paymentType = try? newJSON.decode(String.self, forKey: .paymentType)
         date = try? newJSON.decode(Date.self, forKey: .date)
         settled = try? newJSON.decode(Bool.self, forKey: .settled)
         cancelled = try? newJSON.decode(Bool.self, forKey: .cancelled)
@@ -195,6 +202,7 @@ struct CodableOrderDTO : Codable {
         case discPercentage
         case isDiscPercentage
         case discAmountInUSD
+        case paymentType
         case date
         case settled
         case cancelled

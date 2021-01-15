@@ -16,6 +16,7 @@ class Order : ObservableObject {
     @Published var isDiscPercentage : Bool = true
     @Published var discAmountInUSD : Double = 0
     @Published var tableNo : String = ""
+    @Published var paymentType: String = ""
     var date : Date = Date()
     
     var discountDisplay : String {
@@ -76,6 +77,7 @@ class Order : ObservableObject {
                                             discPercentage: self.discPercentage,
                                             isDiscPercentage: self.isDiscPercentage,
                                             discAmountInUSD: self.discAmountInUSD,
+                                            paymentType: settled ? self.paymentType : "",
                                             date: settleDate,
                                             settled: settled)
             

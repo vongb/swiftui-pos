@@ -15,7 +15,7 @@ struct OrderConfirmEditingButton: View {
         if order.isDiscPercentage {
             return order.discPercentage
         } else {
-            return Int(order.discAmountInUSD * 100)
+            return Currency.convertToCents(dollars: order.discAmountInUSD)
         }
     }
     private var discountSelection : Int {

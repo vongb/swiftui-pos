@@ -22,12 +22,9 @@ struct ChangeCalculator: View {
     
     @State private var usdChangeOffset : Int = 0
     
-
-    let EXCHANGE_RATE : Int = UserDefKeys.getExchangeRate()
-    
     // Converts KHR to USD with exchange rate provided
     var totalReceivedInUSD : Double {
-        return Double(centsReceived / 100) + (Double(khrReceived / EXCHANGE_RATE))
+        return Currency.convertToDollars(cents: centsReceived) + Currency.convertToDollars(riels: khrReceived)
     }
     
     // Calculates change to be tendered. Prioritises USD change.
@@ -35,9 +32,10 @@ struct ChangeCalculator: View {
     var usdChange : Int {
         Int((Double(totalReceivedInUSD) - self.total) + Double(usdChangeOffset))
     }
+    
     var khrChange : Int {
-        let changeLeft = totalReceivedInUSD - self.total - Double(usdChange)
-        return Int((changeLeft * Double(EXCHANGE_RATE)).rounded(.up))
+        let changeLeftInUSD = totalReceivedInUSD - self.total - Double(usdChange)
+        return Currency.convertToRiels(dollars: changeLeftInUSD)
     }
     
     
@@ -59,7 +57,7 @@ struct ChangeCalculator: View {
                     Text("Change")
                         .font(.headline)
                         .bold()
-                    Text("Rate: \(EXCHANGE_RATE) KHR/USD")
+                    Text("Rate: \(Currency.EXCHANGE_RATE) KHR/USD")
                         .font(.caption)
                     HStack {
                         Button(action: self.decrement) {

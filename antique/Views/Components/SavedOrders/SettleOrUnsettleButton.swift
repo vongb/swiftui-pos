@@ -10,21 +10,48 @@ import SwiftUI
 
 struct SettleOrUnsettleButton: View {
     @State private var confirmingSettle : Bool = false
+    @State private var paymentTypes: [String] = UserDefKeys.getPaymentTypes() ?? [""]
+    @State private var paymentTypeIndex: Int = 0
+    
     @Binding var order : CodableOrder
     @EnvironmentObject var orders : Orders
     var canUnsettle : Bool = false
     
+    
+    
     var body: some View {
-        Group {
+        VStack(alignment: .center, spacing: 10) {
             if !order.cancelled {
                 if !order.settled {
-                    Button(action: {withAnimation {self.confirmingSettle = true}}) {
-                        Text("Settle Order")
-                            .padding(10)
-                            .foregroundColor(.white)
+                    if !confirmingSettle {
+                        Button(action: {withAnimation {self.confirmingSettle = true}}) {
+                            Text("Settle Order")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        }
+                        .background(Styles.getColor(.darkGreen))
+                        .cornerRadius(20)
+                    } else {
+                        Text("Select Payment Type")
+                        Picker("Payment Type", selection: $paymentTypeIndex) {
+                            ForEach(0..<paymentTypes.count) { index in
+                                Text(paymentTypes[index]).tag(index)
+                            }
+                        }
+                        .pickerStyle(SegmentedPickerStyle())
+                        
+                        Button(action: {
+                            withAnimation {
+                                settle()
+                            }
+                        }) {
+                            Text("Settle Order")
+                                .padding(10)
+                                .foregroundColor(.white)
+                        }
+                        .background(Color.green)
+                        .cornerRadius(20)
                     }
-                    .background(Color.green)
-                    .cornerRadius(20)
                 } else if canUnsettle {
                     Button(action: unsettle) {
                         Text("Unsettle Order")
@@ -36,11 +63,6 @@ struct SettleOrUnsettleButton: View {
                 }
             }
         }
-        .alert(isPresented: $confirmingSettle) {
-            Alert(title: Text("Settle Order?"), message: Text("Order cannot be unsettled"), primaryButton: .default(Text("Settle"), action: {
-                self.settle()
-            }), secondaryButton: .cancel())
-        }
     }
     
     func unsettle() {
@@ -49,6 +71,7 @@ struct SettleOrUnsettleButton: View {
     }
     
     func settle() {
+        order.paymentType = paymentTypes[paymentTypeIndex]
         order.settle()
         updateAndRefreshOrders()
     }

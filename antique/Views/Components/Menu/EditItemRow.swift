@@ -11,34 +11,24 @@ import SwiftUI
 // Item row for editing MenuItems
 struct EditItemRow: View {
     @EnvironmentObject var menu : Menu
-    @Binding var item : MenuItem
-    @State var sectionName : String
+    var sectionName : String
+    var item : MenuItem
     
     @State private var showingItemDetails : Bool = false
     
     var body: some View {
-        Button(action: {
-            self.showingItemDetails = true
-        }) {
-            HStack(alignment: .center) {
-                Text(item.name)
+        NavigationLink(destination: ItemEditor(id: item.id.uuidString, item: item, sectionName: sectionName)) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(item.name)
+                        .font(.headline)
+                    Text(String(format: "$%.02f", item.price))
+                        .font(.caption)
+                        .foregroundColor(.green)
+                }
                 Spacer()
-                Text(String(format: "$%.02f", item.price))
-                    .foregroundColor(.green)
-                Image(systemName: "square.and.pencil")
-                    .padding(.bottom, 5)
             }
-        }
-        .sheet(isPresented: $showingItemDetails) {
-            ItemEditor(id: self.item.id.uuidString, item: self.$item, sectionName: self.sectionName)
-                .environmentObject(self.menu)
         }
     }
 }
 
-//struct EditItemRow_Previews: PreviewProvider {
-//    static let item = MenuItem(name: "Test", price: 1.5)
-//    static var previews: some View {
-//        EditItemRow(item: item, sectionSelection: 0)
-//    }
-//}

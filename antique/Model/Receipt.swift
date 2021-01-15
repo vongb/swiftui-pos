@@ -119,8 +119,9 @@ struct Receipt {
         var qtyPrice = " " +
                         self.pad(msg: String(format: "$%.02f", unitPrice), totLength: U_PRICE_COL, padRight: false) +
                         self.pad(msg: "x" + String(qty), totLength: QTY_COL, padRight: false) +
-                        self.pad(msg: String(format: "$%.02f", price), totLength: TOT_COL, padRight: false)
+                        self.pad(msg: String(format: "$%.02f", price), totLength: TOT_COL, padRight: false) + "\n"
         qtyPrice = modify(qtyPrice, modifier: .normal)
+        
         let nameByWords = name.components(separatedBy: " ")
         var spacesLeft = ITEM_COL
         var passedFirstLine = false

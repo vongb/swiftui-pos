@@ -10,18 +10,21 @@ import SwiftUI
 
 struct ReportItemHeader: View {
     var body: some View {
-        HStack {
+        HStack(spacing: 15) {
             Text("#")
                 .bold()
-            Spacer().frame(width: 30)
+            
             Text("Item Name")
                 .bold()
             Spacer()
             Text("Qty")
                 .bold()
-            Spacer().frame(width: 50)
-            Text("Total")
-                .bold()
+            
+            VStack (alignment: .trailing) {
+                Text("Total")
+                    .bold()
+                    .frame(minWidth: 100)
+            }
         }
     }
 }

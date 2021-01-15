@@ -17,28 +17,24 @@ struct AllOrdersReport: View {
     @State private var viewingOrder : Bool = false
     @State private var selectedOrder : CodableOrder = CodableOrder(orderNo: 0, date: Date())
     var body: some View {
-        VStack {
+        VStack(spacing: 16) {
             Form {
-                HStack {
-                    Text("Orders")
-                        .font(.largeTitle)
-                        .bold()
-                    Spacer()
-                    Button(action: {
-                        self.confirmingSettleAll = true
-                    }) {
-                        Text("Settle All")
-                            .foregroundColor(.white)
-                            .padding(10)
+                HStack(spacing: 20) {
+                    DatePicker(selection: self.$orders.date, in: ...Date(), displayedComponents: .date) {
+                        BlackText(text: "Order Date", fontSize: 20)
                     }
-                    .background(Styles.getColor(.lightRed))
-                    .cornerRadius(25)
-                }
-                DatePicker(selection: self.$orders.date, in: ...Date(), displayedComponents: .date) {
-                    BlackText(text: "Order Date", fontSize: 20)
+                    Button(action: {
+                            self.confirmingSettleAll = true
+                        }) {
+                            Text("Settle All")
+                                .foregroundColor(.white)
+                                .padding(10)
+                        }
+                        .background(Styles.getColor(.lightRed))
+                        .cornerRadius(25)
                 }
                 List(self.orders.savedOrders, id: \.self) { order in
-                    Button(action: {self.updateSelectedOrder(order)}) {
+                    NavigationLink(destination: DetailedOrderView(order: order, canUnsettle: true)) {
                         HStack(spacing: 10) {
                             VStack(alignment: .leading) {
                                 Text("Order #\(order.orderNo)")
@@ -51,7 +47,7 @@ struct AllOrdersReport: View {
                             if order.cancelled {
                                 Text("Canceled")
                                     .foregroundColor(Styles.getColor(.darkCyan))
-                                .font(.caption)
+                                    .font(.caption)
                             } else if order.settled {
                                 Text("Paid")
                                     .foregroundColor(.green)
@@ -59,7 +55,7 @@ struct AllOrdersReport: View {
                             } else {
                                 Text("Active")
                                     .foregroundColor(Styles.getColor(.lightRed))
-                                .font(.caption)
+                                    .font(.caption)
                             }
                             Image(systemName: "doc.text.magnifyingglass")
                         }
@@ -68,17 +64,13 @@ struct AllOrdersReport: View {
             }
         }
         .padding()
-        .sheet(isPresented: self.$viewingOrder) {
-            DetailedOrderView(order: self.selectedOrder, canUnsettle: true)
-                .environmentObject(self.printer)
-                .environmentObject(self.menu)
-                .environmentObject(self.orders)
-        }
+        .navigationBarTitle("All Orders")
         .alert(isPresented: $confirmingSettleAll) {
             Alert(title: Text("Settle All Orders?"), primaryButton: .default(Text("Settle"), action: {
                 self.orders.settleAll()
             }), secondaryButton: .cancel())
         }
+        .onDisappear(perform: {self.orders.date = Date()})
     }
     
     func updateSelectedOrder(_ order : CodableOrder) {

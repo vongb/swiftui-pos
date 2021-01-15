@@ -11,7 +11,8 @@ import SwiftUI
 struct ActiveOrdersView: View {
     @EnvironmentObject var orders : Orders
     @EnvironmentObject var cashouts : Cashouts
-    @State private var onlyShowActive : Bool = true
+    @State private var showActiveOrders : Bool = true
+    @State private var showCashout : Bool = false
     var body: some View {
         NavigationView {
             Form {
@@ -24,15 +25,15 @@ struct ActiveOrdersView: View {
                             Text("No Orders")
                                 .bold()
                         } else {
-                            Toggle(isOn: $onlyShowActive){
+                            Toggle(isOn: $showActiveOrders){
                                 Text("Active Orders Only")
                             }
                             .onTapGesture {
                                 withAnimation {
-                                    self.onlyShowActive.toggle()
+                                    self.showActiveOrders.toggle()
                                 }
                             }
-                            if onlyShowActive {
+                            if showActiveOrders {
                                 ForEach(orders.savedOrders.filter{!$0.settled && !$0.cancelled} ) { order in
                                     SavedOrderRow(order: order, orderNo: order.orderNo)
                                 }
@@ -44,6 +45,14 @@ struct ActiveOrdersView: View {
                         }
                     }
                     Section(header: Text("Cashouts").font(.headline)) {
+                        Toggle(isOn: $showCashout) {
+                            Text("Show Cashouts")
+                        }
+                        .onTapGesture {
+                            withAnimation {
+                                self.showCashout.toggle()
+                            }
+                        }
                         if cashouts.cashouts.count == 0 {
                             Button(action: updateCashouts) {
                                 Text("Refresh Cashouts")
@@ -51,8 +60,10 @@ struct ActiveOrdersView: View {
                             Text("No Cashouts")
                                 .bold()
                         } else {
-                            ForEach(cashouts.cashouts) { cashout in
-                                CashOutRow(cashout: cashout)
+                            if showCashout {
+                                ForEach(cashouts.cashouts) { cashout in
+                                    CashOutRow(cashout: cashout)
+                                }
                             }
                         }
                     }

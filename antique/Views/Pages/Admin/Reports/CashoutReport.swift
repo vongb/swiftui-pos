@@ -16,8 +16,8 @@ struct CashoutReport: View {
     var body: some View {
         VStack {
             Form {
-                Text(String(format: "Cashouts: $%.02f", self.cashouts.total))
-                    .font(.largeTitle)
+                Text(String(format: "Total Cashout: $%.02f", self.cashouts.total))
+                    .font(.title)
                     .bold()
                 DatePicker(selection: self.$cashouts.date, in: ...Date(), displayedComponents: .date) {
                     BlackText(text: "Cashout Date", fontSize: 20)
@@ -26,7 +26,7 @@ struct CashoutReport: View {
                     Text("Include Whole Month")
                 }
                 List(cashouts.cashouts, id: \.self) { cashout in
-                    Button(action: {self.updateCurrentCashout(cashout)}) {
+                    NavigationLink(destination: DetailedCashout(cashout: cashout)) {
                         HStack(spacing: 10) {
                             VStack(alignment: .leading) {
                                 Text(cashout.title)
@@ -43,10 +43,8 @@ struct CashoutReport: View {
             }
         }
         .padding()
-        .sheet(isPresented: self.$showDetailedCashout) {
-            DetailedCashOut(self.selectedCashout)
-                .environmentObject(self.cashouts)
-        }
+        .navigationBarTitle("All Cashouts")
+        .onDisappear(perform: {self.cashouts.date = Date()})
     }
     
     func updateCurrentCashout(_ cashout: CodableCashout) {

@@ -20,10 +20,13 @@ struct MenuSection: Codable, Identifiable, Hashable, Equatable {
     
     func contains(_ id: String) -> Int {
         for(index, menuItem) in self.items.enumerated() {
+            print(menuItem.id.uuidString)
             if id == menuItem.id.uuidString {
+                print("Found item in MenuSection")
                 return index
             }
         }
+        print("Not found asf")
         return -1;
     }
     
